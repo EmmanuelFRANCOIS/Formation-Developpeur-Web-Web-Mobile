@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Générateur de Mots-Clés</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container d-flex justify-content-between mb-4">
+        <div class="title w-50 pr-3">
+          <div class="brand d-flex mb-3">
+            <div class="logo text-center">
+              <img src="images/logo.jpg" height="64" alt="logo" class="logo">
+              <span class="d-block mt-2">de</span>
+            </div>
+            <h1 class="title ml-3 fw-bolder">Générateur<br />Mots-Clés</h1>
+          </div>
+          <p class="text-info">
+            Cet outil génère, en fonction des données produits saisies par
+            l'utilisateur, les combinaisons de mots-clés nécessaires au bon
+            référencement de chaque produit par les moteurs de recherche...
+          </p>
+        </div>
+        <div class="params w-50 pl-3">
+          <h3>Combinaisons<br />à générer</h3>
+          <textarea name="params" id="params" class="params w-100">nom + marque&#13;marque + modele&#13;marque + ref&#13;nom + marque + spec</textarea>
+        </div>
+      </div>
+    </header>
+
+    <section class="generateur">
+      <div class="container d-flex justify-content-between mb-5">
+        
+        <div class="formulaire w-50 pr-3">
+          <h3>Données Produit</h3>
+          <p class="text-info">
+            Veuillez saisir les caractéristiques du produit dans le formulaire
+            ci-dessous,<br />et cliquer sur le bouton "Générer Mots-Clés...
+          </p>
+          <form
+            action="/ma-page-de-traitement"
+            method="get"
+            class="d-flex justify-content-between align-items-stretch mb-5"
+          >
+            <div class="champs mr-3">
+              <input
+                type="text"
+                name="nom"
+                id="nom"
+                class="w-100 mr-3 mb-1" 
+                placeholder="Nom du Produit"
+                required
+              />
+              <input
+                type="text"
+                name="marque"
+                id="marque"
+                class="w-100 mr-3 mb-1" 
+                placeholder="Marque du Produit"
+                required
+              />
+              <input
+                type="text"
+                name="modele"
+                id="modele"
+                class="w-100 mr-3 mb-1" 
+                placeholder="Modèle du Produit"
+                required
+              />
+              <input
+                type="text"
+                name="ref"
+                id="ref"
+                class="w-100 mr-3 mb-1" 
+                placeholder="Référence du Produit"
+                required
+              />
+              <input
+                type="text"
+                name="spec"
+                id="spec"
+                class="w-100 mr-3" 
+                placeholder="Spécification du Produit"
+                required
+              />
+            </div>
+            <div class="bouton">
+              <input type="submit" value="Générer" />
+            </div>
+          </form>
+        </div>
+
+        <div class="resultats w-50 pl-3">
+          <h3>Mots-Clés Générés</h3>
+          <div class="d-flex align-items-stretch">
+            <p class="text-info">
+              Voici les Mots-Clés générés à partir des caractéristiques produit
+              que vous avez saisies...
+            </p>
+            <button class="copy w-25 ml-3">Copier<br />Mots-Clés</button>
+          </div>
+          <textarea
+            name="motsCles"
+            id="motsCles"
+            class="w-100 mb-0 motsCles"
+          ></textarea>
+        </div>
+
+      </div>
+    </section>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/all.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
