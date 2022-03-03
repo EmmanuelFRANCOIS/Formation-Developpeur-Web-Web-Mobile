@@ -3,6 +3,11 @@ body {
   background: linear-gradient(135deg, #132d68 0%, #020c20 100%);
   color: white;
 }
+.logo svg {
+  margin: 15px 0 0;
+  font-size: 3rem;
+  color: darkorange;
+}
 textarea.params { 
   min-height: 130px;
 }
