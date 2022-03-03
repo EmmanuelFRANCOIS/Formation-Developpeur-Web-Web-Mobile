@@ -18,7 +18,7 @@
               <img src="images/logo.jpg" height="64" alt="logo" class="logo">
               <span class="d-block mt-2">de</span>
             </div>
-            <h1 class="title ml-3 fw-bolder">Générateur<br />Mots-Clés</h1>
+            <h1 class="title ml-5 fw-bolder text-uppercase">Générateur<br />Mots-Clés</h1>
           </div>
           <p class="text-info">
             Cet outil génère, en fonction des données produits saisies par
@@ -27,21 +27,30 @@
           </p>
         </div>
         <div class="params w-50 pl-3">
-          <h3>Combinaisons<br />à générer</h3>
+          <h3>Combinaisons</h3>
+          <div class="d-flex justify-content-between align-items-stretch w-100">
+            <p class="text-info">
+              Voici les combinaisons de mots-clés à générer. Vous pouvez ajouter vos propres combinaisons...
+            </p>
+            <button class="resetParams w-25 ml-3 mb-2">Reset</button>
+          </div>
           <textarea name="params" id="params" class="params w-100">nom + marque&#13;marque + modele&#13;marque + ref&#13;nom + marque + spec</textarea>
         </div>
       </div>
     </header>
 
     <section class="generateur">
-      <div class="container d-flex justify-content-between mb-5">
+      <div class="container d-flex justify-content-between">
         
         <div class="formulaire w-50 pr-3">
           <h3>Données Produit</h3>
-          <p class="text-info">
-            Veuillez saisir les caractéristiques du produit dans le formulaire
-            ci-dessous,<br />et cliquer sur le bouton "Générer Mots-Clés...
-          </p>
+          <div class="d-flex align-items-stretch">
+            <button class="resetProduct w-25 mr-3">Reset</button>
+            <p class="text-info">
+              Veuillez saisir les caractéristiques du produit dans le formulaire
+              ci-dessous, et cliquer sur le bouton "Générer Mots-Clés...
+            </p>
+          </div>
           <form
             action="/ma-page-de-traitement"
             method="get"
@@ -89,7 +98,7 @@
                 required
               />
             </div>
-            <div class="bouton">
+            <div class="bouton w-25">
               <input type="submit" value="Générer" />
             </div>
           </form>
@@ -102,7 +111,8 @@
               Voici les Mots-Clés générés à partir des caractéristiques produit
               que vous avez saisies...
             </p>
-            <button class="copy w-25 ml-3">Copier<br />Mots-Clés</button>
+            <button class="resetKeywords w-25 ml-3">Reset</button>
+            <button class="copy w-25 ml-2">Copier<br />Mots-Clés</button>
           </div>
           <textarea
             name="motsCles"

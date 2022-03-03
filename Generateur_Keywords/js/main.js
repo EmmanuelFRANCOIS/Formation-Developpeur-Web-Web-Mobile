@@ -7,6 +7,9 @@ $(document).ready ( function() {
   $("#ref").val("Ref-HP-50-20");
   $("#spec").val("Noire");
 
+  // Reset les keywords
+  $("textarea.motsCles").val("");
+
   $("input[type=submit]").click( function(e) {
 
     // On intercepte l'envoi des données du formulaire
@@ -57,8 +60,36 @@ $(document).ready ( function() {
 
   });
 
+  // Evenement click sur bouton Copy
+  // On copie les mots-clés dans le presse papier
   $("button.copy").click( function(){
     navigator.clipboard.writeText( $("textarea.motsCles").val() );
     alert("La liste des mots-clés a été copiée dans votre presse-papier !");
   });
+
+  // Evenement click sur bouton Reset Product
+  // On efface les champs produit
+  $("button.resetProduct").click( function(){
+    // Initialise le formulaire
+    $("#nom").val("");
+    $("#marque").val("");
+    $("#modele").val("");
+    $("#ref").val("");
+    $("#spec").val("");
+  });
+  
+  // Evenement click sur bouton Reset Keywords
+  // On efface les mots-clés
+  $("button.resetKeywords").click( function(){
+    // Initialise les keywords
+    $("textarea.motsCles").val("");
+  });
+  
+  // Evenement click sur bouton Reset Params
+  // On efface les paramètres
+  $("button.resetParams").click( function(){
+    // Initialise les keywords
+    $("textarea.params").val(`nom + marque\nmarque + modele\nmarque + ref\nnom + marque + spec`);
+  });
+  
 });
