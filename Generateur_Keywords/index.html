@@ -4,130 +4,185 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/images/logo.svg">
     <title>Générateur de Mots-Clés</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/toggle-switch.css">
+    <link rel="stylesheet" href="css/modal.css">
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
-      <div class="container d-flex justify-content-between mb-4">
+      <div class="container d-flex justify-content-between mb-5 mt-3">
+        <!-- Bloc Titre -->
         <div class="title w-50 pr-3">
           <div class="brand d-flex mb-3">
+            <!-- Logo -->
             <div class="logo text-center">
-              <i class="fas fa-search"></i>
-              <!-- <img src="images/logo.jpg" height="64" alt="logo" class="logo"> -->
-              <span class="d-block mt-2">de</span>
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span class="d-block mt-1">de</span>
             </div>
             <h1 class="title ml-3 fw-bolder text-uppercase">Générateur<br />Mots-Clés</h1>
           </div>
-          <p class="text-info">
-            Cet outil génère, en fonction des données produits saisies par
-            l'utilisateur, les combinaisons de mots-clés nécessaires au bon
-            référencement de chaque produit par les moteurs de recherche...
+          <p class="pr-5">
+            Cet outil génère, en fonction des données Produit saisies par l'utilisateur, les combinaisons de mots-clés nécessaires à son référencement
+            par les moteurs de recherche...
           </p>
         </div>
-        <div class="params w-50 pl-3">
-          <h3>Combinaisons</h3>
+        <!-- Bloc Paramètres de Combinaisons -->
+        <div class="params w-50 pl-3 animCombinaisons">
+          <h3 class="text-uppercase"><i class="fa-solid fa-rectangle-list mr-3"></i>Combinaisons</h3>
           <div class="d-flex justify-content-between align-items-stretch w-100">
-            <p class="text-info">
-              Voici les combinaisons de mots-clés à générer. Vous pouvez ajouter vos propres combinaisons...
+            <p class="">
+              Voici les combinaisons de mots-clés à générer. Vous pouvez les modifier ou ajouter vos propres combinaisons (1 par ligne)...
             </p>
-            <button class="resetParams w-25 ml-3 mb-2"><i class="fas fa-tasks"></i> &nbsp; Reset</button>
+            <!-- Bouton Reset Combinaisons -->
+            <button class="resetParams w-25 ml-3 mb-2 text-uppercase"><i class="fa-solid fa-rectangle-list d-block mx-auto mb-2"></i>Reset</button>
           </div>
-          <textarea name="params" id="params" class="params w-100">nom + marque&#13;marque + modele&#13;marque + ref&#13;nom + marque + spec</textarea>
+          <!-- Liste des Combinaisons -->
+          <textarea name="params" id="params" class="params w-100 text-monospace">
+nom + marque&#13;marque + modele&#13;marque + ref&#13;nom + marque + spec</textarea
+          >
         </div>
       </div>
     </header>
 
-    <section class="generateur">
+    <section class="generateur mb-4">
       <div class="container d-flex justify-content-between">
-        
-        <div class="formulaire w-50 pr-3">
-          <h3>Données Produit</h3>
-          <div class="d-flex align-items-stretch">
-            <button class="resetProduct w-25 mr-3"><i class="fab fa-product-hunt"></i> &nbsp; Reset</button>
-            <p class="text-info">
-              Veuillez saisir les caractéristiques du produit dans le formulaire
-              ci-dessous, et cliquer sur le bouton "Générer Mots-Clés...
-            </p>
+        <!-- Bloc Données Produit -->
+        <div class="formulaire w-50 pr-5 animProduit">
+          <h3 class="text-uppercase"><i class="fa-solid fa-print mr-3"></i>Produit</h3>
+          <div class="d-flex align-items-stretch w-100">
+            <p class="">Veuillez saisir les caractéristiques du Produit, et cliquer sur le bouton "Générer"...</p>
+            <!-- Bouton Reset Données Produit -->
+            <button class="resetProduct w-25 ml-3 mb-2 text-uppercase"><i class="fas fa-print d-block mx-auto mb-2"></i>Reset</button>
           </div>
-          <form
-            action="/ma-page-de-traitement"
-            method="get"
-            class="d-flex justify-content-between align-items-stretch mb-5"
-          >
-            <div class="champs mr-3">
-              <input
-                type="text"
-                name="nom"
-                id="nom"
-                class="w-100 mr-3 mb-1" 
-                placeholder="Nom du Produit"
-                required
-              />
-              <input
-                type="text"
-                name="marque"
-                id="marque"
-                class="w-100 mr-3 mb-1" 
-                placeholder="Marque du Produit"
-                required
-              />
-              <input
-                type="text"
-                name="modele"
-                id="modele"
-                class="w-100 mr-3 mb-1" 
-                placeholder="Modèle du Produit"
-                required
-              />
-              <input
-                type="text"
-                name="ref"
-                id="ref"
-                class="w-100 mr-3 mb-1" 
-                placeholder="Référence du Produit"
-                required
-              />
-              <input
-                type="text"
-                name="spec"
-                id="spec"
-                class="w-100 mr-3" 
-                placeholder="Spécification du Produit"
-                required
-              />
+          <!-- Formulaire Données Produit -->
+          <form action="test.php" method="get" class="d-flex justify-content-between align-items-stretch mb-2">
+            <div class="champs w-100">
+              <div class="champ d-flex justify-content-stretch align-items-stretch w-100 mr-3 mb-2">
+                <label class="w-25 text-monospace produit" for="nom">nom</label>
+                <input type="text" name="nom" id="nom" class="w-75" placeholder="Nom du Produit" required />
+                <i class="fa-solid fa-circle-check nom text-success" style="display: block;"></i>
+                <i class="fa-solid fa-ban nom text-danger" style="display: none;"></i>
+              </div>
+              <div class="champ d-flex justify-content-stretch w-100 mr-3 mb-2">
+                <label class="w-25 text-monospace produit" for="marque">marque</label>
+                <input type="text" name="marque" id="marque" class="w-75" placeholder="Marque du Produit" required />
+                <i class="fa-solid fa-circle-check marque text-success" style="display: block;"></i>
+                <i class="fa-solid fa-ban marque text-danger" style="display: none;"></i>
+              </div>
+              <div class="champ d-flex justify-content-stretch w-100 mr-3 mb-2">
+                <label class="w-25 text-monospace produit" for="modele">modele</label>
+                <input type="text" name="modele" id="modele" class="w-75" placeholder="Modèle du Produit" required />
+                <i class="fa-solid fa-circle-check modele text-success" style="display: block;"></i>
+                <i class="fa-solid fa-ban modele text-danger" style="display: none;"></i>
+              </div>
+              <div class="champ d-flex justify-content-stretch w-100 mr-3 mb-2">
+                <label class="w-25 text-monospace produit" for="ref">ref</label>
+                <input type="text" name="ref" id="ref" class="w-75" placeholder="Référence du Produit" required />
+                <i class="fa-solid fa-circle-check ref text-success" style="display: block;"></i>
+                <i class="fa-solid fa-ban ref text-danger" style="display: none;"></i>
+              </div>
+              <div class="champ d-flex justify-content-stretch w-100 mr-3">
+                <label class="w-25 text-monospace produit" for="spec">spec</label>
+                <input type="text" name="spec" id="spec" class="w-75" placeholder="Spécification du Produit" required />
+                <i class="fa-solid fa-circle-check spec text-success" style="display: block;"></i>
+                <i class="fa-solid fa-ban spec text-danger" style="display: none;"></i>
+              </div>
             </div>
-            <div class="bouton w-25">
-              <input type="submit" value="Générer" />
+            <div class="w-25 ml-3">
+              <!-- Bouton Générer -->
+              <button type="submit" class="btn align-self-stretch text-uppercase">
+                <i class="fas fa-angle-double-right"></i><br /><br />Générer<br /><br /><i class="fas fa-angle-double-right"></i>
+              </button>
             </div>
           </form>
         </div>
 
-        <div class="resultats w-50 pl-3">
-          <h3>Mots-Clés Générés</h3>
-          <div class="d-flex align-items-stretch">
-            <p class="text-info">
-              Voici les Mots-Clés générés à partir des caractéristiques produit
-              que vous avez saisies...
-            </p>
-            <button class="resetKeywords w-25 ml-3"><i class="fas fa-key"></i> &nbsp; Reset</button>
-            <button class="copy w-25 ml-2">Copier<br />Mots-Clés</button>
+        <!-- Bloc Résultats -->
+        <div class="resultats w-50 pl-3 animMotsCles">
+          <h3 class="text-uppercase"><i class="fas fa-tags mr-3"></i>Mots-Clés</h3>
+          <div class="d-flex align-items-stretch mb-1">
+            <p class="">Voici les Mots-Clés générés à partir des caractéristiques Produit que vous avez saisies...</p>
+            <!-- Bouton Copier dans Presse-Papier -->
+            <button class="copy w-25 ml-3 text-uppercase"><i class="fa-solid fa-copy d-block mx-auto mb-2"></i>Copier</button>
+            <!-- Bouton Reset Mots-Clés -->
+            <button class="resetKeywords w-25 ml-2 text-uppercase"><i class="fa-solid fa-tags d-block mx-auto mb-2"></i>Reset</button>
           </div>
-          <textarea
-            name="motsCles"
-            id="motsCles"
-            class="w-100 mb-0 motsCles"
-          ></textarea>
+          <!-- Mots-Clés -->
+          <input type="hidden" name="resultatBrut" id="resultatBrut" />
+          <textarea name="motsCles" id="motsCles" class="w-100 mb-0 motsCles"></textarea>
+          <div class="d-flex w-100 justify-content-between align-items-stretch mt-2">
+            <!-- Sélecteur de Casse -->
+            <div>
+              <label for="casse" class="opts mr-1">Casse</label>
+              <select name="casse" id="casse" class="casse">
+                <option value="originale" selected>Originale</option>
+                <option value="minuscule">Minuscule</option>
+                <option value="majuscule">Majuscule</option>
+                <option value="titlecase">Title case</option>
+                <option value="camelcase">Camel case</option>
+              </select>
+            </div>
+            <!-- Une-ligne -->
+            <div>
+              <label for="uneLigne" class="opts mr-1">1 Ligne</label>
+              <label class="switch">
+                <input type="checkbox" id="uneLigne" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <!-- Sélecteur de Séparateur -->
+            <div>
+              <label for="separateur" class="opts mr-1">Sép</label>
+              <select name="separateur" id="separateur" class="separateur">
+                <option value=",">,</option>
+                <option value=";">;</option>
+                <option value="-">-</option>
+                <option value="+">+</option>
+                <option value="_">_</option>
+              </select>
+            </div>
+            <!-- Espaces -->
+            <div>
+              <label for="espaces" class="opts mr-1">Espaces</label>
+              <label class="switch">
+                <input type="checkbox" id="espaces" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
         </div>
-
       </div>
     </section>
 
+    <footer class="mb-5">
+      <div class="container">
+        <!-- Copyright -->
+        <div class="copyright">Copyright © 2022 Emmanuel FRANCOIS. Tous droits réservés.</div>
+      </div>
+    </footer>
+
+    <!-- Backdrop & Modal -->
+    <div id="myModal">
+      <!-- Modal -->
+      <div class="modal">
+        <div class="header">
+          <h3>Header</h3>
+        </div>
+        <div class="body">
+          <div class="icon"></div>
+          <div class="content">Content</div>
+        </div>
+        <div class="footer"><button>Ok</button></div>
+      </div>
+    </div>
+
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/all.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

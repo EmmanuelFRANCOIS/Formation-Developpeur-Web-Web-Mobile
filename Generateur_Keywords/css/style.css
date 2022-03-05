@@ -2,17 +2,40 @@ body {
   padding: 10px;
   background: linear-gradient(135deg, #132d68 0%, #020c20 100%);
   color: white;
+  font-size: 0.93rem;
+}
+h3 {
+  font-size: 1.3rem !important;
+}
+h3 svg {
+  font-size: 1.2rem !important;
+  font-weight: 900;
+  color: darkorange;
+}
+p {
+  color: #7bc4ff;
 }
 .logo svg {
   margin: 15px 0 0;
   font-size: 3rem;
+  font-weight: 900;
   color: darkorange;
 }
-textarea.params { 
-  min-height: 130px;
+textarea.params {
+  height: 135px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: black;
+  resize: none;
 }
-textarea.motsCles { 
-  min-height: 185px;
+textarea.motsCles {
+  height: 150px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  color: black;
+  resize: none;
 }
 .logo {
   font-size: 24px;
@@ -20,20 +43,42 @@ textarea.motsCles {
 h1.title {
   line-height: 140%;
 }
+label.produit {
+  background: #004985;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 6px 0 0 6px;
+  line-height: 1;
+  font-weight: bold;
+  margin: 0;
+}
+.champ {
+  background-color: white;
+  border-radius: 16px;
+}
+.champ svg {
+  font-size: 1.3rem !important;
+  margin: 5px;
+}
 input {
   border: none;
-  background-color: white;
-  color: dark-blue;
-  border-radius: 4px;
-  padding: 5px 10px;
+  color: black;
+  padding: 2px 10px;
+  font-size: 1.1rem;
 }
-input[type="submit"] {
+input:focus,
+textarea:focus {
+  outline: none;
+}
+button[type="submit"] {
   height: 100%;
-  border: none;
+  border: 0px solid darkorange;
+  border-radius: 6px;
   background: darkorange;
   color: black;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
+  /* width: 100px !important; */
 }
 button.copy,
 button.resetProduct,
@@ -42,12 +87,14 @@ button.resetParams {
   height: 56px;
   border: none;
   background: darkorange;
+  border: 2px solid darkorange;
   color: black;
   font-weight: bold;
   font-size: 0.9rem;
-  border-radius: 8px;
+  border-radius: 6px;
   white-space: nowrap;
-  padding: 5px;
+  line-height: 0.9rem;
+  padding: 2px 20px;
 }
 button.resetProduct,
 button.resetKeywords,
@@ -55,4 +102,31 @@ button.resetParams {
   background: transparent;
   border: 2px solid darkorange;
   color: darkorange;
+}
+button svg {
+  font-size: 1rem !important;
+  font-weight: 900;
+  /* height: 32px; */
+}
+.copyright {
+  background: #004985;
+  color: white;
+  line-height: 1;
+  padding: 10px 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+select {
+  height: 28px;
+  background: #145a94;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  padding: 5px;
+}
+
+/* jAlert */
+.ja_wrap.ja_wrap_white {
+  background: rgba(0, 0, 0, 0.75);
 }
