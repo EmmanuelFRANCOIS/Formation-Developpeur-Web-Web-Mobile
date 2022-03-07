@@ -8,9 +8,10 @@ Application:    Générateur de Mots-Clés
 Description:    Exercice de programmation Web & Web Mobile
 Formation:      AFPA Hauts de France - TP-DWWM - 2022
 Auteur :        Emmanuel FRANCOIS - Développeur Web & Web Mobile
-Copyright:      Copyright © 2022 Emmanuel FRANCOIS. 
+Copyright:      Copyright © 2022 Emmanuel FRANCOIS.
 
 _______________________________________________________________________________
+
 
 ### Exercice de programmation mettant en oeuvre les technologies suivantes :
 
@@ -27,6 +28,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 
+
 ### Temps nécessaire à la réalisation:
 
     - 5h00 pour les fonctions demandées dans l'énoncé 
@@ -35,6 +37,7 @@ _______________________________________________________________________________
     - 5h00 de plus pour les fonctions que j'ai choisi d'ajouter de moi-même
 
 _______________________________________________________________________________
+
 
 ### Fonctionnalités implémentées :
 
@@ -53,6 +56,7 @@ _______________________________________________________________________________
     - ...
 
 _______________________________________________________________________________
+
 
 ### Screenshots :
 
