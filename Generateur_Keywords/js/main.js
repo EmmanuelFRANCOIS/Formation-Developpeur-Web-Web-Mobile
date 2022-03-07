@@ -12,9 +12,10 @@ $(document).ready ( function() {
   $("#spec").val("Noire").trigger('change');
 
   // Reset les keywords
-  $("textarea.motsCles").val("");
+  $("#resultatBrut").val("");
+  $("textarea#motsCles").val("");
 
-  // Crée le timer des Modal Dialogs
+  // Initialise le timer des Modal Dialogs
   let modalAutoHide;
 
   // --------------------------------------------------------------------------
@@ -27,11 +28,12 @@ $(document).ready ( function() {
     // On intercepte l'envoi des données du formulaire
     e.preventDefault();
 
+    // On crée un objet qui contient toutes les caractéristiques du produit
     // On teste qu'au moins un champ données Produit est rempli
     // sinon, on stoppe le processus
-    if ( $("#nom").val() + $("#marque").val() 
-         + $("#modele").val() + $("#ref").val() 
-         + $("#spec").val() == '' ) {
+    let produit = getProduit();
+    if ( produit.nom + produit.marque + produit.modele 
+         + produit.ref + produit.spec === '' ) {
       showModal({
         "mode": 'error',
         "header": 'Générateur de Mots-Clés',
@@ -40,12 +42,15 @@ $(document).ready ( function() {
         "autoHide": true
       });
       // Initialise les keywords
-      $("textarea.motsCles").val("");
+      $("#resultatBrut").val("");
+      $("textarea#motsCles").val("");
       return;
     }
 
+
     // On récupère la liste des paramètres de combinaisons de mots-clés
-    if ( $("textarea.params").val() == '' ) {
+    let combinaisons = getCombinaisons();
+    if ( combinaisons.length === 0 ) {
       showModal({
         "mode": 'error',
         "header": 'Générateur de Mots-Clés',
@@ -54,47 +59,106 @@ $(document).ready ( function() {
         "autoHide": true
       });
       // Initialise les keywords
-      $("textarea.motsCles").val("");
+      $("#resultatBrut").val("");
+      $("textarea#motsCles").val("");
       return;
     }
-    let params = $("textarea.params").val().split("\n");
 
+    let motsCles = buildKeywords( produit, combinaisons );
+    console.log(produit, combinaisons, motsCles);
+
+    // On place la liste des combinaisons de mots-clés dans la textarea "motsCles"
+    $("#resultatBrut").val(motsCles);
+    $("textarea#motsCles").val( formatKeywords() );
+
+  });
+
+
+  // Fonction qui retourne un objet contenant les données Produit
+  function getProduit() {
     // On crée un objet qui contient toutes les caractéristiques du produit
-    let produit = {
-      "nom": $("#nom").val(),
-      "marque": $("#marque").val(),
-      "modele": $("#modele").val(),
-      "ref": $("#ref").val(),
-      "spec": $("#spec").val(),
-    };
-    //console.log(produit);
+    return {
+             "nom":     $("#nom").val(),
+             "marque":  $("#marque").val(),
+             "modele":  $("#modele").val(),
+             "ref":     $("#ref").val(),
+             "spec":    $("#spec").val(),
+           };
+  }
 
+
+  // Fonction qui retourne un objet contenant les données Produit
+  function getCombinaisons() {
+    return $("textarea.params").val() !== '' ? $("textarea.params").val().split("\n") : '';
+  }
+
+
+  // Fonction qui construit la liste des mots-clés
+  function buildKeywords( produit, combinaisons ) {
     // Pour chaque combinaison de mots-clés dans le tableau params,
     // on crée la combinaison et on l'ajoute à la textarea "motsCles"
-    let motsCles = '', 
-        listeComb = '';
-    $("textarea.motsCles").val("");
-    params.forEach( combinaison => {
+    let motCle = '', 
+        motsCles = '';
+
+    combinaisons.forEach( combinaison => {
       
       // On récupère la liste des mots-clés à concaténer
       let mots = combinaison.split(" + ");
-      motsCles = "";
 
       // On construit la combinaison de mots-clés
+      motCle = "";
       mots.forEach( mot => {
-        motsCles += produit[mot] === 'undefined' ? '' : (motsCles !== '' ? ' ' : '') + produit[mot];
+        motCle = motCle + ( produit[mot] !== 'undefined' && produit[mot] !== '' 
+                            ? (motCle !== '' ? ' ' : '') + produit[mot] 
+                            : '' );
       });
 
       // On ajoute la nouvelle combinaison à la liste des combinaisons
-      listeComb += (listeComb !== '' ? '\n' : '') + motsCles;
-
-      // On place la liste des combinaisons de mots-clés dans la textarea "motsCles"
-      $("#resultatBrut").val(listeComb);
-      $("textarea.motsCles").val(listeComb);
+      // Si elle n'est pas vide et si elle n'existe pas déjà
+      if ( motCle !== '' && !motsCles.split('\n').includes(motCle) ) {
+        motsCles +=  (motsCles !== '' ? '\n' : '') + motCle;
+      }
 
     });
 
-  });
+    return motsCles;
+
+  }
+
+
+  // Fonction qui formate les mots-clés en fonction des options choisies
+  function formatKeywords() {
+
+    let formatedKW = "",
+        brutKW     = $("#resultatBrut").val();
+
+    // Formate la casse
+    switch ( $("#casse").val() ) {
+      case 'minuscule':
+        formatedKW = brutKW.toLowerCase();
+        break;
+      case 'majuscule':
+        formatedKW = brutKW.toUpperCase();
+        break;
+      case 'titlecase':
+        formatedKW = toTitleCase(brutKW);
+        break;
+      case 'camelcase':
+        formatedKW = toCamelCase(brutKW);
+        break;
+      default:
+        formatedKW = brutKW;
+        break;
+    }
+
+    // Formate en Une ligne
+    if ( $("#uneLigne")[0].checked ) {
+      let newSep = $("#separateur").val() + ( $("#espace")[0].checked ? ' ' : '' );
+      formatedKW = formatedKW.replaceAll('\n', newSep);
+    }
+
+    return formatedKW;
+  }
 
 
   // --------------------------------------------------------------------------
@@ -103,47 +167,11 @@ $(document).ready ( function() {
 
   // Evenement change sur les inputs Produit
   $("#nom, #marque, #modele, #ref, #spec").on('change keyup', function(e) {
-    console.log(e);
-    let val = $("#nom").val();
-    $(".fa-circle-check.nom").css('display', val === '' ? 'none' : 'block');
-    $(".fa-ban.nom").css('display', val === '' ? 'block' : 'none');
+    let val = e.target.value;
+    $(".fa-circle-check." + e.target.id).css('display', val === '' ? 'none' : 'block');
+    $(".fa-ban." + e.target.id).css('display', val === '' ? 'block' : 'none');
   });
 
-  // Evenement chnage sur input #nom
-  // $("#nom").on('change keyup', function() {
-  //   let val = $("#nom").val();
-  //   $(".fa-circle-check.nom").css('display', val === '' ? 'none' : 'block');
-  //   $(".fa-ban.nom").css('display', val === '' ? 'block' : 'none');
-  // });
-
-  // Evenement chnage sur input #marque
-  // $("#marque").on('change keyup', function() {
-  //   let val = $("#marque").val();
-  //   $(".fa-circle-check.marque").css('display', val === '' ? 'none' : 'block');
-  //   $(".fa-ban.marque").css('display', val === '' ? 'block' : 'none');
-  // });
-  
-  // Evenement chnage sur input #modele
-  // $("#modele").on('change keyup', function() {
-  //   let val = $("#modele").val();
-  //   $(".fa-circle-check.modele").css('display', val === '' ? 'none' : 'block');
-  //   $(".fa-ban.modele").css('display', val === '' ? 'block' : 'none');
-  // });
-  
-  // Evenement chnage sur input #ref
-  // $("#ref").on('change keyup', function() {
-  //   let val = $("#ref").val();
-  //   $(".fa-circle-check.ref").css('display', val === '' ? 'none' : 'block');
-  //   $(".fa-ban.ref").css('display', val === '' ? 'block' : 'none');
-  // });
-  
-  // Evenement chnage sur input #spec
-  // $("#spec").on('change keyup', function() {
-  //   let val = $("#spec").val();
-  //   $(".fa-circle-check.spec").css('display', val === '' ? 'none' : 'block');
-  //   $(".fa-ban.spec").css('display', val === '' ? 'block' : 'none');
-  // });
-  
 
   // --------------------------------------------------------------------------
   //    Gestion des Evènements des boutons Reset & Copy
@@ -152,7 +180,7 @@ $(document).ready ( function() {
   // Evenement click sur bouton Copy
   // On copie les mots-clés dans le presse papier
   $("button.copy").click( function(){
-    let motsCles = $("textarea.motsCles").val().replaceAll('\n', '<br/>');
+    let motsCles = $("textarea#motsCles").val().replaceAll('\n', '<br/>');
     if ( motsCles === '' ) {
       showModal({
         "mode": 'error',
@@ -166,7 +194,9 @@ $(document).ready ( function() {
       showModal({
         "mode": 'success',
         "header": 'Générateur de Mots-Clés',
-        "body": `La liste des mots-clés :<br /><br /><div style="padding: 5px 10px; border: 2px solid #ccc;"><strong>${motsCles}</strong></div><br />a été copiée dans votre presse-papier !`,
+        "body": `La liste des mots-clés :<br /><br />
+                 <div style="padding: 5px 10px; border: 2px solid #ccc; border-radius: 6px;"><strong>${motsCles}</strong></div>
+                 <br />a été copiée dans votre presse-papier !`,
         "buttonLabel": 'Ok',
         "autoHide": true
       });
@@ -189,7 +219,7 @@ $(document).ready ( function() {
   $("button.resetKeywords").click( function(){
     // Initialise les keywords
     $("#resultatBrut").val("");
-    $("textarea.motsCles").val("");
+    $("textarea#motsCles").val("");
   });
   
   // Evenement click sur bouton Reset Params
@@ -206,33 +236,29 @@ $(document).ready ( function() {
 
   // Evènement change sur select #casse
   $("#casse").change( function() {
-    switch ( $("#casse").val() ) {
-      case 'originale':
-        $("textarea.motsCles").val($("#resultatBrut").val());
-        break;
-      case 'minuscule':
-        $("textarea.motsCles").val($("#resultatBrut").val().toLowerCase());
-        break;
-      case 'majuscule':
-        $("textarea.motsCles").val($("#resultatBrut").val().toUpperCase());
-        break;
-      case 'titlecase':
-        $("textarea.motsCles").val(toTitleCase($("#resultatBrut").val()));
-        break;
-      case 'camelcase':
-        $("textarea.motsCles").val(toCamelCase($("#resultatBrut").val()));
-        break;
+    if ( $("#resultatBrut").val() !== '' ) {
+      $("textarea#motsCles").val( formatKeywords() );
     }
   });
   
   // Evènement change sur toggle switch #uneLigne
   $("#uneLigne").change( function(){
-    if ( $("#uneLigne").val() === 'on' ) {
-      let newSep = $("#separateur").val() + ( $("#espace").val() ? ' ' : '' );
-      $("textarea.motsCles").val( $("#resultatBrut").val().replaceAll('\n', newSep) );
-      console.log('$("#uneLigne")', $("#uneLigne"));
-    } else {
-      $("textarea.motsCles").val( $("#resultatBrut").val() );
+    if ( $("#resultatBrut").val() !== '' ) {
+      $("textarea#motsCles").val( formatKeywords() );
+    }
+  });
+
+  // Evènement change sur select #separateur
+  $("#separateur").change( function() {
+    if ( $("#resultatBrut").val() !== '' ) {
+      $("textarea#motsCles").val( formatKeywords() );
+    }
+  });
+  
+  // Evènement change sur toggle switch #espaces
+  $("#espace").change( function(){
+    if ( $("#resultatBrut").val() !== '' ) {
+      $("textarea#motsCles").val( formatKeywords() );
     }
   });
 
@@ -257,9 +283,9 @@ $(document).ready ( function() {
     clearTimeout(modalAutoHide);
     $("#myModal .modal").animate({ 'opacity': '0', 'top': "300" }, 200, 
       function () { 
-        $("#myModal .modal").css( 'top', '0' ); 
-        $("#myModal").css( 'display', 'none' ); 
+        $("#myModal .modal").css({ 'opacity': '0', 'top': '0' }); 
         $("#myModal").removeClass('success').removeClass('error');
+        $("#myModal").css( 'display', 'none' ); 
       }
     );
   };
