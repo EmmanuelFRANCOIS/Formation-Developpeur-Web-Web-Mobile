@@ -166,7 +166,7 @@ $(document).ready ( function() {
   // --------------------------------------------------------------------------
 
   // Evenement change sur les inputs Produit
-  $("#nom, #marque, #modele, #ref, #spec").on('change keyup', function(e) {
+  $("input").on('change keyup', function(e) {
     let val = e.target.value;
     $(".fa-circle-check." + e.target.id).css('display', val === '' ? 'none' : 'block');
     $(".fa-ban." + e.target.id).css('display', val === '' ? 'block' : 'none');
@@ -207,11 +207,7 @@ $(document).ready ( function() {
   // On efface les champs produit
   $("button.resetProduct").click( function(){
     // Initialise le formulaire
-    $("#nom").val("").trigger('change');
-    $("#marque").val("").trigger('change');
-    $("#modele").val("").trigger('change');
-    $("#ref").val("").trigger('change');
-    $("#spec").val("").trigger('change');
+    $("input").val("").trigger('change');
   });
   
   // Evenement click sur bouton Reset Keywords
