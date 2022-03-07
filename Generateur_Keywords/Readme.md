@@ -12,8 +12,7 @@ Copyright:      Copyright © 2022 Emmanuel FRANCOIS.
 
 _______________________________________________________________________________
 
-Exercice de programmation mettant en oeuvre 
-les technologies suivantes :
+### Exercice de programmation mettant en oeuvre les technologies suivantes :
 
     - HTML5
     - CSS3 Media Queries, Variables, Gradients, Flexbox
@@ -28,7 +27,7 @@ les technologies suivantes :
 
 _______________________________________________________________________________
 
-Temps nécessaire à la réalisation:
+### Temps nécessaire à la réalisation:
 
     - 5h00 pour les fonctions demandées dans l'énoncé 
       + design de l'interface
@@ -37,7 +36,7 @@ Temps nécessaire à la réalisation:
 
 _______________________________________________________________________________
 
-Fonctionnalités implémentées :
+### Fonctionnalités implémentées :
 
     - Formulaire HTML
     - Initialisation des champs de formulaires et autres textarea
@@ -55,7 +54,7 @@ Fonctionnalités implémentées :
 
 _______________________________________________________________________________
 
-Screenshots :
+### Screenshots :
 
 ![Ecran principal](screenshot_01.png?raw=true "Ecran principal - Générateur de Mots-Clés")
 
