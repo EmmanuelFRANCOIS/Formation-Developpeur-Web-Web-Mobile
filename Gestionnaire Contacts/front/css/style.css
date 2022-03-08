@@ -1,0 +1,90 @@
+:root {
+  --var-bg-gradient-light: #0a4270;
+  --var-bg-gradient-dark: #020c20;
+  --var-color-primary: darkorange;
+  --var-color-secondary: #145a94;
+  --var-color-title: white;
+  --var-color-label: white;
+  --var-bg-label: #004985;
+  --var_color-input: black;
+  --var-bg-input: white;
+  --var-color-button: black;
+  --var-color-text: #b8dfff;
+  font-size: 0.9rem;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--var-bg-gradient-dark) linear-gradient(180deg, var(--var-bg-gradient-light) 0%, var(--var-bg-gradient-dark) 100%) no-repeat;
+  min-height: 500px;
+}
+h1 {
+  font-size: 1.6rem !important;
+  font-weight: bold;
+  line-height: 3.2rem;
+  color: var(--var-color-title);
+  text-shadow: 3px 3px 6px #000000;
+}
+h1 svg {
+  /* margin: 15px 0 0; */
+  font-size: 48px;
+  line-height: 48px;
+  margin: 0;
+  color: var(--var-color-primary);
+}
+h3 {
+  font-size: 1.5rem !important;
+  color: var(--var-color-title);
+  text-shadow: 3px 3px 6px #000000;
+}
+h3 svg {
+  font-size: 1.5rem !important;
+  color: var(--var-color-primary);
+}
+p {
+  color: var(--var-color-text);
+}
+button {
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 24px;
+  height: 24px;
+  padding: 0 10px;
+  color: black;
+}
+button.add {
+  background-color: #00be00;
+}
+button.edit {
+  background-color: #008cff;
+  color: white;
+}
+button.delete {
+  background-color: red;
+  color: white;
+}
+button.add:active {
+  background-color: #006900;
+}
+button.edit:active {
+  background-color: #004177;
+}
+button.delete:active {
+  background-color: #800000;
+}
+nav {
+  background-color: var(--var-bg-gradient-dark);
+}
+.nav-link.active {
+  color: white;
+}
+.copyright {
+  background-color: var(--var-bg-gradient-light);
+  color: var(--var-color-title);
+  line-height: 1;
+  padding: 10px 10px;
+  border-radius: 4px;
+  text-align: center;
+}
