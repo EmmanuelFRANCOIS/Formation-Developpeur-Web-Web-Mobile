@@ -9,7 +9,7 @@
   --var_color-input: black;
   --var-bg-input: white;
   --var-color-button: black;
-  --var-color-text: #b8dfff;
+  --var-color-text: #6bbcff;
   font-size: 0.9rem;
 }
 
@@ -22,21 +22,21 @@ body {
 h1 {
   font-size: 1.6rem !important;
   font-weight: bold;
-  line-height: 3.2rem;
+  line-height: 32px;
   color: var(--var-color-title);
   text-shadow: 3px 3px 6px #000000;
 }
 h1 svg {
   /* margin: 15px 0 0; */
-  font-size: 48px;
-  line-height: 48px;
+  font-size: 32px;
+  line-height: 32px;
   margin: 0;
   color: var(--var-color-primary);
 }
 h3 {
   font-size: 1.5rem !important;
   color: var(--var-color-title);
-  text-shadow: 3px 3px 6px #000000;
+  /* text-shadow: 3px 3px 6px #000000; */
 }
 h3 svg {
   font-size: 1.5rem !important;
@@ -51,11 +51,25 @@ button {
   font-size: 14px;
   line-height: 24px;
   height: 24px;
-  padding: 0 10px;
+  padding: 0 5px;
   color: black;
 }
-button.add {
+button.btn-add,
+button.btn-add2 {
   background-color: #00be00;
+  color: white;
+}
+button[type=submit] {
+  background-color: #00be00;
+  color: white;
+  height: auto;
+}
+button[type=submit]:active {
+  background-color: #006600;
+}
+button.voir {
+  background-color: #d103ec;
+  color: white;
 }
 button.edit {
   background-color: #008cff;
@@ -68,6 +82,9 @@ button.delete {
 button.add:active {
   background-color: #006900;
 }
+button.voir:active {
+  background-color: #680075;
+}
 button.edit:active {
   background-color: #004177;
 }
@@ -75,7 +92,7 @@ button.delete:active {
   background-color: #800000;
 }
 nav {
-  background-color: var(--var-bg-gradient-dark);
+  background-color: #222;
 }
 .nav-link.active {
   color: white;
@@ -87,4 +104,42 @@ nav {
   padding: 10px 10px;
   border-radius: 4px;
   text-align: center;
+}
+.tbLeft tr, .tbRight tr {
+  border-radius: 6px;
+}
+.tbLeft .label, .tbRight .label {
+  border-radius: 6px; 
+}
+.tbLeft .label,
+.tbRight .label {
+  width: 30%;
+  white-space: nowrap;
+  color: var(--var-color-text);
+  padding: 0 10px;
+}
+.tbLeft .label,
+.tbRight .label {
+  padding: 0 10px;
+}
+.headerDetails {
+  border-radius: 6px;
+}
+.photoDetails {
+  height: 64px;
+  margin: 0;
+  border-radius: 50%;
+}
+h2.contactHeader {
+  font-size: 2.5rem;
+  line-height: 64px;
+  color: white;
+  margin: 0;
+  text-shadow: 3px 3px 6px #000000;
+}
+.about {
+  border-radius: 6px;
+}
+.mapsWrapper {
+  border-radius: 6px;
 }
