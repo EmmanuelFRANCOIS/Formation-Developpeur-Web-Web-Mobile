@@ -1,45 +1,38 @@
 $(document).ready ( function() {
 
-  // On attend la création de l'élément "#liste-contacts" pour lui attribuer l'évènement "click"
-  $(document).on('click', '#tableau-bord', function(e) {
-
+  // Evènement "click" sur sidemenu "#mnuDashboard"
+  // => affichage du Dashboard
+  $(document).on('click', '#mnuDashboard', function(e) {
     e.preventDefault();
-
-    showTableauBord();
-
+    showDashboard();
   })
 
-  // On attend la création de l'élément "#liste-contacts" pour lui attribuer l'évènement "click"
-  $(document).on('click', '#liste-contacts', function(e) {
+  // Evènement "click" sur sidemenu "#mnuListeContacts"
+  // => affichage de la liste des Contacts
+  $(document).on('click', '#mnuContactsList', function(e) {
     e.preventDefault();
-    genListe();
-  })
-
-  // On attend la création de l'élément ".delete" pour lui attribuer l'évènement "click"
-  $(document).on('click', '.btn-add', function(e) {
-    e.preventDefault();
-    showFormAdd();
+    showContactsList();
   })
 
   // On attend la création de l'élément ".delete" pour lui attribuer l'évènement "click"
-  $(document).on('click', '.btn-add', function(e) {
+  $(document).on('click', '.btnAddContact', function(e) {
     e.preventDefault();
-    showFormAdd();
+    showFormAddContact();
   })
 
-  // On attend la création de l'élément ".delete" pour lui attribuer l'évènement "click"
+  // On attend la création du bouton "submit" pour lui attribuer l'évènement "click"
   $(document).on('click', 'button[type="submit"]', function(e) {
     e.preventDefault();
     saveContact( $(this).data('id') );
   })
 
-  // On attend la création de l'élément ".delete" pour lui attribuer l'évènement "click"
+  // On attend la création de l'élément ".voir" pour lui attribuer l'évènement "click"
   $(document).on('click', '.voir', function(e) {
     e.preventDefault();
-    viewDetails( $(this).data('id') );
+    showContactSheet( $(this).data('id') );
   })
 
-  // On attend la création de l'élément ".delete" pour lui attribuer l'évènement "click"
+  // On attend la création de l'élément ".edit" pour lui attribuer l'évènement "click"
   $(document).on('click', '.edit', function(e) {
     e.preventDefault();
     showFormEdit( $(this).data('id') );
@@ -51,296 +44,260 @@ $(document).ready ( function() {
     deleteContact( $(this).data('id') );
   })
 
-
-
-  function genListe() {
-
-    hideMessage();
-
-    let request = $.ajax({
-      type: "GET",
-      url: "http://localhost:3000/contacts",
-      dataType: "json"
-    });
-
-    request.done( function (response) {
-      if (response.length > 0) {
-        let html = "";
-        response.map( (el) => {
-          html += `<tr class="${el.id}">
-                    <td><i class="fas fa-user mr-3"></i>${el.id}</td>
-                    <td>${el.lastname}</td>
-                    <td>${el.firstname}</td>
-                    <td>${el.phone}</td>
-                    <td class="text-right">
-                      <button class="voir mr-1" title="Voir ce Contact" data-id="${el.id}"><i class="fas fa-eye"></i></button>
-                      <button class="edit mr-1" title="Editer ce Contact" data-id="${el.id}"><i class="fas fa-edit"></i></button>
-                      <button class="delete" title="Supprimer ce Contact" data-id="${el.id}"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                  </tr>`;
-        });
-        $(".tbListe tbody").html(html);
-      } else {
-        showMessage('La liste des contacts est vide !');
-      }
-    });
-
-    request.fail( function (http_error) {
-      let server_msg = http_error.responseText;
-      let code = http_error.status;
-      let code_label = http_error.statusText;
-      let errormsg = "Erreur " + code + " (" + code_label + ") : " + server_msg;
-      console.log(errormsg);
-      showMessage('Erreur de communication avec le serveur !<br /><br />' + errormsg);
-    });
-
-  }
-
-
-  function showTableauBord() {
-
-     // Hide Form New Contact
-    $(".viewFormContact").hide();
-
-    // Hide datails of Contacts
-    $(".viewDetails").hide();
-
-    // Show table of Contacts
-    $(".viewContacts").show();
-
-  }
-
-  function showFormAdd() {
-    // Hide table of Contacts
-    $(".viewContacts").hide();
-
-    $(".formTitle").text("Nouveau Contact")
-    $('input#lastname').val("");
-    $('input#firstname').val("");
-    $('button[type="submit"]').data('id', "");
-
-     // Show Form New Contact
-    $(".viewFormContact").show();
-
-  }
-
-  function showFormEdit(idContact) {
-
-    // Hide table of Contacts
-    $(".viewContacts").hide();
-
-    // Show datails of Contacts
-    $(".viewDetails").show();
-
-     // Show Form New Contact
-    $(".viewFormContact").show();
-
-    // Get contact info from server
-    let contact = getContact(idContact, 'edit');
-
-  }
-
-
-  function updateFormEdit(contact) {
-    $("span.formTitle").text("Modifier Contact")
-    $('input#lastname').val(contact.lastname);
-    $('input#firstname').val(contact.firstname);
-    $('button[type="submit"]').data('id', contact.id);
-  }
-
-
-  function getContact(idContact, mode) {
-
-    let request = $.ajax({
-      type: "GET",
-      url: "http://localhost:3000/contacts/" + idContact,
-      dataType: "json"
-    });
-
-    request.done( function (contact) {
-      if ( contact !== null ) {
-        if (mode === 'edit') {
-          updateFormEdit(contact);
-        } else if (mode === 'details') {
-          genDetails(contact);
-        }
-      } else {
-        alert('Contact introuvable !');
-      }
-    });
-
-    request.fail( function (http_error) {
-      let server_msg = http_error.responseText;
-      let code = http_error.status;
-      let code_label = http_error.statusText;
-      let errormsg = "Erreur " + code + " (" + code_label + ") : " + server_msg;
-      console.log(errormsg);
-      alert('Erreur de communication avec le serveur !<br /><br />' + errormsg);
-    });
-
-  }
-
-
-  function saveContact( idContact ) {
-
-    console.log('updateContact', 'idContact', idContact);
-
-    let request = $.ajax({
-      type: idContact ? 'PUT' : 'POST',
-      url: `http://localhost:3000/contacts` + (idContact ? '/' + idContact : ''),
-      data: {
-        'id': idContact ? idContact : Date.now(),
-        'lastname': $('input#lastname').val(),
-        'firstname': $('input#firstname').val()
-      }
-    });
-
-    request.done( function (response) {
-      genListe()
-      showTableauBord();
-      $('input#lastname').val("");
-      $('input#firstname').val("");
-      $('button[type="submit"]').data('id', "");
-    });
-
-    request.fail( function (http_error) {
-      let server_msg = http_error.responseText;
-      let code = http_error.status;
-      let code_label = http_error.statusText;
-      let errormsg = "Erreur " + code + " (" + code_label + ") : " + server_msg;
-      console.log(errormsg);
-      showMessage('Erreur de communication avec le serveur !<br /><br />' + errormsg);
-      showTableauBord();
-    });
-
-  }
-
-
-  function editContact() {
-
-  }
-
-
-  function deleteContact( idContact ) {
-
-    let request = $.ajax({
-      type: "DELETE",
-      url: `http://localhost:3000/contacts/${idContact}`,
-      dataType: "json"
-    });
-
-    request.done( function (response) {
-      $(`tr.${idContact}`).remove();
-    });
-
-    request.fail( function (http_error) {
-      let server_msg = http_error.responseText;
-      let code = http_error.status;
-      let code_label = http_error.statusText;
-      console.log("Erreur " + code + " (" + code_label + ") : " + server_msg);
-    });
-  }
-
-
-  function showMessage(msg) {
-    $("tbody").html(`<tr class="message">
-                      <td colspan="4" class="p-5 text-center">
-                        ${msg}
-                      </td>
-                    </tr>`);
-  }
-
-  function hideMessage() {
-    $("tr.message").remove;
-  }
-
-
-  function viewDetails(idContact) {
-
-    // Hide table of Contacts
-    $(".viewContacts").hide();
-
-     // Show Form New Contact
-    $(".viewFormContact").hide();
-
-    // Show datails of Contacts
-    $(".viewDetails").show();
-
-    // Get Contact details from server
-    getContact(idContact, 'details');
-
-  }
-
-
-  function genDetails(ct) {
-
-    html = `
-    <div class="d-flex align-items-stretch bg-dark p-3 mb-4 headerDetails">
-      <img src="images/${ct.picture}" alt="${ct.firstname} ${ct.lastname.toUpperCase()}" class="mr-5 photoDetails">
-      <h2 class="contactHeader">${ct.firstname} ${ct.lastname.toUpperCase()}</h2>
-    </div>
-    <div class="d-flex details">
-      <div class="w-50 pr-3 col1">
-        <table class="table table-striped table-sm table-dark tbLeft">
-          <tbody>
-            <tr class="lastname">
-              <td class="label">Nom</td>
-              <td class="data">${ct.lastname.toUpperCase()}</td>
-            </tr>
-            <tr class="firstname">
-              <td class="label">Prénom</td>
-              <td class="data">${ct.firstname}</td>
-            </tr>
-            <tr class="gender">
-              <td class="label">Genre</td>
-              <td class="data">${ct.gender}</td>
-            </tr>
-            <tr class="age">
-              <td class="label">Age</td>
-              <td class="data">${ct.age}</td>
-            </tr>
-            <tr class="eyeColor">
-              <td class="label">Couleur des yeux</td>
-              <td class="data">${ct.eyeColor}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="w-50 pl-3 col2">
-        <table class="table table-striped table-sm table-dark tbRight">
-          <tbody>
-            <tr class="company">
-              <td class="label">Entreprise</td>
-              <td class="data">${ct.company.toUpperCase()}</td>
-            </tr>
-            <tr class="address">
-              <td class="label">Adresse</td>
-              <td class="data">${ct.address}</td>
-            </tr>
-            <tr class="phone">
-              <td class="label">Téléphone</td>
-              <td class="data">${ct.phone}</td>
-            </tr>
-            <tr class="email">
-              <td class="label">Email</td>
-              <td class="data">${ct.email}</td>
-            </tr>
-            <tr class="balance">
-              <td class="label">Solde</td>
-              <td class="data">${ct.balance}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="bg-dark p-3 mt-3 text-white about">${ct.about}</div>
-    <div class="w-100 mt-4 p-3 bg-dark mapsWrapper">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d3024.2745864064777!2d-74.6425746!3d40.7119714!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1646838652779!5m2!1sfr!2sfr" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="w-100"></iframe>
-    </div>
-    `;
-
-    $(".detailsBlock").html(html);
-
-  }
-
+  // Build Dashboard at app start
+  buildDashboard();
 });
+
+
+function hideAllViews() {
+  
+  // Hide Dashboard
+  $("#viewDashboard").hide();
+
+  // Hide table of Contacts
+  $("#viewContactsList").hide();
+
+  // Hide Form New Contact
+  $("#viewFormContact").hide();
+
+  // Hide datails of Contacts
+  $("#viewContactSheet").hide();
+
+}
+
+
+function showDashboard() {
+
+  // Hide all views
+  hideAllViews();
+  
+  // Show Dashboard
+  $('#sidebarMenu .nav-link').removeClass('active');
+  $('#mnuDashboard').addClass('active');
+  $("#viewDashboard").show();
+
+  // Build Dashboard
+  buildDashboard()
+
+}
+
+
+function showContactsList() {
+
+  // Hide all views
+  hideAllViews();
+  
+  // Show Dashboard
+  $('#sidebarMenu .nav-link').removeClass('active');
+  $('#mnuContactsList').addClass('active');
+  $("#viewContactsList").show();
+
+  // Generate list of Contacts
+  $('#tbListe').DataTable({
+    "ajax": {
+      "url": 'http://localhost:3123/contacts',
+      "type": "GET",
+      "dataSrc": ""
+    },
+    //"destroy": true,
+    "retrieve": true,
+    "order": [[ 2, "asc" ]],
+    "columns": [
+        { "data": "isActive" },
+        { "data": "id" },
+        { "data": "lastname", render: function ( data, type, row ) { return row.lastname.toUpperCase(); } },
+        { "data": "firstname" },
+        { "data": "company", render: function ( data, type, row ) { return row.company.toUpperCase(); } },
+        { "data": "phone" },
+        { "data": "null",
+          render: function ( data, type, row ) { 
+                    return `<button class="voir mr-1" title="Voir ce Contact" data-id="${row.id}">
+                              <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="edit mr-1" title="Editer ce Contact" data-id="${row.id}">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete" title="Supprimer ce Contact" data-id="${row.id}">
+                              <i class="fas fa-trash-alt"></i>
+                            </button>`;
+                  }
+        }
+    ]
+  });
+
+}
+
+
+function showFormAddContact() {
+
+  // Hide all views
+  hideAllViews();
+
+  // Prepare Title & Inputs
+  $(".formTitle").text("Nouveau Contact")
+  // Efface les contenus de tous les champs du formulaire
+  $('#formContact input').val("");
+  // Initialise les champs spéciaux
+  $('#formContact #ctId').val( Date.now() );
+  $('#formContact #ctIsactive').val(true);
+  let idAvatar = Math.floor(Math.random() * (99 - 0)) + 0;
+  $('#formContact #ctThumb').val( "avatar_" + idAvatar + "_thumb.png" );
+  $('#formContact #ctPortrait').val( "avatar_" + idAvatar + ".png" );
+
+  // Attribue l'id au bouton submit
+  $('button[type="submit"]').data('id', "");
+
+    // Show Form New Contact
+  $('#sidebarMenu .nav-link').removeClass('active');
+  $('#mnuAddContact').addClass('active');
+  $("#viewFormContact").show();
+
+}
+
+function showFormEdit(idContact) {
+
+  // Hide all views
+  hideAllViews();
+
+  // Show Form New Contact
+  $("#viewFormContact").show();
+
+  // Get contact info from server
+  getContactData(idContact, 'edit');
+
+}
+
+
+function showContactSheet(idContact) {
+
+  // Hide all views
+  hideAllViews();
+
+  // Show datails of Contacts
+  $("#viewContactSheet").show();
+
+  // Get Contact details from server
+  getContactData( idContact, 'details' );
+
+}
+
+
+
+
+function prepareFormEdit(contact) {
+  // Update FormContact Title
+  $("span.formTitle").text("Modifier Contact");
+  // Prepare FormContact Inputs
+  $('#formContact #ctId').val(contact.id);
+  $('#formContact #ctIndex').val(contact.index);
+  $('#formContact #ctGuid').val(contact.guid);
+  $('#formContact #ctIsActive').val(contact.isActive);
+  $('#formContact #ctIdAvatar').val(contact.idAvatar);
+  $('#formContact #ctThumb').val(contact.thumb);
+  $('#formContact #ctPortrait').val(contact.portrait);
+  $('#formContact #ctFirstname').val(contact.firstname);
+  $('#formContact #ctLastname').val(contact.lastname);
+  $('#formContact #ctFullname').val(contact.fullname);
+  $('#formContact #ctGender').val(contact.gender);
+  $('#formContact #ctBirthdate').val(contact.birthdate);
+  $('#formContact #ctEyeColor').val(contact.eyeColor);
+  $('#formContact #ctCivilStatus').val(contact.civilStatus);
+  $('#formContact #ctCivilPartnerId').val(contact.civilPartnerId);
+  $('#formContact #ctProStatus').val(contact.proStatus);
+  $('#formContact #ctChildren').val(contact.children);
+  $('#formContact #ctDrvLicenses').val(contact.drvLicenses);
+  $('#formContact #ctCompany').val(contact.company);
+  $('#formContact #ctAddress').val(contact.address);
+  $('#formContact #ctCity').val(contact.city);
+  $('#formContact #ctState').val(contact.state);
+  $('#formContact #ctCountry').val(contact.country);
+  $('#formContact #ctPhone').val(contact.phone);
+  $('#formContact #ctEmail').val(contact.email);
+  $('#formContact #ctBalance').val(contact.balance);
+  $('#formContact #ctAbout').val(contact.about);
+  $('#formContact #ctRegistered').val(contact.registered);
+  $('#formContact #ctLatitude').val(contact.latitude);
+  $('#formContact #ctLongitude').val(contact.longitude);
+  $('#formContact #ctCategory').val(contact.category);
+  $('#formContact #ctFriends').val(contact.friends);
+      // Set Id on Submit button
+  $('button[type="submit"]').data('id', contact.id);
+}
+
+
+
+
+function genDetails(ct) {
+
+  html = `
+  <div class="d-flex align-items-stretch bg-dark p-3 mb-4 headerDetails">
+    <img src="images/${ct.portrait}" alt="${ct.firstname} ${ct.lastname.toUpperCase()}" class="me-5 photoDetails">
+    <h2 class="contactHeader">${ct.firstname} ${ct.lastname.toUpperCase()}</h2>
+  </div>
+  <div class="d-flex details">
+    <div class="w-50 pe-3 col1">
+      <h4 class="border-bottom border-info text-info formSubtitle">Données Personnelles</h4>
+      <table class="table table-striped table-sm table-dark tbLeft">
+        <tbody>
+          <tr class="lastname">
+            <td class="label">Nom</td>
+            <td class="data">${ct.lastname.toUpperCase()}</td>
+          </tr>
+          <tr class="firstname">
+            <td class="label">Prénom</td>
+            <td class="data">${ct.firstname}</td>
+          </tr>
+          <tr class="gender">
+            <td class="label">Genre</td>
+            <td class="data">${ct.gender}</td>
+          </tr>
+          <tr class="age">
+            <td class="label">Age</td>
+            <td class="data">${ct.age}</td>
+          </tr>
+          <tr class="eyeColor">
+            <td class="label">Yeux</td>
+            <td class="data">${ct.eyeColor}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="w-50 ps-3 col2">
+    <h4 class="border-bottom border-info text-info formSubtitle">Données Professionnelles</h4>
+      <table class="table table-striped table-sm table-dark tbRight">
+        <tbody>
+          <tr class="company">
+            <td class="label">Entreprise</td>
+            <td class="data">${ct.company.toUpperCase()}</td>
+          </tr>
+          <tr class="address">
+            <td class="label">Adresse</td>
+            <td class="data">${ct.address}</td>
+          </tr>
+          <tr class="phone">
+            <td class="label">Téléphone</td>
+            <td class="data">${ct.phone}</td>
+          </tr>
+          <tr class="email">
+            <td class="label">Email</td>
+            <td class="data">${ct.email}</td>
+          </tr>
+          <tr class="balance">
+            <td class="label">Solde</td>
+            <td class="data">${ct.balance}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <h4 class="border-bottom border-info text-info formSubtitle">Informations générales</h4>
+  <div class="bg-dark p-3 mt-3 text-white about">${ct.about}</div>
+  <h4 class="border-bottom border-info text-info formSubtitle">Localisation</h4>
+  <div class="w-100 mt-4 p-3 bg-dark mapsWrapper">
+  </div>
+  `;
+
+  $("#blockContactSheet").html(html);
+
+}
+

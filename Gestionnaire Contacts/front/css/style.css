@@ -1,6 +1,6 @@
 :root {
   --var-bg-gradient-light: #0a4270;
-  --var-bg-gradient-dark: #020c20;
+  --var-bg-gradient-dark: black;
   --var-color-primary: darkorange;
   --var-color-secondary: #145a94;
   --var-color-title: white;
@@ -13,11 +13,22 @@
   font-size: 0.9rem;
 }
 
+/* Bootstrap Overrides */
+.tbListe > tbody > tr:nth-child(even) > td {
+  background-color: #111 !important;
+}
+.tbListe > tbody > tr:nth-child(odd) > td {
+  background-color: #222 !important;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background: var(--var-bg-gradient-dark) linear-gradient(180deg, var(--var-bg-gradient-light) 0%, var(--var-bg-gradient-dark) 100%) no-repeat;
+  /* background: var(--var-bg-gradient-dark) linear-gradient(180deg, var(--var-bg-gradient-light) 0%, var(--var-bg-gradient-dark) 100%) no-repeat; */
   min-height: 500px;
+}
+header .navbar {
+  background-color: var(--var-bg-gradient-dark);
 }
 h1 {
   font-size: 1.6rem !important;
@@ -42,21 +53,31 @@ h3 svg {
   font-size: 1.5rem !important;
   color: var(--var-color-primary);
 }
+h4 {
+  font-size: 1.2rem !important;
+  line-height: 2rem;
+}
 p {
   color: var(--var-color-text);
 }
-button {
+button.voir,
+button.edit,
+button.delete {
   border: none;
-  border-radius: 4px;
+  border-radius: 2px;
   font-size: 14px;
   line-height: 24px;
   height: 24px;
   padding: 0 5px;
   color: black;
 }
-button.btn-add,
-button.btn-add2 {
+button.btnAddContact {
   background-color: #00be00;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 2px 5px;
+  border: none;
   color: white;
 }
 button[type=submit] {
@@ -79,7 +100,7 @@ button.delete {
   background-color: red;
   color: white;
 }
-button.add:active {
+button.btnAddContact:active {
   background-color: #006900;
 }
 button.voir:active {
@@ -91,39 +112,33 @@ button.edit:active {
 button.delete:active {
   background-color: #800000;
 }
-nav {
-  background-color: #222;
-}
-.nav-link.active {
-  color: white;
+.tabsButtons .nav-link{
+  color: #aaa;
 }
 .copyright {
-  background-color: var(--var-bg-gradient-light);
-  color: var(--var-color-title);
+  background-color: #212529;
+  color: #555;
   line-height: 1;
   padding: 10px 10px;
   border-radius: 4px;
   text-align: center;
 }
-.tbLeft tr, .tbRight tr {
-  border-radius: 6px;
-}
-.tbLeft .label, .tbRight .label {
-  border-radius: 6px; 
+.tbLeft tr, 
+.tbRight tr {
+  border-radius: 2px;
 }
 .tbLeft .label,
-.tbRight .label {
-  width: 30%;
+.tbRight .label,
+.formLeft .label,
+.formRight .label {
   white-space: nowrap;
-  color: var(--var-color-text);
+  color: #aaa !important;
   padding: 0 10px;
-}
-.tbLeft .label,
-.tbRight .label {
-  padding: 0 10px;
+  line-height: 34px;
 }
 .headerDetails {
-  border-radius: 6px;
+  border-radius: 4px;
+  background-color: var(--var-bg-gradient-dark) !important;
 }
 .photoDetails {
   height: 64px;
@@ -137,9 +152,96 @@ h2.contactHeader {
   margin: 0;
   text-shadow: 3px 3px 6px #000000;
 }
+.ctActive {
+  color: #00be00;
+}
+.ctInactive {
+  color: red;
+}
 .about {
   border-radius: 6px;
 }
 .mapsWrapper {
   border-radius: 6px;
+}
+
+.dashBlock {
+  box-sizing: border-box;
+  min-height: 150px;
+}
+.dash {
+  box-sizing: border-box;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  height: 100%;
+  text-align: center;
+}
+.dash svg {
+  font-size: 2rem;
+  /* margin-bottom: 10px; */
+  color: rgba(255, 255, 255, 0.4)
+}
+.dash .indicator {
+  font-size: 1.8rem;
+  color: white;
+}
+.dash.smallValue .indicator { font-size: 2.2rem; text-align: right; }
+.dash .label {
+  text-transform:uppercase;
+  font-size: 1rem;
+  color: darkorange;
+}
+.dash .label2 {
+  text-transform:uppercase;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+#tbListe_length,
+#tbListe_info,
+#tbListe_paginate span.ellipsis,
+#tbListe_filter label,
+#tbListe_paginate a {
+  color: #aaa !important;
+}
+#tbListe_paginate a.current {
+  color: black !important;
+}
+#tbListe_length select {
+  color: white;
+}
+
+/* Sidemenu */
+#sidebarMenu {
+  background-color: var(--var-bg-gradient-dark);
+}
+#sidebarMenu .nav-link {
+  border-radius: 8px 0 0 8px;
+  border: 1px solid #303438;
+  border-left: none;
+  border-right: none;
+  color: #aaa;
+  white-space: nowrap;
+}
+#sidebarMenu .nav-link.active {
+  background-color: #212529;
+  border: 1px solid #212529;
+  border-right: none;
+  color: var(--var-color-primary);
+}
+
+#sidebarMenu .nav-link:hover {
+  background-color: #212529;
+  color: var(--var-color-primary);
+}
+#sidebarMenu .nav-link.active:hover {
+  color: var(--var-color-primary);
+}
+input, textarea {
+  background-color: #ddd !important;
+  color: black !important;
+}
+
+.form-control {
+  border-radius: 2px;
 }

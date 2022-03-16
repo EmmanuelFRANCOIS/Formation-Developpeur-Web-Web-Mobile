@@ -1,0 +1,55 @@
+[
+  '{{repeat(1000, 1000)}}',
+  {
+    id: '{{date(new Date(1970, 0, 1), new Date(), "YYhhmmss")}}',
+    index: '{{index()}}',
+    guid: '{{guid()}}',
+    isActive: '{{bool()}}',
+    idAvatar: '{{integer(0, 99)}}',
+    thumb: function () { return 'avatar_' + this.idAvatar + '_thumb.png'; },
+    portrait: function () { return 'avatar_' + this.idAvatar + '.png'; },
+    firstname: '{{firstName()}}',
+    lastname: '{{surname()}}',
+    fullname: function(tags) {
+      return this.firstname + ' ' + this.lastname;
+    },
+    gender: '{{gender()}}',
+    birthdate: '{{date(new Date(1900, 0, 1), new Date(2008, 0, 1), "YYYY-MM-dd")}}',
+    eyeColor: '{{random("Bleus", "Marrons", "Verts", "Noirs")}}',
+    civilStatus: '{{random("Célibataire", "Marié", "Divorcé", "Veuf")}}',
+    civilPartnerId: function (tags) {
+      return this.civilStatus === 'Marié' ? Math.floor(Math.random() * (999 - 0)) + 0 : null;
+    },
+    proStatus: function (tags) {
+      var age = new Date((Date.now() - Date.parse(this.birthdate))).getUTCFullYear() - 1970;
+      var status = ["En formation", "En activité", "Sans emploi", "Au foyer", "Retraité(e)"];
+      if (age <=20 ) {
+        return status[0]; 
+      } else if (age > 20 && age <=30) {
+        return status[Math.floor(Math.random() * (3 - 0)) + 0];
+      } else if (age > 30 && age <=60) {
+        return status[Math.floor(Math.random() * (3 - 1)) + 1];
+      } else if (age > 60 && age <=70) {
+        return status[Math.floor(Math.random() * (4 - 1)) + 1];
+      } else if (age > 70) {
+        return status[4];
+      }
+    },
+    drvLicenses: {A:'{{bool()}}', B:'{{bool()}}', C:'{{bool()}}', D:'{{bool()}}'},
+    company: '{{company().toUpperCase()}}',
+    address: '{{integer(100, 999)}} {{street()}}',
+    city: '{{city()}}',
+    state: '{{state()}}',
+    country: 'United States',
+    phone: '+1 {{phone()}}',
+    email: '{{email()}}',
+    balance: '{{floating(-100000, 10000000, 2, "0")}}',
+    about: '{{lorem(integer(0, 5), "sentences")}}',
+    registered: '{{date(new Date(2014, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ss Z")}}',
+    latitude: '{{floating(-90.000001, 90)}}',
+    longitude: '{{floating(-180.000001, 180)}}',
+    category: '{{random("Famille", "Amis", "Collègues", "Clients", "Fournisseurs", "Autres")}}',
+    children: [ '{{repeat(integer(0, 7))}}', '{{firstName()}}' ],
+    friends: [ '{{repeat(integer(0, 10))}}', '{{integer(0, 999)}}' ]
+  }
+]
