@@ -33,6 +33,14 @@ class ModelCategory {
     return $req->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function addCategory($customer) {}
+
+  public function getCategory($customer) {}
+
+  public function updateCategory($customer) {}
+
+  public function deleteCategory($customer) {}
+
 
 
 }

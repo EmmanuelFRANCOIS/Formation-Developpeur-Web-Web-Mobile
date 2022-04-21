@@ -1,6 +1,12 @@
 <?php
 
 $config = [
+  'siteName' => 'MindFood',
+  'siteIntro' =>  '<p style="text-align: justify;">MindFood prend soin de votre Esprit et '
+                . 'propose le plus large choix de produits culturels, '
+                . 'répartis dans les quatre univers "Livre", "Musique", "Cinéma" & "Jeu".</p>'
+                . '<p style="text-align: justify;">Des milliers de références, les meilleurs contenus, à votre disposition, '
+                . 'au meilleur prix...</p>',
   'upload' => [
     'allowed'    => true,
     'max_weight' => '3000000',
