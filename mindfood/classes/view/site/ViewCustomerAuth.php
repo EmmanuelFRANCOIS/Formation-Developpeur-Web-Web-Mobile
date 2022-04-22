@@ -100,7 +100,10 @@ class ViewCustomerAuth {
               <input type="password" class="form-control fs-5" name="password" id="password">
             </div>
             <div class="d-flex justify-content-between align-items-center mt-3">
-              <span class="">Pas de compte ? <a href="signup.php">Inscription</a></span>
+              <div>
+                <div class="">Mot de passe oublié ? <a href="password.php">cliquez ici</a></div>
+                <div class="">Pas encore de compte ? <a href="signup.php">Inscription</a></div>
+              </div>
               <div class="text-end text-nowrap">
                 <button type="submit" name="login" class="btn btn-primary me-1">Connexion</button>
                 <button type="cancel" name="cancel" class="btn btn-dark">Annuler</button>

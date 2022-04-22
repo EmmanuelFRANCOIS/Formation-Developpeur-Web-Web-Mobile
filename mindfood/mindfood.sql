@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : jeu. 21 avr. 2022 à 23:32
+-- Généré le : ven. 22 avr. 2022 à 08:11
 -- Version du serveur :  8.0.28-0ubuntu0.20.04.3
 -- Version de PHP : 7.4.3
 
@@ -138,8 +138,9 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`id`, `avatar`, `lastname`, `firstname`, `email`, `password`, `address`, `zipcode`, `city`, `fixedPhone`, `mobilePhone`, `created_on`, `token`) VALUES
 (8, NULL, 'FRANCOIS', 'Emmanuel', 'efdevfr@gmail.com', '$2y$10$JGhcZxU7EciYk1yRxWXNjOSmb.VGSvfalBzL1GuJBwJoSScJ/lY/i', '', '', '', '', '', '2022-04-21 20:48:47', NULL),
-(9, NULL, 'DESCOFFIER', 'Arnaud', 'arnaud@gmail.com', '$2y$10$AE7OcK5VeJdg.akk6LRPx.mxStp1DspfZpiykdTv2VuVvClIF9ehi', NULL, NULL, NULL, NULL, NULL, '2022-04-21 21:15:13', NULL),
-(10, NULL, 'DESCOFFIER', 'Arnaud', 'arnaud@gmail.com', '$2y$10$/9F8Q5HVi1j1pCXGNsBPku4j9ML9Lf1dSEuGLELRgc4AcJt2t7JKO', NULL, NULL, NULL, NULL, NULL, '2022-04-21 21:22:24', NULL);
+(9, NULL, 'DESCOFFIER', 'Arnaud', 'arnaud@gmail.com', '$2y$10$PSuh441F6kQyILZv47yADuSlEe9cXpFCgknCUY5sTghkkPeozwDFK', '', '', '', '', '', '2022-04-21 21:15:13', NULL),
+(11, NULL, 'DESRUMEAUX', 'Patrick', 'patrick.desrumeaux@gmail.com', '$2y$10$sBh7Z7I/o4U4W5fuHg94se/k7ruUE2GOfx.52GRXJOmGBxRkyo9By', NULL, NULL, NULL, NULL, NULL, '2022-04-22 06:07:35', NULL),
+(12, NULL, 'DUNOD', 'Didier', 'didier.dunod@gmail.com', '$2y$10$4R80M0967XVKL/3lr09EIeaeBZZ.6VaGSvxvxnDES3fg7tqX8qjp.', NULL, NULL, NULL, NULL, NULL, '2022-04-22 06:10:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -439,7 +440,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT pour la table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `history`
