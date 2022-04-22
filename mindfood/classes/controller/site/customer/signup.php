@@ -15,16 +15,16 @@ if ( isset($_POST['signup']) ) {
   if ( $data ) {
     echo "<h3>données valides</h3>";
     $modelCustomer = new ModelCustomer();
-    ViewTemplateSite::genHead( 'Inscription Client', $config );
-    ViewTemplateSite::genHeader( 'Inscription Client', $config );
+    ViewTemplateSite::genHead( $config, 'Inscription Client' );
+    ViewTemplateSite::genHeader( $config, 'Inscription Client' );
     if ( $modelCustomer->signupCustomer( $_POST ) ) {
       // Display signup ok
-      ViewCustomerAuth::genCustomerSignupSucceed( 'Inscription Client', $config );
+      ViewCustomerAuth::genCustomerSignupSucceed( $config, 'Inscription Client' );
     } else {
       // Display signup failed
-      ViewCustomerAuth::genCustomerSignupFailed( 'Inscription Client', $config );
+      ViewCustomerAuth::genCustomerSignupFailed( $config, 'Inscription Client' );
     }
-    ViewTemplateSite::genFooter();
+    ViewTemplateSite::genFooter( $config, [] );
   }
 
 } else if ( isset($_POST['cancel']) ) {
@@ -33,10 +33,10 @@ if ( isset($_POST['signup']) ) {
 
 } else {
 
-  ViewTemplateSite::genHead( 'Inscription Client', $config );
+  ViewTemplateSite::genHead( $config, 'Inscription Client' );
   //ViewTemplateSite::genHeader( 'Inscription Client', $config );
-  ViewCustomerAuth::genCustomerSignupForm( 'Inscription Client', $config );
-  ViewTemplateSite::genFooter();
+  ViewCustomerAuth::genCustomerSignupForm( $config, 'Inscription Client' );
+  ViewTemplateSite::genFooter( $config, ['validationForm'] );
   
 }
 

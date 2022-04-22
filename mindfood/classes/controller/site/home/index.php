@@ -6,8 +6,8 @@ require_once "../../../view/site/ViewTemplateSite.php";
 require_once "../../../view/site/ViewCustomerAuth.php";
 
 
-ViewTemplateSite::genHead( 'Accueil Site', $config );
-ViewTemplateSite::genHeader( 'Accueil Site', $config );
-ViewTemplateSite::genFooter();
+ViewTemplateSite::genHead( $config, 'Accueil Site' );
+ViewTemplateSite::genHeader( $config, 'Accueil Site' );
+ViewTemplateSite::genFooter( $config );
 
 ?>

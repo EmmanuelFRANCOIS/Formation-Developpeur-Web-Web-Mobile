@@ -39,10 +39,10 @@ if ( isset($_POST['confirm_deletion']) ) {
 
 } else {
 
-  ViewTemplateSite::genHead( 'Suppression Compte Client', $config );
+  ViewTemplateSite::genHead( $config, 'Suppression Compte Client' );
   //ViewTemplateSite::genHeader( 'Connexion Client', $config );
-  ViewCustomerAuth::genCustomerDeletionForm( 'Suppression Compte Client', $config );
-  ViewTemplateSite::genFooter();
+  ViewCustomerAuth::genCustomerDeletionForm( $config, 'Suppression Compte Client' );
+  ViewTemplateSite::genFooter( $config, [] );
 
 }
 

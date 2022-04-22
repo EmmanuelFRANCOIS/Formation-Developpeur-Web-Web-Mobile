@@ -30,10 +30,10 @@ if ( isset($_POST['save']) ) {
   $modelCustomer = new ModelCustomer();
   $customer = $modelCustomer->getCustomer( $_SESSION['id'] );
   
-  ViewTemplateSite::genHead( 'Mon Profil', $config );
-  ViewTemplateSite::genHeader( 'Mon Profil', $config );
-  ViewCustomerAuth::genCustomerProfileForm( 'Mon Profil', $config, $customer );
-  ViewTemplateSite::genFooter();
+  ViewTemplateSite::genHead( $config, 'Mon Profil' );
+  ViewTemplateSite::genHeader( $config, 'Mon Profil' );
+  ViewCustomerAuth::genCustomerProfileForm( $config, 'Mon Profil', $customer );
+  ViewTemplateSite::genFooter( $config, ['validationForm'] );
 
 }
 

@@ -29,10 +29,10 @@ if ( isset($_POST['edit']) ) {
   $modelCustomer = new ModelCustomer();
   $customer = $modelCustomer->getCustomer( $_SESSION['id'] );
   
-  ViewTemplateSite::genHead( 'Mon Profil', $config );
-  ViewTemplateSite::genHeader( 'Mon Profil', $config );
-  ViewCustomerAuth::genCustomerSheet( 'Mon Profil', $config, $customer );
-  ViewTemplateSite::genFooter();
+  ViewTemplateSite::genHead( $config, 'Mon Profil' );
+  ViewTemplateSite::genHeader( $config, 'Mon Profil' );
+  ViewCustomerAuth::genCustomerSheet( $config, 'Mon Profil', $customer );
+  ViewTemplateSite::genFooter( $config, [] );
 
 }
 
