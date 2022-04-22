@@ -15,16 +15,16 @@ if ( isset($_POST['signup']) ) {
   if ( $data ) {
     echo "<h3>données valides</h3>";
     $modelCustomer = new ModelCustomer();
+    ViewTemplateSite::genHead( 'Inscription Client', $config );
+    ViewTemplateSite::genHeader( 'Inscription Client', $config );
     if ( $modelCustomer->signupCustomer( $_POST ) ) {
       // Display signup ok
-      ViewTemplateSite::genHead( 'Inscription Client', $config );
-      ViewTemplateSite::genHeader( 'Inscription Client', $config );
-      ViewCustomerAuth::genCustomerSignupResult( 'Inscription Client', $config );
-      ViewTemplateSite::genFooter();
+      ViewCustomerAuth::genCustomerSignupSucceed( 'Inscription Client', $config );
     } else {
       // Display signup failed
-      echo "<h3>L'inscription a échoué !</h3>";
+      ViewCustomerAuth::genCustomerSignupFailed( 'Inscription Client', $config );
     }
+    ViewTemplateSite::genFooter();
   }
 
 } else if ( isset($_POST['cancel']) ) {

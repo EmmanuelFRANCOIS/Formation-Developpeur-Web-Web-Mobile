@@ -57,17 +57,17 @@ class ViewCustomerAuth {
 
 
   /**
-   * @function genCustomerSignupResult()
+   * @function genCustomerSignupSucceed()
    * @summary  Function to generate customer signup result message
    */
-  public static function genCustomerSignupResult( $pageTitle, $config ) {
+  public static function genCustomerSignupSucceed( $pageTitle, $config ) {
 ?>
   <div class="container-fluid">
     <div class="container">
       <div class="col-6 mx-auto p-5 mt-5 text-center">
         <h3>Votre inscription est un succès !</h3>
         <p>Vous pouvez maintenant vous connecter avec<br />votre identifiant (votre email) et votre mot de passe...<br /></p>
-        <a href="login.php">Connexion</a>
+        <a class="btn btn-success" href="login.php">Connexion</a>
       </div>
     </div>
   </div>
@@ -76,6 +76,25 @@ class ViewCustomerAuth {
 
 
   /**
+   * @function genCustomerSignupFailed()
+   * @summary  Function to generate customer signup result message
+   */
+  public static function genCustomerSignupFailed( $pageTitle, $config ) {
+    ?>
+      <div class="container-fluid">
+        <div class="container">
+          <div class="col-6 mx-auto p-5 mt-5 text-center">
+            <h3>Votre inscription a échoué !</h3>
+            <p>Merci de bien vouloir réessayer...<br /></p>
+            <a class="btn btn-primary" href="signup.php">Inscription</a>
+          </div>
+        </div>
+      </div>
+    <?php
+      }
+    
+    
+      /**
    * @function genCustomerLoginForm()
    * @summary  Function to generate customer login form
    */
