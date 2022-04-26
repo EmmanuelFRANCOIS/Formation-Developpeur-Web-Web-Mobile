@@ -7,6 +7,7 @@
  */
 class ViewTemplateSite {
 
+  
   public static function genHead( $config, $pageTitle ) {
 ?>
     <!DOCTYPE HTML>  
@@ -27,7 +28,6 @@ class ViewTemplateSite {
       </style>
     </head>
     <body>
-<div></div>
 <?php
   }
 
@@ -60,9 +60,9 @@ class ViewTemplateSite {
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="customerMenu">
               <li><a class="dropdown-item" href="../customer/account.php">Mon compte</a></li>
-              <li><a class="dropdown-item" href="../customer/orders.php">Mes commandes</a></li>
-              <li><a class="dropdown-item" href="../customer/favorites.php">Mes favoris</a></li>
-              <li><a class="dropdown-item" href="../customer/sheet.php">Mon profil</a></li>
+              <li><a class="dropdown-item" href="../orders/list.php">Mes commandes</a></li>
+              <li><a class="dropdown-item" href="../favorite/list.php">Mes favoris</a></li>
+              <li><a class="dropdown-item" href="../customer/profile.php">Mon profil</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="../customer/logout.php">Déconnexion</a></li>
             </ul>

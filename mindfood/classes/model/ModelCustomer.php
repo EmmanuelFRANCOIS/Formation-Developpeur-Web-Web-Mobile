@@ -20,10 +20,51 @@ class ModelCustomer {
       VALUES (:firstname, :lastname, :email, :password)
     ");
     return $requete->execute([
-      ':firstname' => ucwords(strtolower($customer['firstname'])),
-      ':lastname'  => strtoupper($customer['lastname']),
+      ':firstname' => $customer['firstname'],
+      ':lastname'  => $customer['lastname'],
       ':email'     => $customer['email'],
-      ':password'  => password_hash( $customer['password'], PASSWORD_DEFAULT )
+      ':password'  => $customer['passwordHash']
+    ]);
+  }
+
+
+  /**
+   * @function setCustomerToken()
+   * @summary  Function to set a token in customer data
+   * @param    $email => Customer's email
+   * @param    $token => The token to set in Customer table
+   */
+  public function setCustomerToken( $email, $token ) {
+    $dbconn = DBUtils::getDBConnection();
+    $requete = $dbconn->prepare("
+      UPDATE customer 
+      SET token = :token
+      WHERE email = :email
+    ");
+    return $requete->execute([
+      ':email' => $email,
+      ':token' => $token
+    ]);
+  }
+
+
+  /**
+   * @function updateCustomerPassword()
+   * @summary  Function to update customer password
+   * @param    $email => Customer's email
+   * @param    $password => Customer's new password
+   */
+  public function updateCustomerPassword( $email, $password, $token ) {
+    $dbconn = DBUtils::getDBConnection();
+    $requete = $dbconn->prepare("
+      UPDATE customer 
+      SET password = :password, token = :token
+      WHERE email = :email
+    ");
+    return $requete->execute([
+      ':email'    => $email,
+      ':password' => $password,
+      ':token'    => $token
     ]);
   }
 
@@ -95,15 +136,15 @@ class ModelCustomer {
     return $requete->execute([
       ':id'           => $customer['id'],
       ':avatar'       => $customer['avatar'],
-      ':firstname'    => ucwords(strtolower($customer['firstname'])),
-      ':lastname'     => strtoupper($customer['lastname']),
+      ':firstname'    => $customer['firstname'],
+      ':lastname'     => $customer['lastname'],
       ':email'        => $customer['email'],
-      ':password'     => password_hash( $customer['password'], PASSWORD_DEFAULT ),
+      ':password'     => $customer['passwordHash'],
       ':address'      => $customer['address'],
       ':zipcode'      => $customer['zipcode'],
-      ':city'         => ucwords(strtolower($customer['city'])),
+      ':city'         => $customer['city'],
       ':fixedPhone'   => $customer['fixedPhone'],
-      ':mobilePhone'  => $customer['mobilePhone'],
+      ':mobilePhone'  => $customer['mobilePhone']
     ]);
   }
 

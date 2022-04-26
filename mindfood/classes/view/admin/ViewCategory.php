@@ -1,0 +1,352 @@
+<?php
+// Include Category Model
+//require_once('../../../model/ModelCategory.php');
+
+
+/**
+ *  View Class for Categories
+ */
+class ViewCategory {
+
+
+  /**
+   * Function to generate the Categories Toolbar
+   */
+  public static function genCategoriesToolbar( $pageTitle, $newBtn ) {
+?>
+    <div class="row pt-2 px-4 kltr-bg-toolbar-light kltr-text-toolbar-dark">
+      <h1 class="col text-uppercase text-center"><?php echo $pageTitle; ?></h1>
+      <div class="col-2 text-end">
+        <?php if ( $newBtn ) { ?>
+          <a href="add.php" class="btn btn-success">Nouvelle</a>
+        <?php } ?>
+      </div>
+    </div>
+<?php
+  }
+
+
+  /**
+   * Function to generate Options Categories for a Categories Dropdown
+   * depending on a Universes dropdown
+   */
+  public static function genCategoriesOptions( $categories ) {
+    if ( count($categories) > 0 ) {
+?>
+      <option value="null">-- Choisissez une Catégorie parente--</option>
+<?php
+      foreach( $categories as $category ) {
+?>
+      <option value="<?php echo $category['id']; ?>" ><?php echo $category['title']; ?></option>
+<?php
+      }
+      
+    } else {
+?>
+      <option value="null">-- Pas de Catégories parentes --</option>
+<?php
+    }
+
+  }
+
+
+  /**
+   * Function to display the list of Categories
+   */
+  public static function getCategoriesTable( $categories ) {
+
+    // Build 
+    if ( count($categories) > 0 ) {
+?>
+      <div class="w-100 p-4">
+        <table class="w-100 display responsive" id="tableCategories">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">#</th>
+              <th scope="col">Parente</th>
+              <th scope="col">Univers</th>
+              <th scope="col">Catégorie</th>
+              <th scope="col">Image</th>
+              <th scope="col">Description</th>
+              <th scope="col">Products</th>
+              <th scope="col">Début Saison</th>
+              <th scope="col">Fin Saison</th>
+              <th scope="col">Modifié le</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+<?php 
+          foreach ( $categories as $category ) {
+            $image = $category['image'] ?
+                     '<img height="32" src="../../../../images/categories/' . $category['image'] . '" />' : '';
+?>
+            <tr>
+              <td class="text-center"><?php echo $category['id'] ?></td>
+              <td class="text-center"><?php echo $category['parent'] ? $category['parent'] : '-'; ?></td>
+              <td class="text-center"><?php echo $category['universe'] ?></td>
+              <td><?php echo $category['title'] ?></td>
+              <td class="text-center"><?php echo $image ?></td>
+              <td><?php echo substr($category['description'], 0, 50) . '...' ?></td>
+              <td class="text-center"><?php echo $category['nbproducts'] > 0 ? $category['nbproducts'] : '-'; ?></td>
+              <td><?php echo $category['season_start'] ?></td>
+              <td><?php echo $category['season_end'] ?></td>
+              <td><?php echo $category['modified_on'] ?></td>
+              <td class="text-end text-nowrap">
+                <a class="text-dark fs-5" href="show.php?id=<?php echo $category['id'] ?>" title="Voir Catégorie sur Admin"><i class="fa-solid fa-eye"></i></a>
+                <a class="ms-2 text-primary fs-5" href="edit.php?id=<?php echo $category['id'] ?>" title="Modifier Catégorie"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="ms-2 text-danger fs-5" href="delete.php?id=<?php echo $category['id'] ?>" title="Supprimer Catégorie"><i class="fa-solid fa-trash-can"></i></a>
+              </td>
+            </tr>
+<?php
+          }
+?>
+          </tbody>
+        </table>
+        </div>
+<?php 
+    } else {
+?>
+
+      <div class="alert alert-danger" role="alert">
+        Il n'existe aucune Catégorie pour l'instant...
+      </div>
+
+<?php
+    } 
+  }
+
+
+  /**
+   * @function genCategoryForm()
+   * @summary  Function to prepare the Category Form (add & edit)
+   */
+  public static function genCategoryForm( $mode, $config, $category, $universes, $categories = null ) {
+
+    if ( $mode === 'edit' ) {
+
+      $action   = 'edit.php';
+      $image = $category['image'] ? '../../../../images/' . $config['imagePath']['categories'] . $category['image'] : 'image_empty.svg';
+
+    } else if ( $mode === 'add' ) {
+
+      $action = htmlspecialchars( $_SERVER["PHP_SELF"] );
+      $image = '../../../../images/image_empty_v.png';
+
+    }
+
+    $imageAlt = $category['title'];
+
+?>
+    <div class="container-fluid py-4 px-4">
+      <form class="col-12 p-4 kltr-bg-toolbar-light" method="POST" action="<?php echo $action;?>" enctype="multipart/form-data">
+        <input type="hidden" class="col-9 form-control" 
+               id="id" name="id" 
+               placeholder="" 
+               value="<?= $category['id'] ?>" 
+               readonly>
+        <div class="row flex-wrap">
+          <div class="col-12 col-sm-3 px-5 form-group">
+            <img style="max-width: 90%; max-height: 256px; border-radius: 8px;" 
+                 src="<?php echo $image; ?>" 
+                 alt="<?php echo $imageAlt; ?>" 
+                 class="mb-1 avatar"
+            >
+            <input 
+              type="file" 
+              class="form-control fs-5 mt-3" 
+              name="image" 
+              id="image" 
+              aria-describedby="image"
+              data-type="image"
+              data-message="Image non conforme !"
+            >
+          </div>
+          <div class="col form-group">
+            <div class="col-12 d-sm-flex">
+              <div class="col-12 col-sm-6 form-group pe-sm-2">
+                <label for="universe_id" class="form-label">Univers</label>
+                <select class="form-control" name="universe_id" id="universe_id">
+                    <option value="">-- Choisissez un Univers --</option>
+                  <?php foreach ($universes as $universe) { ?>
+                    <option value="<?php echo $universe['id']; ?>" 
+                            <?php if ($universe['id'] == $category['universe_id']) { ?>selected<?php }; ?>>
+                      <?php echo $universe['title']; ?>
+                    </option>
+                  <?php } ?>
+                </select>
+              </div>
+              <div class="col-12 col-sm-6 mt-3 mt-sm-0 form-group ps-sm-2">
+                <label for="parent_id" class="form-label">Catégorie parente</label>
+                <select class="form-control" name="parent_id" id="parent_id">
+                    <option value="">-- Choisissez une Catégorie parente --</option>
+                  <?php foreach ($categories as $parent) { ?>
+                    <option value="<?php echo $parent['id']; ?>" 
+                            <?php if ($parent['id'] == $category['parent_id']) { ?>selected<?php }; ?>>
+                      <?php echo $parent['title']; ?>
+                    </option>
+                  <?php } ?>
+                </select>
+              </div>
+            </div>
+            <div class="form-group d-sm-flex">
+              <div class="col-12 col-sm-10 form-group mt-3 pe-sm-2">
+                <label for="title" class="form-label">Titre</label>
+                <input type="text" class="form-control fs-5 fw-bold" 
+                      id="title" name="title" 
+                      placeholder="Titre de la catégorie..." 
+                      value="<?= $category['title']; ?>" >
+              </div>
+              <div class="col-12 col-sm-2 form-group mt-3 ps-sm-2">
+                <label for="title" class="form-label">Hits</label>
+                <input type="text" class="form-control fs-5 fw-bold" 
+                      id="hits" name="hits" 
+                      placeholder="Titre de la catégorie..." 
+                      readonly
+                      value="<?= $category['hits']; ?>" >
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-label" style="width: 100%; resize: none;" 
+                        id="description" name="description" 
+                        placeholder="Description de la catégorie..." 
+                        rows="3"><?= $category['description'] ?></textarea>
+            </div>
+            <div class="col-12 d-sm-flex">
+              <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
+                <label for="season_start" class="form-label">Début Saison</label>
+                <input type="date" class="form-control fs-5 fw-bold" 
+                       id="season_start" name="season_start" 
+                       value="<?= $category['season_start']; ?>" >
+              </div>
+              <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
+                <label for="season_end" class="form-label">Fin Saison</label>
+                <input type="date" class="form-control fs-5 fw-bold" 
+                     id="season_end" name="season_end" 
+                     value="<?= $category['season_end']; ?>" >
+              </div>
+            </div>
+            <div class="col-12 d-sm-flex">
+              <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
+                <label for="metadesc" class="form-label">Meta-Description</label>
+                <textarea class="form-label" style="width: 100%; resize: none;" 
+                          id="metadesc" name="metadesc" 
+                          placeholder="Description de la catégorie..." 
+                          rows="3"><?= $category['metadesc'] ?></textarea>
+              </div>
+              <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
+                <label for="metakey" class="form-label">Meta-Keywords</label>
+                <textarea class="form-label" style="width: 100%; resize: none;" 
+                          id="metakey" name="metakey" 
+                          placeholder="Description de la catégorie..." 
+                          rows="3"><?= $category['metakey'] ?></textarea>
+              </div>
+            </div>
+            <div class="col-12 mt-3 d-flex justify-content-end align-items-center">
+              <?php if ( $mode ==='edit' ) { ?>
+                <button class="btn btn-primary m-3" type="submit" name="save">Sauvegarder</button>
+                <button class="btn btn-dark" type="cancel" name="cancel">Annuler</button>
+              <?php } else if ( $mode ==='add' ) { ?>
+                <button class="btn btn-primary me-3" type="submit" name="add">Créer</button>
+                <button class="btn btn-danger me-3" type="reset" name="reset">Réinitialiser</button>
+                <button class="btn btn-dark" type="cancel" name="cancel">Annuler</button>
+              <?php } ?>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+<?php
+  }
+   
+    
+  /**
+   * @function genCategoryForm()
+   * @summary  Function to prepare the Category Form (add & edit)
+   */
+  public static function genCategorySheet( $config, $category ) {
+
+    $action = htmlspecialchars( $_SERVER["PHP_SELF"] );
+    $imagePath  = '../../../../images/' . ($category['image'] ? $config['imagePath']['categories'] . $category['image'] : 'image_empty.svg');
+    $imageAlt = $category['title'];
+    $category['parent'] = $category['parent'] === null ? '-' : $category['parent'];
+    $category['season_start'] = $category['season_start'] === null ? '-' : $category['season_start'];
+    $category['season_end'] = $category['season_end'] === null ? '-' : $category['season_end'];
+?>
+    <div class="container-fluid py-4 px-4">
+      <form class="col-12 p-4 kltr-bg-toolbar-light" method="POST" action="<?php echo $action;?>" enctype="multipart/form-data">
+        <input type="hidden" class="col-9 form-control" 
+                id="id" name="id" 
+                placeholder="" 
+                value="<?= $category['id'] ?>" 
+                readonly>
+        <div class="row flex-wrap">
+          <div class="col-12 col-sm-3 px-5 form-group">
+            <img style="max-width: 90%; max-height: 256px; border-radius: 8px;" 
+                 src="<?php echo $imagePath; ?>" 
+                 alt="<?php echo $imageAlt; ?>" 
+                 class="mb-1 image"
+            >
+          </div>
+          <div class="col form-group">
+            <div class="col-12 d-sm-flex">
+              <div class="col-12 col-sm-6 form-group pe-sm-2">
+                <div class="text-secondary">Univers</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['universe']; ?></div>
+              </div>
+              <div class="col-12 col-sm-6 mt-3 mt-sm-0 form-group ps-sm-2">
+                <div class="text-secondary">Catégorie parente</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['parent']; ?></div>
+              </div>
+            </div>
+            <div class="form-group d-sm-flex">
+              <div class="col-12 col-sm-10 form-group mt-3 pe-sm-2">
+                <div class="text-secondary">Titre de la Catégorie</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5 fw-bold"><?php echo $category['title']; ?></div>
+              </div>
+              <div class="col-12 col-sm-2 form-group mt-3 ps-sm-2">
+                <div class="text-secondary">Hits</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5 fw-bold"><?php echo $category['hits']; ?></div>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <div class="text-secondary">Description</div>
+              <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['description']; ?></div>
+            </div>
+            <div class="col-12 d-sm-flex">
+              <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
+                <div class="text-secondary">Début Saison</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['season_start']; ?></div>
+              </div>
+              <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
+                <div class="text-secondary">Fin Saison</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['season_end']; ?></div>
+              </div>
+            </div>
+            <div class="col-12 d-sm-flex">
+              <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
+                <div class="text-secondary">Meta-Description</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['metadesc']; ?></div>
+              </div>
+              <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
+                <div class="text-secondary">Meta-Keywords</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['metakey']; ?></div>
+              </div>
+            </div>
+            <div class="col-12 mt-3 d-flex justify-content-end align-items-center">
+              <button class="btn btn-primary me-3" type="submit" name="edit">Modifier</button>
+              <button class="btn btn-danger me-3" type="delete" name="delete">Supprimer</button>
+              <button class="btn btn-dark" type="close" name="close">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+<?php
+  }
+    
+}
+
+?>

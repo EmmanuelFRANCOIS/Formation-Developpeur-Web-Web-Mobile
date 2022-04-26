@@ -9,8 +9,13 @@ require_once "../../../model/ModelCustomer.php";
 
 if ( isset($_POST['signup']) ) {
 
-  $donnees = [ $_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['password'] ];
-  $types   = [ 'firstname',         'lastname',         'email',         'password' ];
+  $donnees = [ 
+    $_POST['firstname'], 
+    $_POST['lastname'], 
+    $_POST['email'], 
+    $_POST['password']
+  ];
+  $types   = [ 'firstname', 'lastname', 'email', 'password' ];
   $data = FormValidation::validateForm( $donnees, $types );
   if ( $data ) {
     echo "<h3>données valides</h3>";

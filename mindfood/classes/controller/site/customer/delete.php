@@ -29,13 +29,13 @@ if ( isset($_POST['confirm_deletion']) ) {
   } else {
 
     echo "ERREUR: Mot de passe erroné. Suppression de votre compte client abandonnée !";
-    header('Location: sheet.php');
+    header('Location: profile.php');
     
   }
 
 } else if ( isset($_POST['cancel']) ) {
 
-  header('Location: sheet.php');
+  header('Location: profile.php');
 
 } else {
 

@@ -13,17 +13,21 @@ if ( !isset($_SESSION['id']) ) {
 }
 
 if ( isset($_POST['save']) ) {
+  $customer = $_POST;
+  $customer['firstname'] = ucwords( strtolower( $customer['firstname'] ) );
+  $customer['lastname'] = strtoupper( $customer['lastname'] );
+  $customer['passwordHash'] = password_hash( $customer['password'], PASSWORD_DEFAULT );
   $modelCustomer = new ModelCustomer();
-  $customerSaved = $modelCustomer->updateCustomer( $_POST );
+  $customerSaved = $modelCustomer->updateCustomer( $customer );
   if ( $customerSaved ) {
-    header('Location: sheet.php');
+    header('Location: profile.php');
   } else {
     echo "ERREUR : Votre profil n'a pas été sauvegardé !";
   }
 
 } else if ( isset($_POST['cancel']) ) {
 
-  header('Location: sheet.php');
+  header('Location: profile.php');
 
 } else {
 

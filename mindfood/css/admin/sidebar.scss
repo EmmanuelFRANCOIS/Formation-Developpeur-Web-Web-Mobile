@@ -35,7 +35,7 @@ body {
     .sidebar, .afpa {
       display: block;
       opacity: 1;
-      width: 60px !important;
+      width: 90px !important;
       .nav-link {
         svg {
           height: 2rem;
@@ -55,7 +55,7 @@ body {
 @media (min-width: 768px) {
   body {
     .sidebar, .afpa {
-      width: 160px !important;
+      width: 190px !important;
     }
   }
 }
@@ -64,7 +64,7 @@ body {
 @media (min-width: 992px) {
   body {
     .sidebar, .afpa {
-      width: 230px !important;
+      width: 260px !important;
       .nav-link {
         text-align: left;
         svg {

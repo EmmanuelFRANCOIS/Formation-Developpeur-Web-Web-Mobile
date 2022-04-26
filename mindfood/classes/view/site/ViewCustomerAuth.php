@@ -148,7 +148,7 @@ class ViewCustomerAuth {
       }
     
     
-      /**
+  /**
    * @function genCustomerLoginForm()
    * @summary  Function to generate customer login form
    */
@@ -174,7 +174,7 @@ class ViewCustomerAuth {
             </div>
             <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
               <div class="mb-3">
-                <div class="">Mot de passe oublié ? <a href="password.php">cliquez ici</a></div>
+                <div class="">Mot de passe oublié ? <a href="passwordReset.php">cliquez ici</a></div>
                 <div class="">Pas encore de compte ? <a href="signup.php">Inscription</a></div>
               </div>
               <div class="d-flex flex-wrap">
@@ -183,6 +183,163 @@ class ViewCustomerAuth {
               </div>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+<?php
+  }
+
+
+  /**
+   * @function genCustomerPasswordReset()
+   * @summary  Function to generate password reset form
+   */
+  public static function genCustomerPasswordReset( $config, $pageTitle ) {
+?>
+    <div class="container-fluid">
+      <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
+        <div class="col-6 ms-auto pe-5 text-center brand">
+          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
+          <?php echo $config['siteIntro']; ?>
+        </div>
+        <div class="col-6 ps-3 me-auto mt-5 signupForm">
+          <h3 class="fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
+          <form class="mt-4 mb-3" 
+                method="POST" 
+                action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" 
+                enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" class="form-control fs-5" name="email" id="email">
+            </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+              <div class="d-flex flex-wrap">
+                <button type="submit" name="reset" class="btn btn-primary me-1">Réinitialiser</button>
+                <button type="cancel" name="cancel" class="btn btn-dark">Annuler</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+<?php
+  }
+
+
+  /**
+   * @function genCustomerPasswordChange()
+   * @summary  Function to generate password change form
+   */
+  public static function genCustomerPasswordChange( $config, $pageTitle, $email ) {
+?>
+    <div class="container-fluid">
+      <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
+        <div class="col-6 ms-auto pe-5 text-center brand">
+          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
+          <?php echo $config['siteIntro']; ?>
+        </div>
+        <div class="col-6 ps-3 me-auto mt-5 signupForm">
+          <h3 class="fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
+          <form class="mt-4 mb-3" 
+                method="POST" 
+                action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" 
+                enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <input type="text" class="form-control fs-5" name="email" id="email" value="<?php echo $email; ?>">
+            </div>
+            <div class="form-group">
+              <label for="password1">Mot de passe</label>
+              <input type="text" class="form-control fs-5" name="password1" id="password1">
+            </div>
+            <div class="form-group">
+              <label for="password2">Confirmation Mot de passe</label>
+              <input type="text" class="form-control fs-5" name="password2" id="password2">
+            </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+              <div class="d-flex flex-wrap">
+                <button type="submit" name="save" class="btn btn-primary me-1">Enregistrer</button>
+                <button type="cancel" name="cancel" class="btn btn-dark">Annuler</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+<?php
+  }
+
+
+  /**
+   * @function genCustomerPasswordResetSuccess()
+   * @summary  Function to generate password reset success form
+   */
+  public static function genCustomerPasswordResetSuccess( $config, $pageTitle, $email, $token ) {
+?>
+    <div class="container-fluid">
+      <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
+        <div class="col-6 ms-auto pe-5 text-center brand">
+          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
+          <?php echo $config['siteIntro']; ?>
+        </div>
+        <div class="col-6 ps-3 me-auto mt-5 signupForm">
+          <h3 class="fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
+          <p>Pour réinitialiser votre mot de passe, veuillez cliquer sur ce lien : </p>
+          <a href="passwordChange.php?email=<?php echo $email; ?>&token=<?php echo $token; ?>">Réinitialiser</a>
+        </div>
+      </div>
+    </div>
+<?php
+  }
+
+
+  /**
+   * @function genCustomerPasswordChangeSuccess()
+   * @summary  Function to generate password change success form
+   */
+  public static function genCustomerPasswordChangeSuccess( $config, $pageTitle ) {
+?>
+    <div class="container-fluid">
+      <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
+        <div class="col-6 ms-auto pe-5 text-center brand">
+          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
+          <?php echo $config['siteIntro']; ?>
+        </div>
+        <div class="col-6 ps-3 me-auto mt-5 signupForm">
+          <h3 class="fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
+          <p>Votre nouveau mot de passe a bien été enregistré.</p>
+          <p>Pour vous connecter, veuillez cliquer sur ce lien : </p>
+          <a href="login.php">Connexion</a>
+        </div>
+      </div>
+    </div>
+<?php
+  }
+
+
+  /**
+   * @function genCustomerPasswordResetFailed()
+   * @summary  Function to generate password reset failed form
+   */
+  public static function genCustomerPasswordResetFailed( $config, $pageTitle ) {
+?>
+    <div class="container-fluid">
+      <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
+        <div class="col-6 ms-auto pe-5 text-center brand">
+          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
+          <?php echo $config['siteIntro']; ?>
+        </div>
+        <div class="col-6 ps-3 me-auto mt-5 signupForm">
+          <h3 class="fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
+          <p>Désolé, mais votre adresse email n'est pas connue chez nous !</p>
+          <p>Vous pouvez vous inscrire en cliquant sur : </p>
+          <a href="signup.php">Inscription</a>
         </div>
       </div>
     </div>
@@ -200,7 +357,11 @@ class ViewCustomerAuth {
 ?>
     <div class="container-fluid pt-5">
       <div class="container">
-        <form class="my-3 p-4 bg-light border border-secondary border-3 rounded rounded-3" method="POST" action="sheet.php" enctype="multipart/form-data">
+        <form class="my-3 p-4 bg-light border border-secondary border-3 rounded rounded-3" 
+              method="POST" 
+              action="profile.php" 
+              enctype="multipart/form-data"
+        >
           <h3 class="w-100 fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
           <input type="hidden" class="form-control" name="id" id="id" value="<?php echo $customer['id']; ?>">
           <div class="row mt-5 justify-content-stretch">
@@ -250,12 +411,15 @@ class ViewCustomerAuth {
                   <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $customer['mobilePhone']; ?></div>
                 </div>
               </div>
+              <div class="mt-3 d-flex justify-content-between text-wrap">
+                <div>Changer votre mot de passe : <a href="changePassword.php">cliquez ici</a> !</div>
+                <div>
+                  <button type="submit" name="edit" class="btn btn-primary me-1">Modifier</button>
+                  <button type="submit" name="delete" class="btn btn-danger me-1">Supprimer</button>
+                  <button type="cancel" name="close" class="btn btn-dark">Fermer</button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="mt-4 text-end text-nowrap">
-            <button type="submit" name="edit" class="btn btn-primary me-1">Modifier</button>
-            <button type="submit" name="delete" class="btn btn-danger me-1">Supprimer</button>
-            <button type="cancel" name="close" class="btn btn-dark">Fermer</button>
           </div>
         </form>
       </div>
@@ -274,7 +438,11 @@ class ViewCustomerAuth {
 
     <div class="container-fluid pt-5">
       <div class="container">
-        <form class="my-3 p-4 bg-light border border-secondary border-3 rounded rounded-3" method="POST" action="edit.php" enctype="multipart/form-data">
+        <form class="my-3 p-4 bg-light border border-secondary border-3 rounded rounded-3" 
+              method="POST" 
+              action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" 
+              enctype="multipart/form-data"
+        >
           <h3 class="w-100 fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
           <input type="hidden" class="form-control" name="id" id="id" value="<?php echo $customer['id']; ?>">
           <input 

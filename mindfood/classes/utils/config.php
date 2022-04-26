@@ -8,7 +8,16 @@ $config = [
                   . 'propose le plus large choix de produits culturels, '
                   . 'répartis dans les quatre univers "Livre", "Musique", "Cinéma" & "Jeu".</p>'
                   . '<p style="text-align: justify;">Des milliers de références, les meilleurs contenus, à votre disposition, '
-                  . 'au meilleur prix...</p>'
+                  . 'au meilleur prix...</p>',
+  'imagePath'   => [
+                     'avatars'    => 'avatars/',
+                     'categories' => 'categories/',
+                     'design'     => 'design/',
+                     'icons'      => 'icons/',
+                     'logos'      => 'logos/',
+                     'products'   => 'products/'
+
+                   ]
 ];
 
 

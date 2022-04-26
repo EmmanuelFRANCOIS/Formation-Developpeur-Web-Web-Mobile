@@ -23,6 +23,7 @@ if ( isset($_POST['login']) ) {
     $_SESSION['lastname']  = $customerData['lastname'];
     $_SESSION['firstname'] = $customerData['firstname'];
     $_SESSION['email']     = $customerData['email'];
+    $_SESSION['role']      = 0;
 
     header('Location: ../home/index.php');
 
