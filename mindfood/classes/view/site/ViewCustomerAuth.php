@@ -366,7 +366,7 @@ class ViewCustomerAuth {
           <input type="hidden" class="form-control" name="id" id="id" value="<?php echo $customer['id']; ?>">
           <div class="row mt-5 justify-content-stretch">
             <div class="col-3 pe-5 form-group">
-              <img style="width: 100%; border-radius: 12px;" src="../../../../images/avatar/<?php echo $avatar; ?>" alt="" class="mb-1 avatar">
+              <img style="width: 100%; border-radius: 12px;" src="../../../../images/<?php echo $config['imagePath']['avatars'] . $avatar; ?>" alt="<?php echo $alt; ?>" class="mb-1 avatar">
             </div>
             <div class="col-9">
               <div class="row d-flex justify-content-between">
