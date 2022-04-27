@@ -2,6 +2,7 @@
 session_start();
 
 require_once "../../../utils/config.php";
+require_once("../../../utils/acl.php");
 require_once "../../../view/admin/ViewTemplateAdmin.php";
 require_once "../../../view/admin/ViewUser.php";
 require_once "../../../model/ModelUser.php";
@@ -29,24 +30,24 @@ if ( isset($_POST['login']) ) {
     $_SESSION['role_id']   = $userData['role_id'];
     $_SESSION['role']      = $userData['title'];
 
-    echo 'sdjkqsdhdjqsdjkhqksjdh';
-    //header('Location: ../home/index.php');
+    //echo 'Connexion acceptée !';
+    header('Location: ../home/index.php');
     
   } else {
 
-    echo 'wxcwxcwcwxcxwcxcxwcwxcwx';
+    //echo 'Identifiant ou Mot de passe erronés !';
     header('Location: login.php');
   }
 
 } else if ( isset($_POST['cancel']) ) {
 
+  //echo 'Connexion annulée !';
   header('Location: ../home/index.php');
 
 } else {
 
-    echo 'mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm';
   ViewTemplateAdmin::genHead( $config, 'Connexion Employé' );
-  //ViewTemplateSite::genHeader( $config, 'Connexion Client' );
+  //ViewTemplateAdmin::genHeader( $config, 'Connexion Client' );
   ViewUser::genUserLoginForm( $config, 'Connexion Employé' );
   ViewTemplateAdmin::genFooter( $config, [] );
 

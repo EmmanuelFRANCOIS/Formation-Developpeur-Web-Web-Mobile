@@ -24,7 +24,8 @@ class FormValidation {
       "phone"     => "/^[\+]?[0-9]{10}$/",
       "image"     => "/^[\w\s\-\.]{1,22}(.jpg|.jpeg|.png|.gif)$/",
       "id"        => "/[\d]+/",
-      "password"  => "/^(?=[^A-Z\n]*[A-Z])(?=[^a-z\n]*[a-z])(?=[^0-9\n]*[0-9])(?=[^#?!@$%^&*\n-]*[#?!@$%^&*-]).{8,}$/"
+      "password"  => "//",
+      //"password"  => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/"
     ];
 
     //https://www.php.net/manual/fr/filter.filters.validate.php

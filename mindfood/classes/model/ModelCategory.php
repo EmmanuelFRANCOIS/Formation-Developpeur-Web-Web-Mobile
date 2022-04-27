@@ -70,7 +70,7 @@ class ModelCategory {
       INSERT INTO category (universe_id, parent_id, title, image, description, season_start, season_end, metadesc, metakey, hits) 
       VALUES (:universe_id, :parent_id, :title, :image, :description, :season_start, :season_end, :metadesc, :metakey, :hits)
     ");
-    return $requete->execute([
+    $requete->execute([
       ':universe_id'  => $category['universe_id'],
       ':parent_id'    => $category['parent_id'],
       ':title'        => $category['title'],
@@ -84,6 +84,8 @@ class ModelCategory {
     ]);
     // Debug query
     //$requete->debugDumpParams();
+
+    return $dbconn->lastInsertId();
 
   }
 
@@ -151,9 +153,11 @@ class ModelCategory {
     $requete = $dbconn->prepare("
       DELETE FROM category WHERE id = :id
     ");
-    return $requete->execute([
+    $requete->execute([
       ':id' => $id
     ]);
+    // Debug query
+    $requete->debugDumpParams();
   }
 
 

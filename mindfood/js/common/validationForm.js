@@ -1,6 +1,6 @@
 // $(document).on("click", "button[type='submit']", function (e) {
 $("button[data-validationForm='true']").click( function(e) {
-  //exit();
+  exit();
 
   e.preventDefault();
 
@@ -11,7 +11,7 @@ $("button[data-validationForm='true']").click( function(e) {
     firstname:  /^[\p{L}\s]{2,}$/u,
     lastname:   /^[\p{L}\s]{2,}$/u,
     email:      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-    password:   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+    password:   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g,
     address:    /(.*?)/,
     zipcode:    /^[\w\-\s]{5,}$/,
     city:       /(.*?)/,

@@ -94,9 +94,24 @@ class ViewCategory {
               <td><?php echo $category['season_end'] ?></td>
               <td><?php echo $category['modified_on'] ?></td>
               <td class="text-end text-nowrap">
-                <a class="text-dark fs-5" href="show.php?id=<?php echo $category['id'] ?>" title="Voir Catégorie sur Admin"><i class="fa-solid fa-eye"></i></a>
-                <a class="ms-2 text-primary fs-5" href="edit.php?id=<?php echo $category['id'] ?>" title="Modifier Catégorie"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="ms-2 text-danger fs-5" href="delete.php?id=<?php echo $category['id'] ?>" title="Supprimer Catégorie"><i class="fa-solid fa-trash-can"></i></a>
+                <button class="ms-2 btn btn-light p-0 text-dark" 
+                   onclick="window.location.href = 'show.php?id=<?php echo $category['id'] ?>'" 
+                   title="Voir Catégorie sur Admin">
+                  <i class="fa-solid fa-eye fs-5"></i>
+                </button>
+                <button class="ms-2 btn btn-light p-0 text-primary" 
+                   onclick="window.location.href = 'edit.php?id=<?php echo $category['id'] ?>'" 
+                   title="Modifier Catégorie">
+                  <i class="fa-solid fa-pen-to-square fs-5"></i>
+                </button>
+                <button class="ms-2 btn btn-light p-0 text-danger" 
+                   onclick="getConfirmation( 
+                              'Voulez-vous vraiment supprimer la catégorie\n\n<?php echo $category['title'] ?>', 
+                              'delete.php?id=<?php echo $category['id'] ?>' 
+                            )" 
+                   title="Supprimer Catégorie">
+                  <i class="fa-solid fa-trash-can fs-5"></i>
+                   </button>
               </td>
             </tr>
 <?php
@@ -104,6 +119,13 @@ class ViewCategory {
 ?>
           </tbody>
         </table>
+        <script>
+          function getConfirmation( msg, link ) {
+            if ( confirm(msg) == true ) {
+              window.location.href = link;
+            }
+          }
+        </script>
         </div>
 <?php 
     } else {
@@ -147,15 +169,15 @@ class ViewCategory {
                value="<?= $category['id'] ?>" 
                readonly>
         <div class="row flex-wrap">
-          <div class="col-12 col-sm-3 px-5 form-group">
-            <img style="max-width: 90%; max-height: 256px; border-radius: 8px;" 
+          <div class="col-12 col-sm-3 px-5 text-center form-group">
+            <img style="max-width: 90%; max-height: 320px; border-radius: 8px;" 
                  src="<?php echo $image; ?>" 
                  alt="<?php echo $imageAlt; ?>" 
                  class="mb-1 avatar"
             >
             <input 
               type="file" 
-              class="form-control fs-5 mt-3" 
+              class="form-control mt-3" 
               name="image" 
               id="image" 
               aria-describedby="image"
@@ -193,14 +215,14 @@ class ViewCategory {
             <div class="form-group d-sm-flex">
               <div class="col-12 col-sm-10 form-group mt-3 pe-sm-2">
                 <label for="title" class="form-label">Titre</label>
-                <input type="text" class="form-control fs-5 fw-bold" 
+                <input type="text" class="form-control fw-bold" 
                       id="title" name="title" 
                       placeholder="Titre de la catégorie..." 
                       value="<?= $category['title']; ?>" >
               </div>
               <div class="col-12 col-sm-2 form-group mt-3 ps-sm-2">
                 <label for="title" class="form-label">Hits</label>
-                <input type="text" class="form-control fs-5 fw-bold" 
+                <input type="text" class="form-control fw-bold" 
                       id="hits" name="hits" 
                       placeholder="Titre de la catégorie..." 
                       readonly
@@ -209,7 +231,7 @@ class ViewCategory {
             </div>
             <div class="form-group mt-3">
               <label for="description" class="form-label">Description</label>
-              <textarea class="form-label" style="width: 100%; resize: none;" 
+              <textarea class="form-control" style="width: 100%; resize: none;" 
                         id="description" name="description" 
                         placeholder="Description de la catégorie..." 
                         rows="3"><?= $category['description'] ?></textarea>
@@ -217,13 +239,13 @@ class ViewCategory {
             <div class="col-12 d-sm-flex">
               <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
                 <label for="season_start" class="form-label">Début Saison</label>
-                <input type="date" class="form-control fs-5 fw-bold" 
+                <input type="date" class="form-control" 
                        id="season_start" name="season_start" 
                        value="<?= $category['season_start']; ?>" >
               </div>
               <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
                 <label for="season_end" class="form-label">Fin Saison</label>
-                <input type="date" class="form-control fs-5 fw-bold" 
+                <input type="date" class="form-control" 
                      id="season_end" name="season_end" 
                      value="<?= $category['season_end']; ?>" >
               </div>
@@ -231,14 +253,14 @@ class ViewCategory {
             <div class="col-12 d-sm-flex">
               <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
                 <label for="metadesc" class="form-label">Meta-Description</label>
-                <textarea class="form-label" style="width: 100%; resize: none;" 
+                <textarea class="form-control" style="width: 100%; resize: none;" 
                           id="metadesc" name="metadesc" 
                           placeholder="Description de la catégorie..." 
                           rows="3"><?= $category['metadesc'] ?></textarea>
               </div>
               <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
                 <label for="metakey" class="form-label">Meta-Keywords</label>
-                <textarea class="form-label" style="width: 100%; resize: none;" 
+                <textarea class="form-control" style="width: 100%; resize: none;" 
                           id="metakey" name="metakey" 
                           placeholder="Description de la catégorie..." 
                           rows="3"><?= $category['metakey'] ?></textarea>
@@ -276,73 +298,90 @@ class ViewCategory {
     $category['season_end'] = $category['season_end'] === null ? '-' : $category['season_end'];
 ?>
     <div class="container-fluid py-4 px-4">
-      <form class="col-12 p-4 kltr-bg-toolbar-light" method="POST" action="<?php echo $action;?>" enctype="multipart/form-data">
-        <input type="hidden" class="col-9 form-control" 
-                id="id" name="id" 
-                placeholder="" 
-                value="<?= $category['id'] ?>" 
-                readonly>
-        <div class="row flex-wrap">
-          <div class="col-12 col-sm-3 px-5 form-group">
-            <img style="max-width: 90%; max-height: 256px; border-radius: 8px;" 
-                 src="<?php echo $imagePath; ?>" 
-                 alt="<?php echo $imageAlt; ?>" 
-                 class="mb-1 image"
-            >
+      <div class="kltr-bg-toolbar-light">
+        <form class="col-12 p-4 pb-3" method="POST" action="<?php echo $action;?>" enctype="multipart/form-data">
+          <input type="hidden" class="col-9 form-control" 
+                  id="id" name="id" 
+                  placeholder="" 
+                  value="<?= $category['id'] ?>" 
+                  readonly>
+          <div class="row flex-wrap">
+            <div class="col-12 col-sm-3 px-5 text-center form-group">
+              <img style="max-width: 90%; max-height: 320px; border-radius: 8px;" 
+                  src="<?php echo $imagePath; ?>" 
+                  alt="<?php echo $imageAlt; ?>" 
+                  class="mb-1 image"
+              >
+            </div>
+            <div class="col form-group">
+              <div class="col-12 d-sm-flex">
+                <div class="col-12 col-sm-6 form-group pe-sm-2">
+                  <div class="text-secondary">Univers</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3"><?php echo $category['universe']; ?></div>
+                </div>
+                <div class="col-12 col-sm-6 mt-3 mt-sm-0 form-group ps-sm-2">
+                  <div class="text-secondary">Catégorie parente</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3"><?php echo $category['parent']; ?></div>
+                </div>
+              </div>
+              <div class="form-group d-sm-flex">
+                <div class="col-12 col-sm-10 form-group mt-3 pe-sm-2">
+                  <div class="text-secondary">Titre de la Catégorie</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3 fw-bold"><?php echo $category['title']; ?></div>
+                </div>
+                <div class="col-12 col-sm-2 form-group mt-3 ps-sm-2">
+                  <div class="text-secondary">Hits</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3 fw-bold"><?php echo $category['hits']; ?></div>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <div class="text-secondary">Description</div>
+                <div class="px-2 py-2 bg-white rounded rounded-3"><?php echo $category['description']; ?></div>
+              </div>
+              <div class="col-12 d-sm-flex">
+                <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
+                  <div class="text-secondary">Début Saison</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3"><?php echo $category['season_start']; ?></div>
+                </div>
+                <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
+                  <div class="text-secondary">Fin Saison</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3"><?php echo $category['season_end']; ?></div>
+                </div>
+              </div>
+              <div class="col-12 d-sm-flex">
+                <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
+                  <div class="text-secondary">Meta-Description</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3"><?php echo $category['metadesc']; ?></div>
+                </div>
+                <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
+                  <div class="text-secondary">Meta-Keywords</div>
+                  <div class="px-2 py-2 bg-white rounded rounded-3"><?php echo $category['metakey']; ?></div>
+                </div>
+              </div>
+              <div class="col-12 mt-3 d-flex justify-content-end align-items-center">
+                <button class="btn btn-primary me-3" type="submit" name="edit">Modifier</button>
+                <button class="btn btn-dark" type="cancel" name="close">Fermer</button>
+              </div>
+            </div>
           </div>
-          <div class="col form-group">
-            <div class="col-12 d-sm-flex">
-              <div class="col-12 col-sm-6 form-group pe-sm-2">
-                <div class="text-secondary">Univers</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['universe']; ?></div>
-              </div>
-              <div class="col-12 col-sm-6 mt-3 mt-sm-0 form-group ps-sm-2">
-                <div class="text-secondary">Catégorie parente</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['parent']; ?></div>
-              </div>
-            </div>
-            <div class="form-group d-sm-flex">
-              <div class="col-12 col-sm-10 form-group mt-3 pe-sm-2">
-                <div class="text-secondary">Titre de la Catégorie</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5 fw-bold"><?php echo $category['title']; ?></div>
-              </div>
-              <div class="col-12 col-sm-2 form-group mt-3 ps-sm-2">
-                <div class="text-secondary">Hits</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5 fw-bold"><?php echo $category['hits']; ?></div>
-              </div>
-            </div>
-            <div class="form-group mt-3">
-              <div class="text-secondary">Description</div>
-              <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['description']; ?></div>
-            </div>
-            <div class="col-12 d-sm-flex">
-              <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
-                <div class="text-secondary">Début Saison</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['season_start']; ?></div>
-              </div>
-              <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
-                <div class="text-secondary">Fin Saison</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['season_end']; ?></div>
-              </div>
-            </div>
-            <div class="col-12 d-sm-flex">
-              <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
-                <div class="text-secondary">Meta-Description</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['metadesc']; ?></div>
-              </div>
-              <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
-                <div class="text-secondary">Meta-Keywords</div>
-                <div class="px-2 py-2 bg-white rounded rounded-3 fs-5"><?php echo $category['metakey']; ?></div>
-              </div>
-            </div>
-            <div class="col-12 mt-3 d-flex justify-content-end align-items-center">
-              <button class="btn btn-primary me-3" type="submit" name="edit">Modifier</button>
-              <button class="btn btn-danger me-3" type="delete" name="delete">Supprimer</button>
-              <button class="btn btn-dark" type="close" name="close">Fermer</button>
-            </div>
-          </div>
+        </form>
+        <div class="d-flex px-1 pb-4 justify-content-between">
+          <div>&nbsp;</div>
+          <button class="btn btn-danger me-3" 
+                  onclick="getConfirmation( 
+                          'Voulez-vous vraiment supprimer la catégorie\n\n<?php echo $category['title'] ?>', 
+                          'delete.php?id=<?php echo $category['id'] ?>' 
+                        )"
+                  name="none">Supprimer</button>
         </div>
-      </form>
+      </div>
+      <script>
+        function getConfirmation( msg, link ) {
+          if ( confirm(msg) == true ) {
+            window.location.href = link;
+          }
+        }
+      </script>
     </div>
 <?php
   }

@@ -18,11 +18,18 @@ if ( isset($_POST['signup']) ) {
   $types   = [ 'firstname', 'lastname', 'email', 'password' ];
   $data = FormValidation::validateForm( $donnees, $types );
   if ( $data ) {
+
     echo "<h3>données valides</h3>";
+
+    $customer = $_POST;
+    $customer['firstname']    = ucwords( strtolower( $customer['firstname'] ) );
+    $customer['lastname']     = strtoupper( $customer['lastname'] );
+    $customer['passwordHash'] = password_hash( $customer['password'], PASSWORD_DEFAULT );
+
     $modelCustomer = new ModelCustomer();
     ViewTemplateSite::genHead( $config, 'Inscription Client' );
     ViewTemplateSite::genHeader( $config, 'Inscription Client' );
-    if ( $modelCustomer->signupCustomer( $_POST ) ) {
+    if ( $modelCustomer->signupCustomer( $customer ) ) {
       // Display signup ok
       ViewCustomerAuth::genCustomerSignupSucceed( $config, 'Inscription Client' );
     } else {

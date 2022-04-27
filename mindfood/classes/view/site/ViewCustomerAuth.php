@@ -17,7 +17,7 @@ class ViewCustomerAuth {
   <div class="container-fluid">
     <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
       <div class="col-6 ms-auto pe-5 mt-5 text-center brand">
-        <img src="../../../../images/logo/brainfood.svg" height="128" alt="Kultur.com">
+        <img src="../../../../images/logos/brainfood.svg" height="128" alt="Kultur.com">
         <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
         <?php echo $config['siteIntro']; ?>
       </div>
@@ -157,7 +157,7 @@ class ViewCustomerAuth {
     <div class="container-fluid">
       <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
         <div class="col-6 ms-auto pe-5 text-center brand">
-          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <img src="../../../../images/logos/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
           <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
           <?php echo $config['siteIntro']; ?>
         </div>
@@ -199,7 +199,7 @@ class ViewCustomerAuth {
     <div class="container-fluid">
       <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
         <div class="col-6 ms-auto pe-5 text-center brand">
-          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <img src="../../../../images/logos/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
           <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
           <?php echo $config['siteIntro']; ?>
         </div>
@@ -237,7 +237,7 @@ class ViewCustomerAuth {
     <div class="container-fluid">
       <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
         <div class="col-6 ms-auto pe-5 text-center brand">
-          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <img src="../../../../images/logos/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
           <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
           <?php echo $config['siteIntro']; ?>
         </div>
@@ -282,7 +282,7 @@ class ViewCustomerAuth {
     <div class="container-fluid">
       <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
         <div class="col-6 ms-auto pe-5 text-center brand">
-          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <img src="../../../../images/logos/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
           <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
           <?php echo $config['siteIntro']; ?>
         </div>
@@ -306,7 +306,7 @@ class ViewCustomerAuth {
     <div class="container-fluid">
       <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
         <div class="col-6 ms-auto pe-5 text-center brand">
-          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <img src="../../../../images/logos/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
           <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
           <?php echo $config['siteIntro']; ?>
         </div>
@@ -331,7 +331,7 @@ class ViewCustomerAuth {
     <div class="container-fluid">
       <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
         <div class="col-6 ms-auto pe-5 text-center brand">
-          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
+          <img src="../../../../images/logos/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
           <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
           <?php echo $config['siteIntro']; ?>
         </div>

@@ -13,21 +13,21 @@ class ViewUser {
    * @summary  Function to generate user login form
    */
   public static function genUserLoginForm( $config, $pageTitle ) {
+    $action = htmlspecialchars( $_SERVER["PHP_SELF"] );
 ?>
     <div class="container-fluid">
       <div class="container d-flex px-4 py-2 mt-5 bg-light border border-secondary border-3 rounded rounded-3">
-        <div class="col-6 ms-auto pe-5 text-center brand">
-          <img src="../../../../images/logo/brainfood.svg" height="128" alt="<?php echo $config['siteName']; ?>">
-          <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php echo $config['siteName']; ?></h2>
-          <?php echo $config['siteIntro']; ?>
-        </div>
+        <!-- <div class="col-6 ms-auto pe-5 text-center brand">
+          <img src="../../../../images/logos/brainfood.svg" height="128" alt="<?php //echo $config['siteName']; ?>">
+          <h2 class="fw-bold text-uppercase fs-1 mt-3 mb-3"><?php //echo $config['siteName']; ?></h2>
+          <?php //echo $config['siteIntro']; ?>
+        </div> -->
         <div class="col-6 ps-3 me-auto mt-5">
           <h3 class="fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
           <form class="mt-4 mb-3"
-                action="login.php"
                 method="POST" 
-                enctype="multipart/form-data"
-          >
+                action="<?php echo htmlspecialchars( $_SERVER["PHP_SELF"] ); ?>" 
+                enctype="multipart/form-data">
             <div class="form-group">
               <label for="email">Email</label>
               <input type="text" class="form-control fs-5" name="email" id="email">

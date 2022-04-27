@@ -23,6 +23,7 @@ class ViewTemplateAdmin {
       <link rel="stylesheet" href="../../../../3rdparty/jquery/datatables/jquery.dataTables.complete-1.11.5.min.css"></link>
       <link rel="stylesheet" href="../../../../3rdparty/jquery/datatables/jquery.dataTables.responsive.min.css"></link>
       <!-- Custom Styles stylesheet -->
+      <link rel="stylesheet" href="../../../../css/common/dialog.css" />
       <link rel="stylesheet" href="../../../../css/admin/admin.css" />
     </head>
     <body>
@@ -99,7 +100,7 @@ class ViewTemplateAdmin {
       [ "type" => "link", "link" => "../dashboard/stocks.php",   "label" => "Magasin",         "icon" => "fa-solid fa-cubes-stacked" ],
 
       [ "type" => "sep",  "link" => "",                      "label" => "Activité",        "icon" => "fa-solid fa-wave-square" ],
-      [ "type" => "link", "link" => "../user/list.php",  "label" => "Clients",         "icon" => "fa-solid fa-person-breastfeeding" ],
+      [ "type" => "link", "link" => "../user/list.php",      "label" => "Clients",         "icon" => "fa-solid fa-person-breastfeeding" ],
       [ "type" => "link", "link" => "../orders/list.php",    "label" => "Commandes",       "icon" => "fa-solid fa-file-invoice" ],
       [ "type" => "link", "link" => "../product/list.php",   "label" => "Produits",        "icon" => "fa-solid fa-cubes" ],
 
@@ -175,14 +176,14 @@ class ViewTemplateAdmin {
     <!-- 3rd Party scripts -->
     <script src="../../../../3rdparty/jquery/jquery-3.6.0.min.js"></script>
     <script src="../../../../3rdparty/jquery/datatables/jquery.dataTables.complete-1.11.5.min.js"></script>
-    <script src="../../../../3rdparty/jquery/datatables/ellipsis.js"></script>
     <script src="../../../../3rdparty/jquery/datatables/jquery.dataTables.responsive.min.js"></script>
     <script src="../../../../3rdparty/font-awesome/fa-6.1.0.all.min.js"></script>
     <script src="../../../../3rdparty/bootstrap/bootstrap-5.1.3.bundle.min.js"></script>
     <script src="../../../../3rdparty/bootstrap/light-switch-0.1.3.js"></script>
     <!-- Custom scripts -->
     <!-- Dark mode switch -->
-    <script src="../../../../js/common/theme-switcher.js"></script>
+    <script src="../../../../js/common/dialog.js"></script>
+    <script src="../../../../js/common/light-dark-switcher-1.0.0.js"></script>
     <script src="../../../../js/admin/category.js"></script>
     <script src="../../../../js/admin/admin.js"></script>
 
