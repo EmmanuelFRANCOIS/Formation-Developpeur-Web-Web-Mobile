@@ -5,5 +5,6 @@ $(document).ready ( function() {
   $('#tableBrands').dataTable();
   $('#tableCarriers').dataTable();
   $('#tableProducts').dataTable();
+  $('#tableCustomers').dataTable();
 
 });

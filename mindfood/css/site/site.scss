@@ -1,0 +1,17 @@
+// Import sub-stylesheets
+// (last ones override first ones)
+//@import url('header.css');
+//@import url('sidebar.css');
+@import url('../common/colors.css');
+
+// Initialize HTML DOCUMENT styles
+:root {
+  font-size: 0.9rem;
+}
+
+// Initialize BODY styles
+html, body {
+  margin: 0;
+  padding: 0;
+}
+

@@ -352,7 +352,7 @@ class ViewCustomerAuth {
    * @summary  Function to generate customer login form
    */
   public static function genCustomerSheet( $config, $pageTitle, $customer ) {
-    $avatar = $customer['avatar'] ? $customer['avatar'] : 'avatar_empty.svg';
+    $image = $customer['image'] ? $customer['image'] : 'image_empty.svg';
     $alt = $customer['firstname'] . ' ' . $customer['lastname']
 ?>
     <div class="container-fluid pt-5">
@@ -366,7 +366,7 @@ class ViewCustomerAuth {
           <input type="hidden" class="form-control" name="id" id="id" value="<?php echo $customer['id']; ?>">
           <div class="row mt-5 justify-content-stretch">
             <div class="col-3 pe-5 form-group">
-              <img style="width: 100%; border-radius: 12px;" src="../../../../images/<?php echo $config['imagePath']['avatars'] . $avatar; ?>" alt="<?php echo $alt; ?>" class="mb-1 avatar">
+              <img style="width: 100%; border-radius: 12px;" src="../../../../images/<?php echo $config['imagePath']['images'] . $image; ?>" alt="<?php echo $alt; ?>" class="mb-1 image">
             </div>
             <div class="col-9">
               <div class="row d-flex justify-content-between">
@@ -433,7 +433,7 @@ class ViewCustomerAuth {
    * @summary  Function to generate customer Profile form
    */
   public static function genCustomerProfileForm( $config, $pageTitle, $customer ) {
-    $avatar = $customer['avatar'] ? $customer['avatar'] : 'avatar_empty.svg';
+    $image = $customer['image'] ? $customer['image'] : 'image_empty.svg';
 ?>
 
     <div class="container-fluid pt-5">
@@ -458,18 +458,18 @@ class ViewCustomerAuth {
           <small id="idMsg" class="d-none form-text text-muted"></small>
           <div class="row mt-5 justify-content-stretch">
             <div class="col-3 pe-5 form-group">
-              <img style="width: 100%; border-radius: 8px;" src="../../../../images/avatar/<?php echo $avatar; ?>" alt="" class="mb-1 avatar">
+              <img style="width: 100%; border-radius: 8px;" src="../../../../images/image/<?php echo $image; ?>" alt="" class="mb-1 image">
               <!-- <input 
                 type="file" 
                 class="form-control fs-5" 
-                name="avatar" 
-                id="avatar" 
-                value="<?php echo $customer['avatar']; ?>"
-                aria-describedby="avatarMsg"
-                data-type="avatar"
+                name="image" 
+                id="image" 
+                value="<?php echo $customer['image']; ?>"
+                aria-describedby="imageMsg"
+                data-type="image"
                 data-message="Avatar non conforme !"
               > -->
-              <small id="avatarMsg" class="form-text text-muted"></small>
+              <small id="imageMsg" class="form-text text-muted"></small>
             </div>
             <div class="col-9">
               <div class="row d-flex justify-content-between">
@@ -641,21 +641,6 @@ class ViewCustomerAuth {
     
     
   /**
-   * @function genCustomerFavorites()
-   * @summary  Function to generate customer favorites page
-   */
-  public static function genCustomerFavorites( $config, $pageTitle, $customer ) {
-?>
-    <div class="container-fluid pt-5">
-      <div class="container">
-        <h3>Mes favoris</h3>
-      </div>
-    </div>
-<?php
-  }
-    
-    
-      /**
    * @function genCustomerDeletionForm()
    * @summary  Function to generate customer deletion form
    */

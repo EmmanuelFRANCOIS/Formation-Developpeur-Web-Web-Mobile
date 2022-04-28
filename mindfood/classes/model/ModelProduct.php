@@ -89,7 +89,7 @@ class ModelProduct {
       ':hits'         => $product['hits']
     ]);
     // Debug query
-    $requete->debugDumpParams();
+    //$requete->debugDumpParams();
 
     return $dbconn->lastInsertId();
 

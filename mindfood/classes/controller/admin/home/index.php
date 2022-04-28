@@ -11,11 +11,9 @@ ViewTemplateAdmin::genHead( $config, 'Accueil Site' );
     <aside id="sidebar" class="sidebar"><?php ViewTemplateAdmin::genSidebar("Catégories"); ?></aside>
     <section class="w-100 h-100 content">
       <?php ViewTemplateAdmin::genHeader("Accueil", 'list'); ?>
-      <?php // ViewCategory::getCategoriesNavbar("Catégories"); ?>
-      <?php ViewCategory::getCategoriesTable(); ?>
     </section>
   </main>
 <?php
-ViewTemplateAdmin::genFooter( $config );
+ViewTemplateAdmin::genFooter( $config, [] );
 
 ?>

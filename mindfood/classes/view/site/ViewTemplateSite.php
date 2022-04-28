@@ -33,14 +33,14 @@ class ViewTemplateSite {
 
   public static function genHeader( $config, $pageTitle ) {
     $connected = false;
-    if ( isset( $_SESSION['id'] ) ) {
+    if ( isset( $_SESSION['site']['id'] ) ) {
       $connected = true;
     }
 ?>
     <header class="container-fluid">
       <div class="container d-flex justify-content-between align-items-center">
         <a class="d-flex align-items-center text-dark text-decoration-none" href="<?php echo $config['siteUrl']; ?>">
-          <img src="../../../../images/logo/brainfood.svg" height="32" alt="<?php echo $config['siteName']; ?>">
+          <img src="../../../../images/logos/brainfood.svg" height="48" alt="<?php echo $config['siteName']; ?>">
           <h4 class="ms-2 me-auto fs-3 text-uppercase"><?php echo $config['companyName']; ?></h4>
         </a>
         <h3 class="mx-auto fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
@@ -54,7 +54,7 @@ class ViewTemplateSite {
           </div>
         <?php } else if ( $connected ) { ?>
           <div class="mx-0 dropdown customerMenu">
-            <?php echo isset($_SESSION['id']) ? 'Bonjour ' . $_SESSION['firstname'] : ''; ?>
+            <?php echo isset($_SESSION['site']['id']) ? 'Bonjour ' . $_SESSION['site']['firstname'] : ''; ?>
             <a class="btn dropdown-toggle text-success" type="button" id="customerMenu" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fa-solid fa-user-lock fs-4"></i>
             </a>
@@ -72,6 +72,38 @@ class ViewTemplateSite {
       </div>
     </header>
 
+<?php
+  }
+
+
+  public static function genNavBar( $config ) {
+?>
+
+    <nav class="navbar navbar-expand-lg navbar-light kltr-bg-toolbar-light">
+      <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+          <a class="navbar-brand" href="#"><?php echo $config['companyName'] ?></a>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
 <?php
   }
 

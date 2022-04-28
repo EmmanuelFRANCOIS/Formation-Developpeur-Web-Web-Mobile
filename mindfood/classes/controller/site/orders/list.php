@@ -7,13 +7,13 @@ require_once "../../../view/site/ViewCustomerAuth.php";
 require_once "../../../model/ModelCustomer.php";
 
 // Customer not connected
-if ( !isset($_SESSION['id']) ) {   
+if ( !isset($_SESSION['site']['id']) ) {   
   header('Location: ../customer/login.php');
   exit;
 }
 
 $modelCustomer = new ModelCustomer();
-$customer = $modelCustomer->getCustomer( $_SESSION['id'] );
+$customer = $modelCustomer->getCustomer( $_SESSION['site']['id'] );
 
 ViewTemplateSite::genHead( $config, 'Mes Commandes' );
 ViewTemplateSite::genHeader( $config, 'Mes Commandes' );

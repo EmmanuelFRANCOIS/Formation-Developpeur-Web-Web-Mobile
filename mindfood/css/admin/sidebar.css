@@ -28,7 +28,7 @@ body .sidebar .nav-link svg {
   body .sidebar, body .afpa {
     display: block;
     opacity: 1;
-    width: 60px !important;
+    width: 90px !important;
   }
   body .sidebar .nav-link svg, body .afpa .nav-link svg {
     height: 2rem;
@@ -41,13 +41,13 @@ body .sidebar .nav-link svg {
 
 @media (min-width: 768px) {
   body .sidebar, body .afpa {
-    width: 160px !important;
+    width: 190px !important;
   }
 }
 
 @media (min-width: 992px) {
   body .sidebar, body .afpa {
-    width: 230px !important;
+    width: 260px !important;
   }
   body .sidebar .nav-link, body .afpa .nav-link {
     text-align: left;

@@ -12,7 +12,7 @@ require_once('../../../model/ModelUniverse.php');
 require_once('../../../model/ModelBrand.php');
 
 // Check if User can reach that controlleur
-$right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['role_id'] );
+$right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['admin']['role_id'] );
 
 if ( $right && isset($_POST['save']) ) {   // Save mode
 
@@ -29,7 +29,6 @@ if ( $right && isset($_POST['save']) ) {   // Save mode
     $_POST['image'] = null;
   }
 
-  $modelProduct = new ModelProduct();
   $product = $modelProduct->updateProduct( $_POST );
 
   header('Location: show.php?id=' . $_POST['id']);

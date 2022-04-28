@@ -7,23 +7,27 @@ require_once "../../../view/site/ViewCustomerAuth.php";
 require_once "../../../model/ModelCustomer.php";
 
 // Customer already connected
-if ( isset($_SESSION['id']) ) {   
-  header('Location: ../home/index.php');
-  exit;
-}
+// if ( isset($_SESSION['site']['id']) ) {   
+//   header('Location: ../home/index.php');
+//   exit;
+// }
+
+//var_dump($_POST); echo '<br />';
 
 if ( isset($_POST['login']) ) {
 
   $modelCustomer = new ModelCustomer();
   $customerData = $modelCustomer->getCustomerByEmail( $_POST['email'] );
 
+  //var_dump($customerData);
+  
   if ( $customerData && password_verify( $_POST['password'], $customerData['password'] ) ) {
 
-    $_SESSION['id']        = $customerData['id'];
-    $_SESSION['lastname']  = $customerData['lastname'];
-    $_SESSION['firstname'] = $customerData['firstname'];
-    $_SESSION['email']     = $customerData['email'];
-    $_SESSION['role']      = 0;
+    $_SESSION['site']['id']        = $customerData['id'];
+    $_SESSION['site']['lastname']  = $customerData['lastname'];
+    $_SESSION['site']['firstname'] = $customerData['firstname'];
+    $_SESSION['site']['email']     = $customerData['email'];
+    $_SESSION['site']['role']      = 0;
 
     header('Location: ../home/index.php');
 

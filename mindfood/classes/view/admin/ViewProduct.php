@@ -96,7 +96,7 @@ class ViewProduct {
               <td class="fw-bold text-primary"><a class="text-decoration-none" href="show.php?id=<?php echo $product['id'] ?>"><?php echo $product['title'] ?></a></td>
               <td title="<?php echo $makerLabel; ?>"><?php echo $product['maker']; ?></td>
               <td class="text-center"><?php echo $image ?></td>
-              <td><?php echo substr($product['description'], 0, 50) . '...' ?></td>
+              <td><?php echo substr($product['description'], 0, strpos($product['description'], " ", 95)) . '...' ?></td>
               <td><?php echo $product['stock'] ?></td>
               <td><?php echo $product['stock_min'] ?></td>
               <td><?php echo $product['price'] ?></td>

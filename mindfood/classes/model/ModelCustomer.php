@@ -25,6 +25,36 @@ class ModelCustomer {
       ':email'     => $customer['email'],
       ':password'  => $customer['passwordHash']
     ]);
+
+  }
+
+
+  /**
+   * @function addCustomer()
+   * @summary  Function to add a Customer
+   * @param    $customer => Customer's details
+   */
+  public function addCustomer( $customer ) {
+    $dbconn = DBUtils::getDBConnection();
+    $requete = $dbconn->prepare("
+      INSERT INTO customer (image, firstname, lastname, email, password, address, zipcode, city, fixedPhone, mobilePhone) 
+      VALUES (:image, :firstname, :lastname, :email, :password, :address, :zipcode, :city, :fixedPhone, :mobilePhone)
+    ");
+    $requete->execute([
+      ':firstname'    => $customer['firstname'],
+      ':lastname'     => $customer['lastname'],
+      ':image'        => $customer['image'],
+      ':email'        => $customer['email'],
+      ':password'     => $customer['passwordHash'],
+      ':address'      => $customer['address'],
+      ':zipcode'      => $customer['zipcode'],
+      ':city'         => $customer['city'],
+      ':fixedPhone'   => $customer['fixedPhone'],
+      ':mobilePhone'  => $customer['mobilePhone']
+    ]);
+
+    return $dbconn->lastInsertId();
+
   }
 
 
@@ -77,11 +107,12 @@ class ModelCustomer {
   public function getCustomerByEmail( $email ) {
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      SELECT * FROM customer WHERE email=:email
-    ");
+      SELECT * FROM customer 
+      WHERE email = :email
+    "); 
     $requete->execute([
-      ':email' => $email,
-    ]); 
+      ':email'    => $email
+    ]);
     return $requete->fetch(PDO::FETCH_ASSOC);
   }
 
@@ -100,6 +131,22 @@ class ModelCustomer {
     }
 
 
+  /**
+   *  Function to get the list of Customers from DB table
+   */
+  public static function getCustomersTable() {
+    $dbconn = DBUtils::getDBConnection();
+    $req = $dbconn->prepare("
+      SELECT * 
+      FROM customer 
+    ");
+    $req->execute();
+    // Debug query
+    //$req->debugDumpParams();
+    return $req->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  
   /**
    * @function getCustomer()
    * @summary  Function to get a Customer's details
@@ -126,8 +173,8 @@ class ModelCustomer {
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
       UPDATE customer 
-      SET avatar = :avatar, 
-          firstname = :firstname, lastname = :lastname, 
+      SET firstname = :firstname, lastname = :lastname, 
+          image = :image, 
           email = :email, password = :password,
           address = :address, zipcode = :zipcode, city = :city, 
           fixedPhone = :fixedPhone, mobilePhone = :mobilePhone
@@ -135,9 +182,9 @@ class ModelCustomer {
     ");
     return $requete->execute([
       ':id'           => $customer['id'],
-      ':avatar'       => $customer['avatar'],
       ':firstname'    => $customer['firstname'],
       ':lastname'     => $customer['lastname'],
+      ':image'        => $customer['image'],
       ':email'        => $customer['email'],
       ':password'     => $customer['passwordHash'],
       ':address'      => $customer['address'],

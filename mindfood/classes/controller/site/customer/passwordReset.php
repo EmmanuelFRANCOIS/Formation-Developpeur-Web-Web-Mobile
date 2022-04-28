@@ -34,7 +34,7 @@ if ( isset($_POST['reset']) ) {
 } else {
 
   $modelCustomer = new ModelCustomer();
-  $customer = $modelCustomer->getCustomer( $_SESSION['id'] );
+  $customer = $modelCustomer->getCustomer( $_SESSION['site']['id'] );
   
   ViewTemplateSite::genHead( $config, 'Mot de Passe oublié' );
   ViewCustomerAuth::genCustomerPasswordReset( $config, 'Mot de Passe oublié', $customer );

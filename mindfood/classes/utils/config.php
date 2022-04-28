@@ -18,7 +18,8 @@ $config = [
                      'design'     => 'design/',
                      'icons'      => 'icons/',
                      'logos'      => 'logos/',
-                     'products'   => 'products/'
+                     'products'   => 'products/',
+                     'customers'  => 'customers/'
                    ]
 ];
 

@@ -7,7 +7,7 @@ require_once "../../../view/site/ViewCustomerAuth.php";
 require_once "../../../model/ModelCustomer.php";
 
 // Customer already connected
-if ( !isset($_SESSION['id']) ) {
+if ( !isset($_SESSION['site']['id']) ) {
   header('Location: ../home/index.php');
   exit;
 }
@@ -15,11 +15,11 @@ if ( !isset($_SESSION['id']) ) {
 if ( isset($_POST['confirm_deletion']) ) {
 
   $modelCustomer = new ModelCustomer();
-  $customer = $modelCustomer->getCustomer( $_SESSION['id'] );
+  $customer = $modelCustomer->getCustomer( $_SESSION['site']['id'] );
   if ( password_verify( $_POST['password'], $customer['password'] ) ) {
 
     $modelCustomer = new ModelCustomer();
-    $customerDeleted = $modelCustomer->deleteCustomer( $_SESSION['id'] );
+    $customerDeleted = $modelCustomer->deleteCustomer( $_SESSION['site']['id'] );
     if ($customerDeleted ) {
       header('Location: logout.php');
     } else {

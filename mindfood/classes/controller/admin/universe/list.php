@@ -8,7 +8,7 @@ require_once('../../../view/admin/ViewUniverse.php');
 require_once('../../../model/ModelUniverse.php');
 
 // Check if User can reach that controlleur
-$right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['role_id'] );
+$right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['admin']['role_id'] );
 
 // Get Universes list
 $modelUniverse = new ModelUniverse();

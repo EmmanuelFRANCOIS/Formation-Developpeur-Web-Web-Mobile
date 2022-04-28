@@ -23,7 +23,6 @@ class ViewTemplateAdmin {
       <link rel="stylesheet" href="../../../../3rdparty/jquery/datatables/jquery.dataTables.complete-1.11.5.min.css"></link>
       <link rel="stylesheet" href="../../../../3rdparty/jquery/datatables/jquery.dataTables.responsive.min.css"></link>
       <!-- Custom Styles stylesheet -->
-      <link rel="stylesheet" href="../../../../css/common/dialog.css" />
       <link rel="stylesheet" href="../../../../css/admin/admin.css" />
     </head>
     <body>
@@ -34,7 +33,7 @@ class ViewTemplateAdmin {
   public static function genHeader( $config, $pageTitle ) {
 
     $connected = false;
-    if ( isset( $_SESSION['id'] ) ) {
+    if ( isset( $_SESSION['admin']['id'] ) ) {
       $connected = true;
     }
 
@@ -59,7 +58,7 @@ class ViewTemplateAdmin {
         </div>
         <?php } else if ( $connected ) { ?>
         <div class="mx-0 dropdown userMenu">
-          <?php echo isset($_SESSION['id']) ? 'Bonjour ' . $_SESSION['firstname'] : ''; ?>
+          <?php echo isset($_SESSION['admin']['id']) ? 'Bonjour ' . $_SESSION['admin']['firstname'] : ''; ?>
           <a class="btn dropdown-toggle text-success" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-user-lock fs-4"></i>
           </a>
@@ -93,7 +92,7 @@ class ViewTemplateAdmin {
       [ "type" => "link", "link" => "../dashboard/stocks.php",   "label" => "Magasin",         "icon" => "fa-solid fa-cubes-stacked" ],
 
       [ "type" => "sep",  "link" => "",                      "label" => "Activité",        "icon" => "fa-solid fa-wave-square" ],
-      [ "type" => "link", "link" => "../user/list.php",      "label" => "Clients",         "icon" => "fa-solid fa-person-breastfeeding" ],
+      [ "type" => "link", "link" => "../customer/list.php",  "label" => "Clients",         "icon" => "fa-solid fa-person-breastfeeding" ],
       [ "type" => "link", "link" => "../orders/list.php",    "label" => "Commandes",       "icon" => "fa-solid fa-file-invoice" ],
       [ "type" => "link", "link" => "../product/list.php",   "label" => "Produits",        "icon" => "fa-solid fa-cubes" ],
 
