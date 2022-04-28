@@ -4,19 +4,19 @@ require_once('DBUtils.php');
 
 
 /**
- * @class   ModelUniverse
- * @summary Class to manage Universes (DB layer)
+ * @class   ModelCarrier
+ * @summary Class to manage Carriers (DB layer)
  */
-class ModelUniverse {
+class ModelCarrier {
 
 
   /**
-   *  Function to get the list of all Universes
+   *  Function to get the list of all Carriers
    */
-  public static function getUniverses() {
+  public static function getCarriers() {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT * FROM universe
+      SELECT * FROM carrier
     ");
     $req->execute();
     // Debug query
@@ -26,13 +26,13 @@ class ModelUniverse {
 
 
   /**
-   *  Function to get the list of Universes from DB table
+   *  Function to get the list of Carriers from DB table
    */
-  public static function getUniversesTable() {
+  public static function getCarriersTable() {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
       SELECT * 
-      FROM universe 
+      FROM carrier 
     ");
     $req->execute();
     // Debug query
@@ -41,19 +41,19 @@ class ModelUniverse {
   }
 
   
-  public function addUniverse( $universe ) {
+  public function addCarrier( $carrier ) {
 
-    //var_dump($universe);
+    //var_dump($carrier);
 
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      INSERT INTO universe (title, image, description) 
+      INSERT INTO carrier (title, image, description) 
       VALUES (:title, :image, :description)
     ");
     $requete->execute([
-      ':title'        => $universe['title'],
-      ':image'        => $universe['image'],
-      ':description'  => $universe['description'],
+      ':title'        => $carrier['title'],
+      ':image'        => $carrier['image'],
+      ':description'  => $carrier['description'],
     ]);
     // Debug query
     $requete->debugDumpParams();
@@ -63,10 +63,10 @@ class ModelUniverse {
   }
 
 
-  public function getUniverse($id) {
+  public function getCarrier($id) {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT * FROM universe
+      SELECT * FROM carrier
       WHERE id = " . $id
     );
     $req->execute();
@@ -76,34 +76,34 @@ class ModelUniverse {
   }
 
 
-  public function updateUniverse($universe) {
+  public function updateCarrier($carrier) {
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      UPDATE universe 
+      UPDATE carrier 
       SET title = :title, image = :image, description = :description 
       WHERE id = :id
     ");
-    $requete->execute([
-      ':id'            => $universe['id'],
-      ':title'         => $universe['title'], 
-      ':image'         => $universe['image'],
-      ':description'   => $universe['description']
+    return$requete->execute([
+      ':id'            => $carrier['id'],
+      ':title'         => $carrier['title'], 
+      ':image'         => $carrier['image'],
+      ':description'   => $carrier['description']
       ]);
     // Debug query
-    $requete->debugDumpParams();
+    //$requete->debugDumpParams();
   }
 
   
-  public function deleteUniverse($id) {
+  public function deleteCarrier($id) {
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      DELETE FROM universe WHERE id = :id
+      DELETE FROM carrier WHERE id = :id
     ");
-    $requete->execute([
+    return $requete->execute([
       ':id' => $id
     ]);
     // Debug query
-    $requete->debugDumpParams();
+    //$requete->debugDumpParams();
   }
 
 

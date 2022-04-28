@@ -12,11 +12,13 @@ $config = [
   'imagePath'   => [
                      'avatars'    => 'avatars/',
                      'categories' => 'categories/',
+                     'universes'  => 'universes/',
+                     'brands'     => 'brands/',
+                     'carriers'   => 'carriers/',
                      'design'     => 'design/',
                      'icons'      => 'icons/',
                      'logos'      => 'logos/',
                      'products'   => 'products/'
-
                    ]
 ];
 

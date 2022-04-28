@@ -33,7 +33,7 @@ class ViewCategory {
   public static function genCategoriesOptions( $categories ) {
     if ( count($categories) > 0 ) {
 ?>
-      <option value="null">-- Choisissez une Catégorie parente--</option>
+      <option value="null">-- Choisissez une Catégorie --</option>
 <?php
       foreach( $categories as $category ) {
 ?>
@@ -43,7 +43,7 @@ class ViewCategory {
       
     } else {
 ?>
-      <option value="null">-- Pas de Catégories parentes --</option>
+      <option value="null">-- Pas de Catégories --</option>
 <?php
     }
 
@@ -53,7 +53,7 @@ class ViewCategory {
   /**
    * Function to display the list of Categories
    */
-  public static function getCategoriesTable( $categories ) {
+  public static function getCategoriesTable( $config, $categories ) {
 
     // Build 
     if ( count($categories) > 0 ) {
@@ -80,13 +80,13 @@ class ViewCategory {
 <?php 
           foreach ( $categories as $category ) {
             $image = $category['image'] ?
-                     '<img height="32" src="../../../../images/categories/' . $category['image'] . '" />' : '';
+                     '<img height="32" src="../../../../images/' . $config['imagePath']['categories'] . $category['image'] . '" />' : '';
 ?>
             <tr>
               <td class="text-center"><?php echo $category['id'] ?></td>
               <td class="text-center"><?php echo $category['parent'] ? $category['parent'] : '-'; ?></td>
               <td class="text-center"><?php echo $category['universe'] ?></td>
-              <td><?php echo $category['title'] ?></td>
+              <td class="fw-bold text-primary"><?php echo $category['title'] ?></td>
               <td class="text-center"><?php echo $image ?></td>
               <td><?php echo substr($category['description'], 0, 50) . '...' ?></td>
               <td class="text-center"><?php echo $category['nbproducts'] > 0 ? $category['nbproducts'] : '-'; ?></td>
@@ -189,7 +189,7 @@ class ViewCategory {
             <div class="col-12 d-sm-flex">
               <div class="col-12 col-sm-6 form-group pe-sm-2">
                 <label for="universe_id" class="form-label">Univers</label>
-                <select class="form-control" name="universe_id" id="universe_id">
+                <select class="form-select" name="universe_id" id="universe_id">
                     <option value="">-- Choisissez un Univers --</option>
                   <?php foreach ($universes as $universe) { ?>
                     <option value="<?php echo $universe['id']; ?>" 
@@ -201,7 +201,7 @@ class ViewCategory {
               </div>
               <div class="col-12 col-sm-6 mt-3 mt-sm-0 form-group ps-sm-2">
                 <label for="parent_id" class="form-label">Catégorie parente</label>
-                <select class="form-control" name="parent_id" id="parent_id">
+                <select class="form-select" name="parent_id" id="parent_id">
                     <option value="">-- Choisissez une Catégorie parente --</option>
                   <?php foreach ($categories as $parent) { ?>
                     <option value="<?php echo $parent['id']; ?>" 
@@ -239,13 +239,13 @@ class ViewCategory {
             <div class="col-12 d-sm-flex">
               <div class="col-12 col-sm-6 form-group mt-3 pe-sm-2">
                 <label for="season_start" class="form-label">Début Saison</label>
-                <input type="date" class="form-control" 
+                <input type="date" class="form-select" 
                        id="season_start" name="season_start" 
                        value="<?= $category['season_start']; ?>" >
               </div>
               <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
                 <label for="season_end" class="form-label">Fin Saison</label>
-                <input type="date" class="form-control" 
+                <input type="date" class="form-select" 
                      id="season_end" name="season_end" 
                      value="<?= $category['season_end']; ?>" >
               </div>

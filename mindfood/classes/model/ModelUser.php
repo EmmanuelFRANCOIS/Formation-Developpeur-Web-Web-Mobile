@@ -13,14 +13,14 @@ class ModelUser {
    * @summary  Function to login a user
    * @param    $email => email of the User to get details of
    */
-  public function getUserByEmail( $email ) {
+  public function getUserByEmailOrUsername( $email ) {
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
       SELECT us.*, ro.title 
       FROM user AS us 
       INNER JOIN role AS ro 
       ON ro.id = us.role_id 
-      WHERE us.email=:email
+      WHERE us.email=:email OR us.username=:email
     ");
     $requete->execute([
       ':email' => $email,

@@ -7,7 +7,7 @@ class ACL {
    * @summary Function to get all the User permissions by role
    */
   public static function getRight( $path, $role ) {
-
+    $path = strpos($path, '?') > 0 ? substr($path, 0, strpos($path, '?')) : $path;
     $path = explode( '/', $path );
     $posAdmin = array_search( 'admin', $path);
     $rules = ACL::getRules();

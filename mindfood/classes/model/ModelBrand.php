@@ -4,19 +4,19 @@ require_once('DBUtils.php');
 
 
 /**
- * @class   ModelUniverse
- * @summary Class to manage Universes (DB layer)
+ * @class   ModelBrand
+ * @summary Class to manage Brands (DB layer)
  */
-class ModelUniverse {
+class ModelBrand {
 
 
   /**
-   *  Function to get the list of all Universes
+   *  Function to get the list of all Brands
    */
-  public static function getUniverses() {
+  public static function getBrands() {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT * FROM universe
+      SELECT * FROM brand
     ");
     $req->execute();
     // Debug query
@@ -26,13 +26,13 @@ class ModelUniverse {
 
 
   /**
-   *  Function to get the list of Universes from DB table
+   *  Function to get the list of Brands from DB table
    */
-  public static function getUniversesTable() {
+  public static function getBrandsTable() {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
       SELECT * 
-      FROM universe 
+      FROM brand 
     ");
     $req->execute();
     // Debug query
@@ -41,19 +41,19 @@ class ModelUniverse {
   }
 
   
-  public function addUniverse( $universe ) {
+  public function addBrand( $brand ) {
 
-    //var_dump($universe);
+    var_dump($brand);
 
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      INSERT INTO universe (title, image, description) 
+      INSERT INTO brand (title, image, description) 
       VALUES (:title, :image, :description)
     ");
     $requete->execute([
-      ':title'        => $universe['title'],
-      ':image'        => $universe['image'],
-      ':description'  => $universe['description'],
+      ':title'        => $brand['title'],
+      ':image'        => $brand['image'],
+      ':description'  => $brand['description'],
     ]);
     // Debug query
     $requete->debugDumpParams();
@@ -63,10 +63,10 @@ class ModelUniverse {
   }
 
 
-  public function getUniverse($id) {
+  public function getBrand($id) {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT * FROM universe
+      SELECT * FROM brand
       WHERE id = " . $id
     );
     $req->execute();
@@ -76,28 +76,28 @@ class ModelUniverse {
   }
 
 
-  public function updateUniverse($universe) {
+  public function updateBrand($brand) {
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      UPDATE universe 
+      UPDATE brand 
       SET title = :title, image = :image, description = :description 
       WHERE id = :id
     ");
     $requete->execute([
-      ':id'            => $universe['id'],
-      ':title'         => $universe['title'], 
-      ':image'         => $universe['image'],
-      ':description'   => $universe['description']
+      ':id'            => $brand['id'],
+      ':title'         => $brand['title'], 
+      ':image'         => $brand['image'],
+      ':description'   => $brand['description']
       ]);
     // Debug query
     $requete->debugDumpParams();
   }
 
   
-  public function deleteUniverse($id) {
+  public function deleteBrand($id) {
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      DELETE FROM universe WHERE id = :id
+      DELETE FROM brand WHERE id = :id
     ");
     $requete->execute([
       ':id' => $id

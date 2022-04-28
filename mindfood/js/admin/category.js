@@ -17,33 +17,35 @@ function getSubList( $parentEntity, $parentId, $childEntity ) {
 
 $(document).ready(function () {
 
-  $('#tableCategories').dataTable();
-
-
   $("#universe_id").change(function () {   
 
     var idUnv = $(this).val();
 
     $.ajax({
       type: "GET", 
-      url: "select.php?idUnv=" + idUnv, 
+      url: "../../../utils/categoriesOptions.php?idUnv=" + idUnv, 
       dataType: "html",
       success: function(data){
-        console.log(data);
+        //console.log(data);
         // Clear options corresponding to earlier option of first dropdown
-        $('#parent_id').empty(); 
+        $('select#parent_id').empty(); 
+        $('select#category_id').empty(); 
         // Populate options of the second dropdown
-        $('#parent_id').append(data);
-        // $('select#item_2').focus();
+        $('select#parent_id').append(data);
+        $('select#parent_id').focus();
+        $('select#category_id').append(data);
+        $('select#category_id').focus();
       },
       beforeSend: function(){
-        $('select#item_2').empty();
-        $('select#item_2').append('<option value="">Loading...</option>');
+        $('select#parent_id').empty();
+        $('select#parent_id').append('<option value="">Loading...</option>');
+        $('select#category_id').empty();
+        $('select#category_id').append('<option value="">Loading...</option>');
       },
       error: function(){
-        $('select#item_2').attr('disabled', true);
-        $('select#item_2').empty();
-        $('select#item_2').append('<option value="">Pas de  Catégories</option>');
+        $('select#parent_id').attr('disabled', true);
+        $('select#parent_id').empty();
+        $('select#parent_id').append('<option value="">Pas de  Catégories</option>');
       }
     })  
 

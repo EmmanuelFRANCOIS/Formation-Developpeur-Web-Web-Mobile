@@ -18,7 +18,7 @@ var_dump($_POST);
 if ( isset($_POST['login']) ) {
 
   $modelUser = new ModelUser();
-  $userData = $modelUser->getUserByEmail( $_POST['email'] );
+  $userData = $modelUser->getUserByEmailOrUsername( $_POST['email'] );
   
   if ( $userData && password_verify( $_POST['password'], $userData['password'] ) ) {
 

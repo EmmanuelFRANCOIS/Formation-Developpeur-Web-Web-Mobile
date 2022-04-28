@@ -64,25 +64,18 @@ class ViewTemplateAdmin {
             <i class="fa-solid fa-user-lock fs-4"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="userMenu">
-            <li><a class="dropdown-item" href="../user/account.php">Mon compte</a></li>
-            <li><a class="dropdown-item" href="../orders/list.php">Mes commandes</a></li>
-            <li><a class="dropdown-item" href="../favorite/list.php">Mes favoris</a></li>
-            <li><a class="dropdown-item" href="../user/profile.php">Mon profil</a></li>
-            <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="../user/logout.php">Déconnexion</a></li>
           </ul>
         </div>
         <?php } ?>
-        <div class="col-1 text-end text-nowrap">
-          <!-- Light/Dark Mode Switcher -->
+        <!-- <div class="col-1 text-end text-nowrap">
           <a href="#" class="ms-3 text-decoration-none" id="lightDarkSwitcher">
             <i class="fa-solid fa-moon fs-3" id="lightDarkIcon"></i>
           </a>
-          <!-- Settings button -->
           <a href="#" class="ms-3 text-decoration-none" id="btnSettings">
             <i class="fa-solid fa-gear fs-3"></i>
           </a>
-        </div>
+        </div> -->
       </nav>
     </header>
 

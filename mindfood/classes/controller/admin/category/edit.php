@@ -14,12 +14,9 @@ $right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['role_id'] );
 
 if ( $right && isset($_POST['save']) ) {   // Save mode
 
-  if ( $_FILES['image']['name'] !== '' ) {
-    $extensions = ["jpg", "jpeg", "png", "gif"];
-    $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['categories'] );
-    var_dump($upload);
-    $_POST['image'] = $upload['uploadOk'] ? $upload['file_name'] : $_POST['image'];
-  }
+  $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
+  $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['categories'] );
+  $_POST['image'] = $upload['uploadOk'] ? $upload['file_name'] : $_POST['image'];
 
   $_POST['universe_id']  = is_int(intval($_POST['universe_id'])) ? intval($_POST['universe_id']) : null;
   $_POST['parent_id']    = is_int(intval($_POST['parent_id']))   ? intval($_POST['parent_id'])   : null;

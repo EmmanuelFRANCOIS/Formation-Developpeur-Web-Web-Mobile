@@ -14,10 +14,10 @@ $right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['role_id'] );
 
 if ( $right && isset($_POST['add']) ) {   // Add mode
 
-  $extensions = ["jpg", "jpeg", "png", "gif"];
+  $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
   $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['categories'] );
-
   $_POST['image']        = $upload['uploadOk']           ? $upload['file_name'] : null;
+
   $_POST['season_start'] = $_POST['season_start'] !== '' ? date('Y-m-d',strtotime($_POST['season_start'])) : null;
   $_POST['season_end']   = $_POST['season_end']   !== '' ? date('Y-m-d',strtotime($_POST['season_end']))   : null;
 
