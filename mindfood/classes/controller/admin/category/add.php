@@ -14,10 +14,15 @@ $right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['admin']['role_id'] )
 
 if ( $right && isset($_POST['add']) ) {   // Add mode
 
-  $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
-  $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['categories'] );
-  $_POST['image']        = $upload['uploadOk']           ? $upload['file_name'] : null;
+  if ( $_FILES['image']["name"] != "" && $_FILES['image']["name"] != null ) {
+    $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
+    $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['categories'] );
+    $_POST['image'] = $upload['uploadOk'] ? $upload['file_name'] : null;
+  } else {
+    $_POST['image'] = null;
+  }
 
+  $_POST['parent_id']    = $_POST['parent_id']    > 0    ? $_POST['parent_id']                             : null;
   $_POST['season_start'] = $_POST['season_start'] !== '' ? date('Y-m-d',strtotime($_POST['season_start'])) : null;
   $_POST['season_end']   = $_POST['season_end']   !== '' ? date('Y-m-d',strtotime($_POST['season_end']))   : null;
 
@@ -37,8 +42,8 @@ if ( $right && isset($_POST['add']) ) {   // Add mode
   
   $category = [ 
     'id'            => null, 
-    'universe_id'   => null, 
     'parent_id'     => null, 
+    'universe_id'   => null, 
     'title'         => null, 
     'image'         => null,
     'description'   => null,
@@ -46,7 +51,7 @@ if ( $right && isset($_POST['add']) ) {   // Add mode
     'season_end'    => null,
     'metadesc'      => null,
     'metakey'       => null,
-    'hits'          => 0
+    'hits'          => rand(100,10000)
   ];
 
 ?>

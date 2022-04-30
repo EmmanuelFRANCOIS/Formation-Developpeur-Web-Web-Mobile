@@ -112,12 +112,12 @@ class ModelProduct {
   public function getProductComplete($id) {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-    SELECT prd.*, unv.title AS universe, cat.title as category, brd.title AS brand
-    FROM product AS prd
-    INNER JOIN universe AS unv ON unv.id = prd.universe_id
-    INNER JOIN category AS cat ON cat.id = prd.category_id
-    INNER JOIN brand AS brd ON brd.id = prd.brand_id
-    WHERE prd.id = " . $id
+      SELECT prd.*, unv.title AS universe, cat.title as category, brd.title AS brand
+      FROM product AS prd
+      INNER JOIN universe AS unv ON unv.id = prd.universe_id
+      INNER JOIN category AS cat ON cat.id = prd.category_id
+      INNER JOIN brand AS brd ON brd.id = prd.brand_id
+      WHERE prd.id = " . $id
     );
     $req->execute();
     // Debug query

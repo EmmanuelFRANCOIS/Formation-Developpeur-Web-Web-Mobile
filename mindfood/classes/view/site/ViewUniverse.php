@@ -28,36 +28,47 @@ ModProductsByDate::genProductsByDate( $options );
 
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Musique',
-  'universe_id' => 2,
+  'moduleTitle' => 'Livres les mieux notés',
+  'universe_id' => 1,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,
   'nb'          => 5,
 ];
-ModProductsByDate::genProductsByDate( $options );
+ModProductsByRating::genProductsByRating( $options );
 
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Films',
-  'universe_id' => 3,
+  'moduleTitle' => 'Livres les plus Populaires',
+  'universe_id' => 1,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,
   'nb'          => 5,
 ];
-ModProductsByDate::genProductsByDate( $options );
+ModProductsByHits::genProductsByHits( $options );
 
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Jeux',
-  'universe_id' => 4,
+  'moduleTitle' => 'Meilleures Ventes Livres',
+  'universe_id' => 1,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,
   'nb'          => 5,
 ];
-ModProductsByDate::genProductsByDate( $options );
+ModProductsBySales::genProductsBySales( $options );
+
+$options = [
+  'display'     => null,
+  'moduleTitle' => 'Laissons faire le hazard...',
+  'universe_id' => 1,
+  'category_id' => null,
+  'brand_id'    => null,
+  'mode'        => null,
+  'nb'          => 10,
+];
+ModProductsByRandom::genProductsByRandom( $options );
 
 ViewTemplateSite::genFooter( $config );
 ?>

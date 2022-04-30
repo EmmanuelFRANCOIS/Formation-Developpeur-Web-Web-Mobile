@@ -71,6 +71,7 @@ class ViewCategory {
               <th scope="col">Products</th>
               <th scope="col">Début Saison</th>
               <th scope="col">Fin Saison</th>
+              <th scope="col">Hits</th>
               <th scope="col">Modifié le</th>
               <th scope="col">Action</th>
             </tr>
@@ -92,6 +93,7 @@ class ViewCategory {
               <td class="text-center"><?php echo $category['nbproducts'] > 0 ? $category['nbproducts'] : '-'; ?></td>
               <td><?php echo $category['season_start'] ?></td>
               <td><?php echo $category['season_end'] ?></td>
+              <td><?php echo $category['hits'] ?></td>
               <td><?php echo $category['modified_on'] ?></td>
               <td class="text-end text-nowrap">
                 <button class="ms-2 btn btn-light p-0 text-dark" 
@@ -224,7 +226,7 @@ class ViewCategory {
                 <label for="title" class="form-label">Hits</label>
                 <input type="text" class="form-control fw-bold" 
                       id="hits" name="hits" 
-                      placeholder="Titre de la catégorie..." 
+                      placeholder="Hits..." 
                       readonly
                       value="<?= $category['hits']; ?>" >
               </div>
@@ -255,14 +257,14 @@ class ViewCategory {
                 <label for="metadesc" class="form-label">Meta-Description</label>
                 <textarea class="form-control" style="width: 100%; resize: none;" 
                           id="metadesc" name="metadesc" 
-                          placeholder="Description de la catégorie..." 
+                          placeholder="Meta-Description de la catégorie..." 
                           rows="3"><?= $category['metadesc'] ?></textarea>
               </div>
               <div class="col-12 col-sm-6 form-group mt-3 ps-sm-2">
                 <label for="metakey" class="form-label">Meta-Keywords</label>
                 <textarea class="form-control" style="width: 100%; resize: none;" 
                           id="metakey" name="metakey" 
-                          placeholder="Description de la catégorie..." 
+                          placeholder="Meta-Keywords de la catégorie..." 
                           rows="3"><?= $category['metakey'] ?></textarea>
               </div>
             </div>

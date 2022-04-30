@@ -63,16 +63,14 @@ class ModelCategory {
   
   public function addCategory( $category ) {
 
-    var_dump($category);
-
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
-      INSERT INTO category (universe_id, parent_id, title, image, description, season_start, season_end, metadesc, metakey, hits) 
-      VALUES (:universe_id, :parent_id, :title, :image, :description, :season_start, :season_end, :metadesc, :metakey, :hits)
+      INSERT INTO category (parent_id, universe_id, title, image, description, season_start, season_end, metadesc, metakey, hits) 
+      VALUES (:parent_id, :universe_id, :title, :image, :description, :season_start, :season_end, :metadesc, :metakey, :hits)
     ");
     $requete->execute([
-      ':universe_id'  => $category['universe_id'],
       ':parent_id'    => $category['parent_id'],
+      ':universe_id'  => $category['universe_id'],
       ':title'        => $category['title'],
       ':image'        => $category['image'],
       ':description'  => $category['description'],
@@ -80,11 +78,10 @@ class ModelCategory {
       ':season_end'   => $category['season_end'],
       ':metadesc'     => $category['metadesc'],
       ':metakey'      => $category['metakey'],
-      ':hits'         => 0
+      ':hits'         => $category['hits']
     ]);
     // Debug query
     //$requete->debugDumpParams();
-
     return $dbconn->lastInsertId();
 
   }

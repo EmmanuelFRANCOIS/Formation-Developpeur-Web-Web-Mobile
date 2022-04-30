@@ -16,7 +16,7 @@ class ViewTemplateAdmin {
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title><?php echo $pageTitle; ?></title>
+      <title><?php echo $pageTitle . ' - ' . $config['companyName']; ?></title>
       <!-- 3rd Party stylesheets -->
       <link rel="stylesheet" href="../../../../3rdparty/font-awesome/fa-6.1.0.all.min.css" />
       <link rel="stylesheet" href="../../../../3rdparty/bootstrap/bootstrap-5.1.3.min.css" />

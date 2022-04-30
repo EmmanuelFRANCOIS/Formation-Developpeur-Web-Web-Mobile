@@ -13,9 +13,13 @@ $right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['admin']['role_id'] )
 
 if ( $right && isset($_POST['add']) ) {   // Add mode
 
-  $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
-  $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['brands'] );
-  $_POST['image'] = $upload['uploadOk'] ? $upload['file_name'] : null;
+  if ( $_FILES['image']["name"] != "" && $_FILES['image']["name"] != null ) {
+    $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
+    $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['products'] );
+    $_POST['image'] = $upload['uploadOk'] ? $upload['file_name'] : null;
+  } else {
+    $_POST['image'] = null;
+  }
 
   $modelBrand = new ModelBrand();
   $brandId = $modelBrand->addBrand( $_POST );

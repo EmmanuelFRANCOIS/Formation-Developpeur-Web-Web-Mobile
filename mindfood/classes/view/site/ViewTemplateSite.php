@@ -16,7 +16,7 @@ class ViewTemplateSite {
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title><?php echo $pageTitle . ' - ' . $config['siteName']; ?></title>
+      <title><?php echo $pageTitle . ' - ' . $config['companyName']; ?></title>
       <!-- 3rd Party stylesheets -->
       <link rel="stylesheet" href="../../../../3rdparty/font-awesome/fa-6.1.0.all.min.css" />
       <link rel="stylesheet" href="../../../../3rdparty/bootstrap/bootstrap-5.1.3.min.css" />
@@ -38,12 +38,12 @@ class ViewTemplateSite {
     }
 ?>
     <header class="container-fluid">
-      <div class="container d-flex justify-content-between align-items-center">
+      <div class="container d-flex justify-content-between align-items-center py-2">
         <a class="d-flex align-items-center text-dark text-decoration-none" href="<?php echo $config['siteUrl']; ?>">
-          <img src="../../../../images/logos/brainfood.svg" height="48" alt="<?php echo $config['siteName']; ?>">
-          <h4 class="ms-2 me-auto fs-3 text-uppercase"><?php echo $config['companyName']; ?></h4>
+          <img src="../../../../images/logos/brainfood.svg" height="64" alt="<?php echo $config['siteName']; ?>">
+          <h4 class="ms-2 me-auto fs-1 fw-bold text-uppercase"><?php echo $config['companyName']; ?></h4>
         </a>
-        <h3 class="mx-auto fw-bold text-center text-uppercase"><?php echo $pageTitle; ?></h3>
+        <div class="mx-auto fs-5 text-center fst-italic text-secondary">« L'homme sans culture est un arbre sans fruit. » (Rivarol)</div>
         <!-- Customer login & menu -->
         <?php if ( !$connected ) { ?>
           <div class="mx-0 login">
@@ -85,22 +85,32 @@ class ViewTemplateSite {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
-          <a class="navbar-brand" href="#"><?php echo $config['companyName'] ?></a>
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-between align-items-center fs-5 text-uppercase">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="btn btn-primary text-white fw-bold fs-5" aria-current="page" href="../home/index.php">Nouveautés</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="../universe/show.php?id=1">Livres</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
+              <a class="nav-link" href="../universe/show.php?id=2">Musique</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../universe/show.php?id=3">Vidéo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../universe/show.php?id=4">Jeux</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-success fw-bold fs-5" href="special_offers.php">Bons plans</a>
+            </li>
+            <li class="nav-item">
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
         </div>
       </div>
     </nav>

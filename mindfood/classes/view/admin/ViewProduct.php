@@ -70,6 +70,11 @@ class ViewProduct {
               <th scope="col">Stock</th>
               <th scope="col">Stock Min</th>
               <th scope="col">Prix</th>
+              <th scope="col">Ventes</th>
+              <th scope="col"># Notes</th>
+              <th scope="col">Note</th>
+              <th scope="col">Difficulté</th>
+              <th scope="col">Vues</th>
               <th scope="col">Modifié le</th>
               <th scope="col">Action</th>
             </tr>
@@ -90,17 +95,22 @@ class ViewProduct {
 ?>
             <tr>
               <td class="text-center"><?php echo $product['id'] ?></td>
-              <td><?php echo $product['universe'] ?></td>
+              <td class="text-center"><?php echo $product['universe'] ?></td>
               <td><?php echo $product['category'] ?></td>
               <td><?php echo $product['brand'] ?></td>
               <td class="fw-bold text-primary"><a class="text-decoration-none" href="show.php?id=<?php echo $product['id'] ?>"><?php echo $product['title'] ?></a></td>
               <td title="<?php echo $makerLabel; ?>"><?php echo $product['maker']; ?></td>
               <td class="text-center"><?php echo $image ?></td>
               <td><?php echo substr($product['description'], 0, strpos($product['description'], " ", 95)) . '...' ?></td>
-              <td><?php echo $product['stock'] ?></td>
-              <td><?php echo $product['stock_min'] ?></td>
-              <td><?php echo $product['price'] ?></td>
-              <td><?php echo $product['modified_on'] ?></td>
+              <td class="text-center"><?php echo $product['stock'] ?></td>
+              <td class="text-center"><?php echo $product['stock_min'] ?></td>
+              <td class="text-center"><?php echo $product['price'] ?></td>
+              <td class="text-center"><?php echo $product['sales'] ?></td>
+              <td class="text-center"><?php echo $product['rating_num'] ?></td>
+              <td class="text-center"><?php echo $product['rating'] ?></td>
+              <td class="text-center"><?php echo $product['difficulty'] ?></td>
+              <td class="text-center"><?php echo $product['hits'] ?></td>
+              <td class="text-center"><?php echo $product['modified_on'] ?></td>
               <td class="text-end text-nowrap">
                 <button class="ms-2 btn btn-light p-0 text-dark" 
                    onclick="window.location.href = 'show.php?id=<?php echo $product['id'] ?>'" 
