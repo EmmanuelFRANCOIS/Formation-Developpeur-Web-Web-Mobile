@@ -18,7 +18,7 @@ $orders = $modelOrders->getOrdersTable( $_SESSION['site']['id'] );
 ViewTemplateSite::genHead( $config, 'Mes Commandes' );
 ViewTemplateSite::genHeader( $config, 'Mes Commandes' );
 ViewTemplateSite::genNavBar( $config );
-ViewOrders::genOrders( $config, $customer );
+ViewOrders::genOrders( $config, $orders );
 ViewTemplateSite::genFooter( $config, [] );
 
 ?>

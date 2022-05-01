@@ -41,7 +41,7 @@ class ModelOrders {
     ");
     $req->execute();
     // Debug query
-    $req->debugDumpParams();
+    //$req->debugDumpParams();
     return $req->fetchAll(PDO::FETCH_ASSOC);
   }
 

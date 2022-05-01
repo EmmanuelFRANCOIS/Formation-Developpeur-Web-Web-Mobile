@@ -104,7 +104,6 @@ class ViewOrders {
    * @summary  Function to generate customer orders page
    */
   public static function genOrders( $config, $orders ) {
-    var_dump($orders);
 ?>
     <div class="container-fluid py-4">
       <div class="container">
@@ -131,15 +130,15 @@ class ViewOrders {
               ?>
                 <tr>
                   <td><?php echo $order['date_order']; ?></td>
-                  <td class="fw-bold"><?php echo $order['order_no']; ?></td>
+                  <td class="fw-bold"><a href="show.php?id=<?php echo $order['id']; ?>"><?php echo $order['order_no']; ?></a</td>
                   <td><?php echo $order['date_bill']; ?></td>
                   <td><?php echo $order['bill_no']; ?></td>
                   <td class="text-end"><?php echo $order['date_paid']; ?></td>
                   <td class="text-end"><?php echo $order['status']; ?></td>
                   <td class="text-end"><?php echo $order['qty']; ?></td>
-                  <td class="text-end"><?php echo $order['totalHT']; ?></td>
-                  <td class="text-end"><?php echo $order['totalTTC'] - $order['totalHT']; ?></td>
-                  <td class="text-end"><?php echo $order['totalTTC']; ?></td>
+                  <td class="text-end"><?php echo number_format( $order['totalHT'], 2, ',', ' ' ) . " €"; ?></td>
+                  <td class="text-end"><?php echo number_format( $order['totalTTC'] - $order['totalHT'], 2, ',', ' ' ) . " €"; ?></td>
+                  <td class="text-end"><?php echo number_format( $order['totalTTC'], 2, ',', ' ' ) . " €"; ?></td>
                 </tr>
               <?php } ?>
             </tbody>
