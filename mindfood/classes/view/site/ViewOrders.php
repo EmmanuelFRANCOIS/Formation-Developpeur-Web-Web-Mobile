@@ -103,11 +103,48 @@ class ViewOrders {
    * @function genCustomerOrders()
    * @summary  Function to generate customer orders page
    */
-  public static function genOrders( $config, $order ) {
+  public static function genOrders( $config, $orders ) {
+    var_dump($orders);
 ?>
     <div class="container-fluid py-4">
       <div class="container">
-        <h3>Mes commandes</h3>
+        <h3 class="text-uppercase">Mes commandes</h3>
+        <div class="row mt-4">
+          <table class="w-100 display responsive" id="tableOrders">
+            <thead>
+              <tr>
+                <th>Date Commande</th>
+                <th>N° Commande</th>
+                <th>Date Facture</th>
+                <th>N° Facture</th>
+                <th>Date Paiement</th>
+                <th>Status</th>
+                <th class="text-end">Nb Produits</th>
+                <th class="text-end">Montant HT</th>
+                <th class="text-end">TVA</th>
+                <th class="text-end">Montant TTC</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+                foreach ( $orders as $order ) { 
+              ?>
+                <tr>
+                  <td><?php echo $order['date_order']; ?></td>
+                  <td class="fw-bold"><?php echo $order['order_no']; ?></td>
+                  <td><?php echo $order['date_bill']; ?></td>
+                  <td><?php echo $order['bill_no']; ?></td>
+                  <td class="text-end"><?php echo $order['date_paid']; ?></td>
+                  <td class="text-end"><?php echo $order['status']; ?></td>
+                  <td class="text-end"><?php echo $order['qty']; ?></td>
+                  <td class="text-end"><?php echo $order['totalHT']; ?></td>
+                  <td class="text-end"><?php echo $order['totalTTC'] - $order['totalHT']; ?></td>
+                  <td class="text-end"><?php echo $order['totalTTC']; ?></td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 <?php
@@ -129,7 +166,6 @@ class ViewOrders {
       <div class="container">
         <h3 class="text-uppercase">Ma commande</h3>
         <div class="mt-4 mb-4 p-4 border border-success rounded">
-          <input type="hidden" name="id" id="id" value="<?php echo $order['id']; ?>">
           <div class="row">
             <div class="col-6">
               <div class="row"><div class="col-4 text-secondary">Date commande : </div><div class="col fw-bold"><?php echo $date_order; ?></div></div>

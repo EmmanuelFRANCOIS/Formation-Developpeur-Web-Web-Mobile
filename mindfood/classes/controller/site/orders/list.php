@@ -13,7 +13,7 @@ if ( !isset($_SESSION['site']['id']) ) {
 }
 
 $modelOrders = new ModelOrders();
-$orders = $modelOrders->getOrders( $_SESSION['site']['id'] );
+$orders = $modelOrders->getOrdersTable( $_SESSION['site']['id'] );
 
 ViewTemplateSite::genHead( $config, 'Mes Commandes' );
 ViewTemplateSite::genHeader( $config, 'Mes Commandes' );

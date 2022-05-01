@@ -27,15 +27,21 @@ class ModelOrders {
   /**
    *  Function to get the list of Orders from DB table
    */
-  public static function getOrdersTable() {
+  public static function getOrdersTable( $customer_id ) {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT * 
-      FROM orders 
+      SELECT ord.*, 
+             sum(op.quantity) AS qty, 
+             sum(op.quantity * op.price / (1 + op.tva)) AS totalHT, 
+             sum(op.quantity * op.price) AS totalTTC
+      FROM orders AS ord
+      INNER JOIN orders_products AS op ON op.order_id = ord.id 
+      WHERE ord.customer_id = " . $customer_id . " 
+      GROUP BY ord.id 
     ");
     $req->execute();
     // Debug query
-    //$req->debugDumpParams();
+    $req->debugDumpParams();
     return $req->fetchAll(PDO::FETCH_ASSOC);
   }
 
