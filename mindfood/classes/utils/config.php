@@ -20,7 +20,18 @@ $config = [
                      'logos'      => 'logos/',
                      'products'   => 'products/',
                      'customers'  => 'customers/'
-                   ]
+                   ],
+  'tva'         => 0.20,
+  'delivery_cost_per_product' => 0.25,
+  'statusList'  => [
+                     'saved' => "Enregistrée / En attente de paiment.",
+                     'paid'  => "Payée et en attente de validation.",
+                     'validated' => "Validée et en attente d'expédition.",
+                     'sent' => "Expédiée et en cours de livraison.",
+                     'delivered' => "Livrée et Close.",
+                     'returned' => "Produits retournés.",
+                     'cancelled' => "Commande annulée par le client."
+                   ],
 ];
 
 

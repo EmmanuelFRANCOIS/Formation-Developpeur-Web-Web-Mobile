@@ -12,13 +12,18 @@ if ( !isset($_SESSION['site']['id']) ) {
   exit;
 }
 
-$modelOrders = new ModelOrders();
-$orders = $modelOrders->getOrders( $_SESSION['site']['id'] );
+if ( isset($_GET['id']) ) {
+
+  $modelOrders = new ModelOrders();
+  $order = $modelOrders->getOrder( $_GET['id'] );
+  $products = $modelOrders->getOrderProducts( $_GET['id'] );
+
+}
 
 ViewTemplateSite::genHead( $config, 'Mes Commandes' );
 ViewTemplateSite::genHeader( $config, 'Mes Commandes' );
 ViewTemplateSite::genNavBar( $config );
-ViewOrders::genOrders( $config, $customer );
+ViewOrders::genOrderSheet( $config, $order, $products );
 ViewTemplateSite::genFooter( $config, [] );
 
 ?>

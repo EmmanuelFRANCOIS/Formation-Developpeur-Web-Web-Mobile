@@ -43,7 +43,7 @@ if ( isset($_POST['login']) ) {
 } else {
 
   ViewTemplateSite::genHead( $config, 'Connexion Client' );
-  //ViewTemplateSite::genHeader( $config, 'Connexion Client' );
+  ViewTemplateSite::genHeader( $config, 'Connexion Client' );
   ViewCustomerAuth::genCustomerLoginForm( $config, 'Connexion Client' );
   ViewTemplateSite::genFooter( $config, [] );
 

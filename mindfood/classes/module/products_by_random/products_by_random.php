@@ -103,12 +103,17 @@ Class ModProductsByRandom {
   ?>
     <div class="container-fluid">
       <div class="container py-4 my-3">
-        <h3 class="text-success text-uppercase module-title"><?php echo $options['moduleTitle']; ?></h3>
+        <h3 class="text-success module-title">Découvrez quelques <span class="text-uppercase"><?php echo $options['moduleTitle']; ?></span></h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-<?php echo $nbH; ?> g-4 mt-2">
           <?php foreach( $products as $product ) { 
-            $stockColor = $product['stock'] < 5 ? 'text-danger fw-bold' : 'text-dark';
-            $imgsrc = '../../../../images/products/' . ( $product['image'] ? $product['image'] : 'image_BOOK_empty.svg' );
-            $imgcatsrc = '../../../../images/categories/' . ( $product['category_image'] ? $product['category_image'] : '' );
+            switch ( $product['universe_id'] ) {
+              case 1: $unvImg = "BOOK"; break;
+              case 2: $unvImg = "CD"; break;
+              case 3: $unvImg = "DVD"; break;
+              case 4: $unvImg = "GAME"; break;
+            } 
+            $imgsrc = '../../../../images/products/' . ( $product['image'] ? $product['image'] : 'image_' . $unvImg . '_empty.svg' );
+            $imgcatsrc = $product['category_image'] ? '../../../../images/categories/' . $product['category_image'] : '';
           ?>
             <div class="col">
                 <div class="card h-100 bg-light text-center">
@@ -123,8 +128,10 @@ Class ModProductsByRandom {
                   </div>
                   <div class="card-footer text-start mt-2 pt-2">
                     <div class="d-flex align-items-content category">
-                      <img src="<?php echo $imgcatsrc; ?>" class="" style="max-width: 32px; max-height:24px;" alt="<?php echo $product['category']; ?>">
-                      <div class="card-text ms-2"><?php echo $product['category']; ?></div>
+                    <?php if ( $imgcatsrc <> '' ) { ?>
+                        <img src="<?php echo $imgcatsrc; ?>" class="me-2" style="max-width: 32px; max-height:24px;">
+                      <?php } ?>
+                      <div class="card-text"><?php echo $product['category']; ?></div>
                     </div>
                   </div>
                   <div class="card-footer d-flex justify-content-between p-2 text-end">
@@ -135,7 +142,7 @@ Class ModProductsByRandom {
             </div>
           <?php } ?>
         </div>
-        <div class="my-3 fs-5 text-end">Découvrez quelques <a class="btn btn-success fs-5 fw-bold py-1 px-3 more" href="#">"Livres" au hazard</a></div>
+        <div class="my-3 fs-5 text-end">Découvrez quelques <a class="btn btn-success fs-5 fw-bold py-1 px-3 more" href="#"><?php echo $options['moduleTitle'] ?></a></div>
       </div>
     </div>
   <?php

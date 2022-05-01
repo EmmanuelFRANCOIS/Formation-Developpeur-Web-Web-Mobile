@@ -100,7 +100,7 @@ class ViewBrand {
                             )" 
                    title="Supprimer Marque">
                   <i class="fa-solid fa-trash-can fs-5"></i>
-                   </button>
+                </button>
               </td>
             </tr>
 <?php

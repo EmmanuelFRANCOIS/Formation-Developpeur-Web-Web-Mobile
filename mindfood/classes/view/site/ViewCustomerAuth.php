@@ -626,21 +626,6 @@ class ViewCustomerAuth {
     
     
   /**
-   * @function genCustomerOrders()
-   * @summary  Function to generate customer orders page
-   */
-  public static function genCustomerOrders( $config, $pageTitle, $customer ) {
-?>
-    <div class="container-fluid pt-5">
-      <div class="container">
-        <h3>Mes commandes</h3>
-      </div>
-    </div>
-<?php
-  }
-    
-    
-  /**
    * @function genCustomerDeletionForm()
    * @summary  Function to generate customer deletion form
    */

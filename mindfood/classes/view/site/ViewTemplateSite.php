@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @class   ViewTemplateSite
  * @summary Class for View templating for Site side
@@ -20,6 +19,8 @@ class ViewTemplateSite {
       <!-- 3rd Party stylesheets -->
       <link rel="stylesheet" href="../../../../3rdparty/font-awesome/fa-6.1.0.all.min.css" />
       <link rel="stylesheet" href="../../../../3rdparty/bootstrap/bootstrap-5.1.3.min.css" />
+      <link rel="stylesheet" href="../../../../3rdparty/jquery/datatables/jquery.dataTables.complete-1.11.5.min.css"></link>
+      <link rel="stylesheet" href="../../../../3rdparty/jquery/datatables/jquery.dataTables.responsive.min.css"></link>
       <!-- Custom Styles stylesheet -->
       <link rel="stylesheet" href="../../../../css/site/site.css" />
       <style>
@@ -46,29 +47,61 @@ class ViewTemplateSite {
         <div class="mx-auto fs-5 text-center fst-italic text-secondary">« L'homme sans culture est un arbre sans fruit. » (Rivarol)</div>
         <!-- Customer login & menu -->
         <?php if ( !$connected ) { ?>
-          <div class="mx-0 login">
-            Connexion
-            <a href="../customer/login.php" class="btn text-dark" title="Connexion" id="customerLogin">
-              <i class="fa-solid fa-user-large fs-4"></i>
+          <div class="me-0 text-center">
+            <a href="../customer/login.php" class="btn py-1 text-center text-dark" title="Connexion" id="customerLogin">
+              <i class="d-block mx-auto fa-solid fa-user-large fs-4"></i>
+              <div class="mt-1 lh-1 text-center small">Connexion</div>
             </a>
           </div>
         <?php } else if ( $connected ) { ?>
-          <div class="mx-0 dropdown customerMenu">
-            <?php echo isset($_SESSION['site']['id']) ? 'Bonjour ' . $_SESSION['site']['firstname'] : ''; ?>
-            <a class="btn dropdown-toggle text-success" type="button" id="customerMenu" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-user-lock fs-4"></i>
+          <div class="me-0 dropdown text-center">
+            <!-- Customer Account Connected Button -->
+            <a class="btn text-success" type="button" id="customerMenu" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="d-block mx-auto fa-solid fa-user-lock fs-2"></i>
+              <div class="mt-1 lh-1 text-center small text-dark"><?php echo isset($_SESSION['site']['id']) ? 'Bonjour<br />' . $_SESSION['site']['firstname'] : ''; ?></div>
             </a>
+            <!-- Account dropdown -->
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="customerMenu">
-              <li><a class="dropdown-item" href="../customer/account.php">Mon compte</a></li>
+              <!-- <li><a class="dropdown-item" href="../customer/account.php">Mon compte</a></li> -->
               <li><a class="dropdown-item" href="../orders/list.php">Mes commandes</a></li>
-              <li><a class="dropdown-item" href="../favorite/list.php">Mes favoris</a></li>
+              <!-- <li><a class="dropdown-item" href="../favorite/list.php">Mes favoris</a></li> -->
               <li><a class="dropdown-item" href="../customer/profile.php">Mon profil</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="../customer/logout.php">Déconnexion</a></li>
             </ul>
           </div>
         <?php } ?>
+          <!-- Cart button -->
+          <div class="me-0 text-center">
+            <a href="../../../controller/site/cart/panier.php" type="button" class="btn py-1 text-center text-dark" title="Mon panier">
+              <i class="d-block mx-auto fa-solid fa-cart-shopping fs-2"></i>
+              <div class="mt-1 lh-1 text-center small">
+                <div>Panier</div>
+                <!-- <div id="cartContent">vide</div> -->
+              </div>
+            </a>
+            <!-- Offcanvas Cart -->
+            <!-- <button type="button" class="btn py-1 text-center text-dark" 
+                    title="Mon panier" 
+                    data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvasRight" aria-controls="cartOffcanvasRight">
+              <i class="d-block mx-auto fa-solid fa-cart-shopping fs-2">5</i>
+              <div class="mt-1 lh-1 text-center small">
+                <div>Panier</div>
+                <div id="cartContent">vide</div>
+              </div>
+            </button> -->
+            <!-- Cart Offcanvas -->
+            <!-- <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvasRight" aria-labelledby="cartOffcanvasRightLabel">
+              <div class="offcanvas-header">
+                <h5 id="cartOffcanvasRightLabel">Mon panier</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                ...
+              </div>
+            </div> -->
           </div>
+        </div>
       </div>
     </header>
 
@@ -102,7 +135,7 @@ class ViewTemplateSite {
               <a class="nav-link" href="../universe/show.php?id=4">Jeux</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-success fw-bold fs-5" href="special_offers.php">Bons plans</a>
+              <a class="btn btn-success fw-bold fs-5" href="#">Bons plans</a>
             </li>
             <li class="nav-item">
               <form class="d-flex">
@@ -127,13 +160,15 @@ class ViewTemplateSite {
     </footer>
 
     <script src="../../../../3rdparty/jquery/jquery-3.6.0.min.js"></script>
+    <script src="../../../../3rdparty/jquery/datatables/jquery.dataTables.complete-1.11.5.min.js"></script>
+    <script src="../../../../3rdparty/jquery/datatables/jquery.dataTables.responsive.min.js"></script>
     <script src="../../../../3rdparty/font-awesome/fa-6.1.0.all.min.js"></script>
     <script src="../../../../3rdparty/bootstrap/bootstrap-5.1.3.bundle.min.js"></script>
     <?php if ( in_array('validationForm', $scripts) ) { ?>
       <script src="../../../../js/common/validationForm.js"></script>
     <?php } ?>
     <!-- Main scripts -->
-    <!-- <script src="../../js/site/main.js"></script> -->
+    <script src="../../../../js/site/site.js"></script>
 
   </body>
   </html>

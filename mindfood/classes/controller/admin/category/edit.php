@@ -14,9 +14,15 @@ $right = ACL::getRight( $_SERVER["REQUEST_URI"], $_SESSION['admin']['role_id'] )
 
 if ( $right && isset($_POST['save']) ) {   // Save mode
 
-  $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
-  $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['categories'] );
-  $_POST['image'] = $upload['uploadOk'] ? $upload['file_name'] : $_POST['image'];
+  if ( $_FILES['image']["name"] != "" && $_FILES['image']["name"] != null ) {
+    $extensions = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF", "svg", "SVG"];
+    $upload = FileManager::upload( $extensions, $_FILES['image'], $config['imagePath']['categories'] );
+    $_POST['image'] = $upload['uploadOk'] ? $upload['file_name'] : $product['image'];
+  } else if ( $product['image'] !== "" && $product['image'] !== null ) {
+    $_POST['image'] = $product['image'];
+  } else {
+    $_POST['image'] = null;
+  }
 
   $_POST['universe_id']  = is_int(intval($_POST['universe_id'])) ? intval($_POST['universe_id']) : null;
   $_POST['parent_id']    = is_int(intval($_POST['parent_id']))   ? intval($_POST['parent_id'])   : null;

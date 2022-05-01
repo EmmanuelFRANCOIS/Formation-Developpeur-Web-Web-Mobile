@@ -15,10 +15,18 @@ ViewTemplateSite::genHead( $config, 'Accueil' );
 ViewTemplateSite::genHeader( $config, '' );
 ViewTemplateSite::genNavBar( $config );
 
+$unvId = $_GET['id'];
+switch ( $unvId ) {
+  case 1: $unvTitle = 'Livre';         $unvTitlePlural = 'Livres';          break;
+  case 2: $unvTitle = 'Album Musical'; $unvTitlePlural = 'Albums Musicaux'; break;
+  case 3: $unvTitle = 'Film';          $unvTitlePlural = 'Films';           break;
+  case 4: $unvTitle = 'Jeu';           $unvTitlePlural = 'Jeux';            break;
+}
+
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Livres',
-  'universe_id' => $_GET['id'],
+  'moduleTitle' => 'Nouveautés ' . $unvTitlePlural,
+  'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,
@@ -28,8 +36,8 @@ ModProductsByDate::genProductsByDate( $options );
 
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Livres les mieux notés',
-  'universe_id' => $_GET['id'],
+  'moduleTitle' => $unvTitlePlural . ' les mieux notés',
+  'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,
@@ -39,8 +47,8 @@ ModProductsByRating::genProductsByRating( $options );
 
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Livres les plus Populaires',
-  'universe_id' => $_GET['id'],
+  'moduleTitle' => $unvTitlePlural . ' les plus Populaires',
+  'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,
@@ -50,8 +58,8 @@ ModProductsByHits::genProductsByHits( $options );
 
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Meilleures Ventes Livres',
-  'universe_id' => $_GET['id'],
+  'moduleTitle' => 'Meilleures Ventes ' . $unvTitlePlural,
+  'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,
@@ -61,8 +69,8 @@ ModProductsBySales::genProductsBySales( $options );
 
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Laissons faire le hazard...',
-  'universe_id' => $_GET['id'],
+  'moduleTitle' => $unvTitlePlural . ' au hazard...',
+  'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
   'mode'        => null,

@@ -107,10 +107,15 @@ Class ModProductsByDate {
       <div class="container py-4 my-3">
         <h3 class="text-success text-uppercase module-title"><?php echo $options['moduleTitle']; ?></h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-<?php echo $nbH; ?> g-4 mt-2">
-          <?php foreach( $products as $product ) { 
-            $stockColor = $product['stock'] < 5 ? 'text-danger fw-bold' : 'text-dark';
-            $imgsrc = '../../../../images/products/' . ( $product['image'] ? $product['image'] : 'image_BOOK_empty.svg' );
-            $imgcatsrc = '../../../../images/categories/' . ( $product['category_image'] ? $product['category_image'] : '' );
+          <?php foreach( $products as $product ) {
+            switch ( $product['universe_id'] ) {
+              case 1: $unvImg = "BOOK"; break;
+              case 2: $unvImg = "CD"; break;
+              case 3: $unvImg = "DVD"; break;
+              case 4: $unvImg = "GAME"; break;
+            } 
+            $imgsrc = '../../../../images/products/' . ( $product['image'] ? $product['image'] : 'image_' . $unvImg . '_empty.svg' );
+            $imgcatsrc = $product['category_image'] ? '../../../../images/categories/' . $product['category_image'] : '';
             $date = new DateTime($product['created_on']);
           ?>
             <div class="col">
@@ -126,20 +131,36 @@ Class ModProductsByDate {
                   </div>
                   <div class="card-footer text-start mt-2 pt-2">
                     <div class="d-flex align-items-content category">
-                      <img src="<?php echo $imgcatsrc; ?>" class="" style="max-width: 32px; max-height:24px;" alt="<?php echo $product['category']; ?>">
-                      <div class="card-text ms-2"><?php echo $product['category']; ?></div>
+                      <?php if ( $imgcatsrc <> '' ) { ?>
+                        <img src="<?php echo $imgcatsrc; ?>" class="me-2" style="max-width: 32px; max-height:24px;">
+                      <?php } ?>
+                      <div class="card-text"><?php echo $product['category']; ?></div>
                     </div>
                     <div class="card-text mt-2">Sortie : <?php echo $date->format('F Y'); ?></div>
                   </div>
                   <div class="card-footer d-flex justify-content-between p-2 text-end">
                     <div class="price fs-5"><?php echo $product['price']; ?> €</div>
-                    <a href="list.php" style="z-index: 10;" class="btn btn-success px-1 pt-1 pb-0"><i class="fa-solid fa-cart-plus fs-5"></i></a>
+                    <!-- <a href="list.php" style="z-index: 10;" class="btn btn-success px-1 pt-1 pb-0"><i class="fa-solid fa-cart-plus fs-5"></i></a> -->
+                    <a href="../cart/panier.php?action=ajout&amp;id=<?php echo $product['id']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
+                       class="btn btn-success px-1 pt-1 pb-0" 
+                       style="z-index: 10;" 
+                       title="Ajouter au panier" >
+                      <i class="fa-solid fa-cart-plus fs-5"></i>
+                    </a>
+                    <!-- <a href="../cart/panier.php?action=ajout&amp;l=<?php //echo $product['title']; ?>&amp;a=<?php //echo $product['maker']; ?>&amp;q=1&amp;p=<?php //echo $product['price']; ?>" 
+                       class="btn btn-success px-1 pt-1 pb-0" 
+                       style="z-index: 10;" 
+                       title="Ajouter au panier" 
+                       onclick="window.open(this.href, '', 'titlebar=no, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, ' +
+                                                           'resizable=yes, copyhistory=no, width=600, height=350'); return false;">
+                      <i class="fa-solid fa-cart-plus fs-5"></i>
+                    </a> -->
                   </div>
                 </div>
             </div>
           <?php } ?>
         </div>
-        <div class="my-3 fs-5 text-end">Voir toutes les <a class="btn btn-success fs-5 fw-bold py-1 px-3 more" href="#">nouveautés "Livre"</a></div>
+        <div class="my-3 fs-5 text-end">Voir toutes les <a class="btn btn-success fs-5 fw-bold py-1 px-3 more" href="#"><?php echo $options['moduleTitle'] ?></a></div>
       </div>
     </div>
   <?php
