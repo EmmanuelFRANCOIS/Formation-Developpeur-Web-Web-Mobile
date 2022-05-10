@@ -7,6 +7,12 @@
 class ViewTemplateSite {
 
   
+  /**
+   * @function genHead()
+   * @summary  Function to generate Site page head
+   * @param    $config => Config parameters object
+   * @param    $pageTitle => Page title
+   */
   public static function genHead( $config, $pageTitle ) {
 ?>
     <!DOCTYPE HTML>  
@@ -32,6 +38,13 @@ class ViewTemplateSite {
 <?php
   }
 
+
+  /**
+   * @function genHeader()
+   * @summary  Function to generate Site page header
+   * @param    $config => Config parameters object
+   * @param    $pageTitle => Page title
+   */
   public static function genHeader( $config, $pageTitle ) {
     $connected = false;
     if ( isset( $_SESSION['site']['id'] ) ) {
@@ -109,6 +122,11 @@ class ViewTemplateSite {
   }
 
 
+  /**
+   * @function genNavBar()
+   * @summary  Function to generate Site page navbar
+   * @param    $config => Config parameters object
+   */
   public static function genNavBar( $config ) {
 ?>
 
@@ -150,6 +168,13 @@ class ViewTemplateSite {
 <?php
   }
 
+  
+  /**
+   * @function genFooter()
+   * @summary  Function to generate Site page footer
+   * @param    $config => Config parameters object
+   * @param    $scripts => List of js scripts to include
+   */
   public static function genFooter( $config, $scripts = [] ) {
 ?>
     <footer class="container-fluid px-3">

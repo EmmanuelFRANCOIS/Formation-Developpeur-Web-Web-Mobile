@@ -113,46 +113,44 @@ class ViewTemplateAdmin {
   public static function genSidebar() {
     $menuList = ViewTemplateAdmin::getMenu();
 ?>
-    <div class="col-auto p-0 pt-2 kltr-bg-toolbar-light kltr-text-toolbar-dark">
-        <div class="collapse collapse-horizontal show border-end">
-          <div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start min-vh-100">
-            <div class="sidebar-header">
-              <!-- Logo & Brand -->
-              <a href="#" class="d-block mb-4 text-center text-decoration-none">
-                <img class="d-block mx-auto logo" height="32" src="images/myStocks-logo.svg" alt="myStocks brand logo" />
-                <div class="d-none d-md-block fs-5 fw-bold company">KULTUR.com</div>
-              </a>
-              <!-- User -->
-              <div class="mt-4 mb-3 text-center user">
-                <img src="images/avatar_0_thumb.png" alt="jean LOUIS magasinier" height="64" class="avatar">
-                <div class="mt-1 nom">Jean LOUIS</div>
-                <div class="d-none d-md-block text-uppercase fonction">Magasinier</div>
-              </div>
-            </div>
-            <!-- Side Menu -->
-            <div class="">
-              <ul class="nav nav-pills flex-column mb-auto">
-                <?php foreach($menuList as $item) { ?>
-                  <?php if($item['type'] === 'sep') { ?>
-                    <li class="nav-item">
-                      <h4 class="nav-link mx-2 px-0 pt-3 pb-1 border-bottom border-secondary" title="<?php echo $item['label'] ?>">
-                        <i class="<?php echo $item['icon'] ?> me-1 fs-5"></i><span class="d-none d-md-block d-lg-inline text-nowrap fw-bold fs-6"><?php echo $item['label'] ?></span>
-                      </h4>
-                    </li>
-                  <?php } else if ($item['type'] === 'link') { ?>
-                    <li class="nav-item ms-2 d-flex justify-content-between align-items-center py-0 px-3">
-                      <div class="col-1 fs-5"><i class="<?php echo $item['icon'] ?>"></i></div>
-                      <a href="<?php echo $item['link'] ?>" class="nav-link col-10" title="<?php echo $item['label'] ?>">
-                        <span class="d-none d-md-block d-lg-inline text-nowrap fs-6"><?php echo $item['label'] ?></span>
-                      </a>
-                      <small class="col-1"><i class="fa-solid fa-lock ms-auto me-0"></i></small>
-                    </li>
-                  <?php } ?>
-                <?php } ?>
-              </ul>
-            </div>
+    <div class="collapse collapse-horizontal show border-end col-auto p-0 pt-2 kltr-bg-toolbar-light kltr-text-toolbar-dark" id="sidebar">
+      <div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start min-vh-100">
+        <div class="sidebar-header">
+          <!-- Logo & Brand -->
+          <a href="#" class="d-block mb-4 text-center text-decoration-none">
+            <img class="d-block mx-auto logo" height="32" src="images/myStocks-logo.svg" alt="myStocks brand logo" />
+            <div class="d-none d-md-block fs-5 fw-bold company">KULTUR.com</div>
+          </a>
+          <!-- User -->
+          <div class="mt-4 mb-3 text-center user">
+            <img src="images/avatar_0_thumb.png" alt="jean LOUIS magasinier" height="64" class="avatar">
+            <div class="mt-1 nom">Jean LOUIS</div>
+            <div class="d-none d-md-block text-uppercase fonction">Magasinier</div>
           </div>
         </div>
+        <!-- Side Menu -->
+        <div class="">
+          <ul class="nav nav-pills flex-column mb-auto">
+            <?php foreach($menuList as $item) { ?>
+              <?php if($item['type'] === 'sep') { ?>
+                <li class="nav-item">
+                  <h4 class="nav-link mx-2 px-0 pt-3 pb-1 border-bottom border-secondary" title="<?php echo $item['label'] ?>">
+                    <i class="<?php echo $item['icon'] ?> me-1 fs-5"></i><span class="d-none d-md-block d-lg-inline text-nowrap fw-bold fs-6"><?php echo $item['label'] ?></span>
+                  </h4>
+                </li>
+              <?php } else if ($item['type'] === 'link') { ?>
+                <li class="nav-item ms-2 d-flex justify-content-between align-items-center py-0 px-3">
+                  <div class="col-1 fs-5"><i class="<?php echo $item['icon'] ?>"></i></div>
+                  <a href="<?php echo $item['link'] ?>" class="nav-link col-10" title="<?php echo $item['label'] ?>">
+                    <span class="d-none d-md-block d-lg-inline text-nowrap fs-6"><?php echo $item['label'] ?></span>
+                  </a>
+                  <small class="col-1"><i class="fa-solid fa-lock ms-auto me-0"></i></small>
+                </li>
+              <?php } ?>
+            <?php } ?>
+          </ul>
+        </div>
+      </div>
     </div>
 <?php
   }

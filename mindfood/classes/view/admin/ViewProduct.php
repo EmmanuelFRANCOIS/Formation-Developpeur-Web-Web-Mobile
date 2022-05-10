@@ -85,13 +85,15 @@ class ViewProduct {
           foreach ( $products as $product ) {
 
             switch ( $product['universe'] ) {
-              case 'LIVRE' : $makerLabel = 'Auteur';      break;
-              case 'CD' :    $makerLabel = 'Artiste';     break;
-              case 'DVD' :   $makerLabel = 'Réalisateur'; break;
-              case 'JEU' :   $makerLabel = 'Inventeur';   break;
+              case 'LIVRE' : $makerLabel = 'Auteur';      $imageEmpty = 'image_BOOK_empty.svg'; break;
+              case 'CD' :    $makerLabel = 'Artiste';     $imageEmpty = 'image_CD_empty.svg'; break;
+              case 'DVD' :   $makerLabel = 'Réalisateur'; $imageEmpty = 'image_DVD_empty.svg'; break;
+              case 'JEU' :   $makerLabel = 'Inventeur';   $imageEmpty = 'image_GAME_empty.svg'; break;
             }
             $image = $product['image'] ?
-                     '<img height="32" src="../../../../images/' . $config['imagePath']['products'] . $product['image'] . '" />' : '';
+                     '<img height="48" src="../../../../images/' . $config['imagePath']['products'] . $product['image'] . '" />' : 
+                     '<img height="48" src="../../../../images/' . $config['imagePath']['products'] . $imageEmpty . '" />';
+            $descrShort = $product['description'] ? substr($product['description'], 0, strpos( $product['description'], " ", min(50,strlen($product['description'])-5) )) . '...' : '';
 ?>
             <tr>
               <td class="text-center"><?php echo $product['id'] ?></td>
@@ -101,7 +103,7 @@ class ViewProduct {
               <td class="fw-bold text-primary"><a class="text-decoration-none" href="show.php?id=<?php echo $product['id'] ?>"><?php echo $product['title'] ?></a></td>
               <td title="<?php echo $makerLabel; ?>"><?php echo $product['maker']; ?></td>
               <td class="text-center"><?php echo $image ?></td>
-              <td><?php echo substr($product['description'], 0, strpos($product['description'], " ", 95)) . '...' ?></td>
+              <td><?php echo $descrShort; ?></td>
               <td class="text-center"><?php echo $product['stock'] ?></td>
               <td class="text-center"><?php echo $product['stock_min'] ?></td>
               <td class="text-center"><?php echo $product['price'] ?></td>

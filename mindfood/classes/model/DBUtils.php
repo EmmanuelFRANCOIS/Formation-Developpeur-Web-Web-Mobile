@@ -14,7 +14,7 @@ class DBUtils {
   public static function getDBConnection() {
     $servername = "localhost";  // nom du serveur
     $username   = "root";       // nom d'utilisateur de mysql
-    $password   = "johnjohn";   // mot de passe mysql
+    $password   = "aaa";   // mot de passe mysql
     $dbname     = "mindfood";   // nom de la base
     try {
       $dbconn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
