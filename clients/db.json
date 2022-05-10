@@ -1,0 +1,14 @@
+{
+	"clients": [
+		{ "id": 1, "nom": "Durand", "prenom": "Léo", "societe": "Calypso", "ca": 154564 },
+		{ "id": 2, "nom": "Martin", "prenom": "Gabriel", "societe": "E-laerning", "ca": 146584 },
+		{ "id": 3, "nom": "Arfaoui", "prenom": "Oussama", "societe": "Last Game", "ca": 44498 },
+		{ "id": 4, "nom": "Petit", "prenom": "Louis", "societe": "Fast Food", "ca": 4564564 },
+		{ "id": 5, "nom": "Robert", "prenom": "Jules", "societe": "Cesar Cosmétics", "ca": 4456544 },
+		{ "id": 6, "nom": "Farhati", "prenom": "Samira", "societe": "Couscous Royal", "ca": 1565645 },
+		{ "id": 7, "nom": "Richard", "prenom": "Arthur", "societe": "Fitness Club", "ca": 44465 },
+		{ "id": 8, "nom": "Dlamini", "prenom": "Koffi", "societe": "Fruits Exotiques", "ca": 564655 },
+		{ "id": 9, "nom": "Mokoena", "prenom": "Adama", "societe": "Adama Coiffure", "ca": 745654 },
+		{ "id": 10, "nom": "Zhang", "prenom": "Lee", "societe": "China-Town", "ca": 231314 }
+	]
+}
