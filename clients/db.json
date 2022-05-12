@@ -1,13 +1,6 @@
 {
   "clients": [
     {
-      "id": 1,
-      "nom": "Durand",
-      "prenom": "Léo",
-      "societe": "Calypso",
-      "ca": 154564
-    },
-    {
       "id": 2,
       "nom": "Martin",
       "prenom": "Gabriel",
@@ -41,13 +34,6 @@
       "prenom": "Samira",
       "societe": "Couscous Royal",
       "ca": 1565645
-    },
-    {
-      "id": 7,
-      "nom": "Richard",
-      "prenom": "Arthur",
-      "societe": "Fitness Club",
-      "ca": 44465
     },
     {
       "id": 8,

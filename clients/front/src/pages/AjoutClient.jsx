@@ -25,7 +25,7 @@ const AjoutClient = () => {
     setCa(e.target.value);
   }
 
-  const ajoutContact = (e) => {
+  const ajoutClient = (e) => {
     e.preventDefault();
 
     axios.post("http://localhost:4000/clients", {
@@ -44,6 +44,7 @@ const AjoutClient = () => {
     }).catch(err => {
       console.log(err);
     });
+
   };
 
   const form = <form>
@@ -66,7 +67,7 @@ const AjoutClient = () => {
       <label for="ca">CA</label>
       <input type="number" className="form-control" id="ca" onChange={modifCa} />
     </div>
-    <input type="submit" class="btn btn-primary m-3" value="Ajouter" onClick={ajoutContact} />
+    <input type="submit" class="btn btn-primary m-3" value="Ajouter" onClick={ajoutClient} />
     <input type="reset" class="btn btn-danger m-3" value="Réinitialiser" />
   </form>;
 
@@ -79,7 +80,7 @@ const AjoutClient = () => {
             <div>
               <Client key={client.id} client={client}/>
               <br/>
-              <input type="submit" class="btn btn-primary m-3" value="Ajouter" onClick={ajoutContact} />
+              <input type="submit" class="btn btn-primary m-3" value="Ajouter" onClick={ajoutClient} />
             </div>
           }
         </div>
