@@ -136,7 +136,7 @@ class ViewTemplateSite {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-between align-items-center fs-5 text-uppercase">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100 justify-content-between align-items-center fw-bold fs-5 text-uppercase">
             <li class="nav-item">
               <a class="btn btn-primary text-white fw-bold fs-5" aria-current="page" href="../home/index.php">Nouveautés</a>
             </li>
@@ -199,6 +199,29 @@ class ViewTemplateSite {
   </html>
 <?php
 
+  }
+
+
+  /**
+   * @function genRatingStars()
+   * @summary  Function to generate Rating stars html code
+   * @param    ratingValue => Rating value (from 0 to 5)
+   * @param    ratingNum   => Number of rates
+   * @return   html code
+   */
+  public static function genRatingStars( $ratingValue ) {
+    $html = "<span class='stars'>";
+    for ( $i = 1; $i <= 5; $i++ ) {
+        if ( round( $ratingValue - .25 ) >= $i ) {
+          $html .= '<i class="fa-solid fa-star"></i>'; //fas fa-star for v5
+        } elseif ( round( $ratingValue + .25 ) >= $i ) {
+          $html .= '<i class="fa-solid fa-star-half-stroke"></i>'; //fas fa-star-half-alt for v5
+        } else {
+          $html .= '<i class="fa-regular fa-star"></i>'; //far fa-star for v5
+        }
+    }
+    $html .= "</span>";
+    return $html;
   }
 
 

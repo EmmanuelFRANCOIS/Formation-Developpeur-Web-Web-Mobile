@@ -4,68 +4,77 @@ session_start();
 require_once "../../../utils/config.php";
 require_once "../../../view/site/ViewTemplateSite.php";
 require_once "../../../view/site/ViewCustomerAuth.php";
-require_once "../../../module/products_by_date/products_by_date.php";
-// require_once "../../../module/products_by_rating/products_by_rating.php";
-// require_once "../../../module/products_by_random/products_by_random.php";
-// require_once "../../../module/products_by_hits/products_by_hits.php";
-// require_once "../../../module/products_by_sales/products_by_sales.php";
+require_once "../../../modules/products/products.php";
 
-
+// Generate Page Head, Header and Navbar
 ViewTemplateSite::genHead( $config, 'Accueil' );
 ViewTemplateSite::genHeader( $config, '' );
 ViewTemplateSite::genNavBar( $config );
 
+// Generate New Books module
+// Putting an option to null means that default option value will be used.
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Livres',
+  'moduleTitle' => '<span class="text-secondary">Nouveautés </span><span class="fw-bold text-success">Livres</span>',
+  'moreBtnText' => 'Nouveautés Livres',
   'universe_id' => 1,
   'category_id' => null,
   'brand_id'    => null,
-  'order_by'    => null,
-  'nbDisplay'   => 8,
-  'nbByRow'     => 4,
-  'nbQuery'     => 16
+  'orderBy'     => 'created',
+  // 'nbDisplay'   => null,
+  // 'nbByRow'     => null,
+  // 'nbQuery'     => null
 ];
-ModProductsByDate::genProductsByDate( $options );
+ModProducts::genProducts( $options );
 
+// Generate New Music module
+// Putting an option to null means that default option value will be used.
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Musique',
+  'moduleTitle' => '<span class="text-secondary">Nouveautés </span><span class="fw-bold text-success">Musique</span>',
+  'moreBtnText' => 'Nouveautés Musique',
   'universe_id' => 2,
   'category_id' => null,
   'brand_id'    => null,
-  'order_by'    => null,
-  'nbDisplay'   => 8,
-  'nbByRow'     => 4,
-  'nbQuery'     => 16
+  'orderBy'    => 'created',
+  'nbDisplay'   => null,
+  'nbByRow'     => null,
+  'nbQuery'     => null
 ];
-ModProductsByDate::genProductsByDate( $options );
+ModProducts::genProducts( $options );
 
+// Generate New Movies module
+// Putting an option to null means that default option value will be used.
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Films',
+  'moduleTitle' => '<span class="text-secondary">Nouveautés </span><span class="fw-bold text-success">Films</span>',
+  'moreBtnText' => 'Nouveautés Films',
   'universe_id' => 3,
   'category_id' => null,
   'brand_id'    => null,
-  'order_by'    => null,
-  'nbDisplay'   => 8,
-  'nbByRow'     => 4,
-  'nbQuery'     => 16
+  'orderBy'    => 'created',
+  'nbDisplay'   => null,
+  'nbByRow'     => null,
+  'nbQuery'     => null
 ];
-ModProductsByDate::genProductsByDate( $options );
+ModProducts::genProducts( $options );
 
+// Generate New Documentaries module
+// Putting an option to null means that default option value will be used.
 $options = [
   'display'     => null,
-  'moduleTitle' => 'Nouveautés Documentaires',
+  'moduleTitle' => '<span class="text-secondary">Nouveautés </span><span class="fw-bold text-success">Documentaires</span>',
+  'moreBtnText' => 'Nouveautés Documentaires',
   'universe_id' => 4,
   'category_id' => null,
   'brand_id'    => null,
-  'order_by'    => null,
-  'nbDisplay'   => 8,
-  'nbByRow'     => 4,
-  'nbQuery'     => 16
+  'orderBy'    => 'created',
+  'nbDisplay'   => null,
+  'nbByRow'     => null,
+  'nbQuery'     => null
 ];
-ModProductsByDate::genProductsByDate( $options );
+ModProducts::genProducts( $options );
 
+// Generate Page Footer
 ViewTemplateSite::genFooter( $config );
 ?>

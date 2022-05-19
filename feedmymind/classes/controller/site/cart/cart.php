@@ -1,19 +1,18 @@
 <?php
 session_start();
 
+
 require_once "../../../utils/config.php";
 require_once "../../../view/site/ViewTemplateSite.php";
-require_once "../../../model/ModelOrders.php";
 require_once "fonctions-panier.php";
-
 
 
 $erreur = false;
 
 $action = (isset($_POST['action'])? $_POST['action']:  (isset($_GET['action'])? $_GET['action']:null )) ;
 if ( $action !== null ) {
-  if ( !in_array($action,array('ajout', 'suppression', 'refresh', 'vider', 'commander')) ) {
-    $erreur=true;
+  if ( !in_array($action, array('add', 'delete', 'refresh', 'empty', 'order')) ) {
+    $erreur = true;
   }
   //récupération des variables en POST ou GET
   $id = ( isset($_POST['id']) ? $_POST['id'] : ( isset($_GET['id']) ? $_GET['id'] : null )) ;
@@ -45,30 +44,30 @@ if ( $action !== null ) {
 
 if ( !$erreur ) {
   switch ( $action ) {
-    case "ajout":
-      ajouterArticle( $id, $l, $a, $q, $p );
+    case "add":
       // Keep trace of the last product(s) page to go back after operations on cart
-      if ( isset($_SERVER["HTTP_REFERER"]) ) {
-        $_SESSION['panier']['backToPage'] = $_SERVER["HTTP_REFERER"];
-      }  
+      // if ( isset($_SERVER["HTTP_REFERER"]) ) {
+      //   $_SESSION['panier']['backToPage'] = $_SERVER["HTTP_REFERER"];
+      // }  
+      addProduct( $id, $l, $a, $q, $p );
       break;
 
-    case "suppression":
-      supprimerArticle( $l );
+    case "delete":
+      removeProduct( $l );
       break;
 
     case "refresh" :
       for ( $i = 0 ; $i < count($QteArticle) ; $i++ ) {
-        modifierQTeArticle($_SESSION['panier']['libelleProduit'][$i],round($QteArticle[$i]));
+        setProductQuantity( $_SESSION['cart']['title'][$i], round($QteArticle[$i]) );
       }
       break;
 
-    case "commander" :
-      passerCommande( $config );
+    case "order" :
+      placeOrder();
       break;
       
-    case "vider" :
-      supprimePanier();
+    case "empty" :
+      deleteCart();
       break;
         
     default:

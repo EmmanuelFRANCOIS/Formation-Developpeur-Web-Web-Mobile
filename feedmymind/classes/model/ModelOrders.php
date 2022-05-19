@@ -2,6 +2,7 @@
 // DB Connexion Utility
 require_once "DBUtils.php";
 
+
 /**
  * @class   ModelOrder
  * @summary Class to manage Orders (DB layer)
@@ -27,7 +28,7 @@ class ModelOrders {
   /**
    *  Function to get the list of Orders from DB table
    */
-  public static function getOrdersTable( $customer_id ) {
+  public static function getOrdersComplete( $customer_id ) {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
       SELECT ord.*, 
@@ -100,35 +101,37 @@ class ModelOrders {
   }
 
 
-  public function createOrderProductsFromCart( $config, $order_id, $products ) {
+  public function createOrderProductsFromCart( $order_id, $products ) {
 
-    //echo 'order_id = ' . $order_id . '<br />';
-    //var_dump($products);
-    //echo '<br /><br />';
+    // Get Global configuration
+    require_once "../../../utils/config.php";
 
     $nbProducts = count( $_SESSION['panier']['libelleProduit'] );
     
+    // Prepare database query
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
       INSERT INTO orders_products (order_id, product_id, quantity, price, tva, delivery_cost) 
-      VALUES (:order_id, :product_id, :quantity, :price, :tva, :delivery_cost)
+      VALUES (:order_id, :id, :qty, :price, :tva, :delivery_cost)
     ");
-    $nbRowsAddedIntoTable = 0;
+
+    // Execute queries
+    $nbProductsRows = 0;
     for ( $i=0; $i < $nbProducts; $i++ ) {
       $requete->execute([
         ':order_id'      => $order_id, 
-        ':product_id'    => $products['idProduit'][$i], 
-        ':quantity'      => $products['qteProduit'][$i], 
-        ':price'         => $products['prixProduit'][$i], 
+        ':id'            => $products['id'][$i], 
+        ':qty'           => $products['qty'][$i], 
+        ':price'         => $products['price'][$i], 
         ':tva'           => $config['tva'], 
         ':delivery_cost' => $config['delivery_cost_per_product']
       ]);
-      $nbRowsAddedIntoTable += 1;
+      $nbProductsRows += 1;
     }
     // Debug query
     //$requete->debugDumpParams();
 
-    return $nbRowsAddedIntoTable;
+    return $nbProductsRows;
 
   }
 
