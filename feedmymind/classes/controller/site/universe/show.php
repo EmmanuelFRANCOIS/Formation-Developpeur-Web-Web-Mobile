@@ -3,80 +3,103 @@ session_start();
 
 require_once "../../../utils/config.php";
 require_once "../../../view/site/ViewTemplateSite.php";
-require_once "../../../view/site/ViewCustomerAuth.php";
-require_once "../../../module/products_by_date/products_by_date.php";
-require_once "../../../module/products_by_rating/products_by_rating.php";
-require_once "../../../module/products_by_random/products_by_random.php";
-require_once "../../../module/products_by_hits/products_by_hits.php";
-require_once "../../../module/products_by_sales/products_by_sales.php";
+require_once "../../../modules/products/products.php";
 
-
-ViewTemplateSite::genHead( $config, 'Accueil' );
-ViewTemplateSite::genHeader( $config, '' );
-ViewTemplateSite::genNavBar( $config );
+$tpl = isset($_GET['tpl']) ? $_GET['tpl'] : $config['site']['modules']['tpl'];
 
 $unvId = $_GET['id'];
 switch ( $unvId ) {
   case 1: $unvTitle = 'Livre';         $unvTitlePlural = 'Livres';          break;
-  case 2: $unvTitle = 'Album Musical'; $unvTitlePlural = 'Albums Musicaux'; break;
+  case 2: $unvTitle = 'Album Musical'; $unvTitlePlural = 'Albums';          break;
   case 3: $unvTitle = 'Film';          $unvTitlePlural = 'Films';           break;
-  case 4: $unvTitle = 'Jeu';           $unvTitlePlural = 'Jeux';            break;
+  case 4: $unvTitle = 'Documentaire';  $unvTitlePlural = 'Documentaires';   break;
 }
 
-$options = [
-  'display'     => null,
-  'moduleTitle' => 'Nouveautés ' . $unvTitlePlural,
-  'universe_id' => $unvId,
-  'category_id' => null,
-  'brand_id'    => null,
-  'mode'        => null,
-  'nb'          => 5,
+$universe = [ 
+  'id'        => $unvId,
+  'title'     => $unvTitlePlural,
+  'pageTitle' => "<span class='text-secondary'>L'Univers des </span><span class='fw-bold text-success'>$unvTitlePlural</span>"
 ];
-ModProductsByDate::genProductsByDate( $options );
 
-$options = [
-  'display'     => null,
-  'moduleTitle' => $unvTitlePlural . ' les mieux notés',
-  'universe_id' => $unvId,
-  'category_id' => null,
-  'brand_id'    => null,
-  'mode'        => null,
-  'nb'          => 5,
-];
-ModProductsByRating::genProductsByRating( $options );
+ViewTemplateSite::genHead( $config, 'Accueil' );
+ViewTemplateSite::genHeader( $config, '' );
+ViewTemplateSite::genNavBar( $config, $unvId );
+ViewTemplateSite::genPageHeader( $unvId, $tpl, $universe['pageTitle'] );
 
+// New Products
 $options = [
-  'display'     => null,
-  'moduleTitle' => $unvTitlePlural . ' les plus Populaires',
+  'tpl'         => $tpl,
+  'moduleTitle' => "<span class='fw-bold text-success'>Nouveautés </span><span class='text-secondary'>$unvTitlePlural</span>",
+  'moreBtnText' => "Nouveautés $unvTitlePlural",
   'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
-  'mode'        => null,
-  'nb'          => 5,
+  'orderBy'     => 'created',
+  // 'nbDisplay'   => null,
+  // 'nbByRow'     => null,
+  // 'nbQuery'     => null
 ];
-ModProductsByHits::genProductsByHits( $options );
+ModProducts::genProducts( $config, $options );
 
+// Bestsellers
 $options = [
-  'display'     => null,
-  'moduleTitle' => 'Meilleures Ventes ' . $unvTitlePlural,
+  'tpl'         => $tpl,
+  'moduleTitle' => "<span class='fw-bold text-success'>Meilleures Ventes </span><span class='text-secondary'>$unvTitlePlural</span>",
+  'moreBtnText' => "$unvTitlePlural les mieux vendus",
   'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
-  'mode'        => null,
-  'nb'          => 5,
+  'orderBy'     => 'sales',
+  // 'nbDisplay'   => null,
+  // 'nbByRow'     => null,
+  // 'nbQuery'     => null
 ];
-ModProductsBySales::genProductsBySales( $options );
+ModProducts::genProducts( $config, $options );
 
+// Most rated
 $options = [
-  'display'     => null,
-  'moduleTitle' => $unvTitlePlural . ' au hazard...',
+  'tpl'         => $tpl,
+  'moduleTitle' => "<span class='text-secondary'>$unvTitlePlural</span><span class='fw-bold text-success'> les mieux notés</span>",
+  'moreBtnText' => "$unvTitlePlural les mieux notés",
   'universe_id' => $unvId,
   'category_id' => null,
   'brand_id'    => null,
-  'mode'        => null,
-  'nb'          => 10,
+  'orderBy'     => 'rating',
+  // 'nbDisplay'   => null,
+  // 'nbByRow'     => null,
+  // 'nbQuery'     => null
 ];
-ModProductsByRandom::genProductsByRandom( $options );
+ModProducts::genProducts( $config, $options );
+
+// Most viewed (hits)
+$options = [
+  'tpl'         => $tpl,
+  'moduleTitle' => "<span class='text-secondary'>$unvTitlePlural</span><span class='fw-bold text-success'> les plus consultés</span>",
+  'moreBtnText' => "$unvTitlePlural les plus consultés",
+  'universe_id' => $unvId,
+  'category_id' => null,
+  'brand_id'    => null,
+  'orderBy'     => 'hits',
+  // 'nbDisplay'   => null,
+  // 'nbByRow'     => null,
+  // 'nbQuery'     => null
+];
+ModProducts::genProducts( $config, $options );
+
+// Random selection
+$options = [
+  'tpl'         => $tpl,
+  'moduleTitle' => "<span class='text-secondary'>Laissons faire le </span><span class='fw-bold text-success'>hazard</span>",
+  'moreBtnText' => "$unvTitlePlural au hazard",
+  'universe_id' => $unvId,
+  'category_id' => null,
+  'brand_id'    => null,
+  'orderBy'     => 'random',
+  'nbDisplay'   => 8,
+  'nbByRow'     => 4,
+  'nbQuery'     => 16
+];
+ModProducts::genProducts( $config, $options );
 
 ViewTemplateSite::genFooter( $config );
 ?>

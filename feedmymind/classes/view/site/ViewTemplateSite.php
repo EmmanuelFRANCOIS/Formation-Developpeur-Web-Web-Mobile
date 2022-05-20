@@ -127,7 +127,7 @@ class ViewTemplateSite {
    * @summary  Function to generate Site page navbar
    * @param    $config => Config parameters object
    */
-  public static function genNavBar( $config ) {
+  public static function genNavBar( $config, $unv ) {
 ?>
 
     <nav class="navbar navbar-expand-lg navbar-light kltr-bg-toolbar-light">
@@ -141,19 +141,19 @@ class ViewTemplateSite {
               <a class="btn btn-primary text-white fw-bold fs-5" aria-current="page" href="../home/index.php">Nouveautés</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="../universe/show.php?id=1">Livres</a>
+              <a class="nav-link<?php echo $unv == 1 ? ' active text-success' : ''; ?>" href="../universe/show.php?id=1">Livres</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="../universe/show.php?id=2">Musique</a>
+              <a class="nav-link<?php echo $unv == 2 ? ' active text-success' : ''; ?>" href="../universe/show.php?id=2">Musique</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="../universe/show.php?id=3">Films</a>
+              <a class="nav-link<?php echo $unv == 3 ? ' active text-success' : ''; ?>" href="../universe/show.php?id=3">Films</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="../universe/show.php?id=4">Documentaires</a>
+              <a class="nav-link<?php echo $unv == 4 ? ' active text-success' : ''; ?>" href="../universe/show.php?id=4">Documentaires</a>
             </li>
             <li class="nav-item">
-              <a class="btn btn-success fw-bold fs-5" href="#">Bons plans</a>
+              <a class="btn btn-warning fw-bold fs-5" href="#">Bons plans</a>
             </li>
             <li class="nav-item">
               <form class="d-flex">
@@ -203,6 +203,32 @@ class ViewTemplateSite {
 
 
   /**
+   * @function  genPageHeader()
+   * @summary   Function to generate Products page header
+   * @return    html
+   */
+  public static function genPageHeader( $unvId, $tpl, $pageTitle ) {
+    ?>
+    <div class="container-fluid py-4 bg-light">
+      <div class="container d-flex justify-content-between">
+        <h1 class="col text-uppercase text-center"><?php echo $pageTitle; ?></h1>
+        <div class="col-2 fs-3 text-end">
+          <?php if ( $tpl === 'list' ) { ?>
+          <a class="btn btn-outline-success py-1 px-2 fs-5" 
+             href="<?php echo $_SERVER['PHP_SELF']; ?>?<?php echo $unvId > 0 ? 'id=' . $unvId . '&' : ''; ?>tpl=mosaic"><i class="fa-solid fa-grip"></i></a>
+          <?php } ?>
+          <?php if ( $tpl === 'mosaic' ) { ?>
+          <a class="ms-2 btn btn-outline-success py-1 px-2 fs-5" 
+             href="<?php echo $_SERVER['PHP_SELF']; ?>?<?php echo $unvId > 0 ? 'id=' . $unvId . '&' : ''; ?>tpl=list"><i class="fa-solid fa-list"></i></a>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
+    <?php
+  }
+
+
+  /**
    * @function genRatingStars()
    * @summary  Function to generate Rating stars html code
    * @param    ratingValue => Rating value (from 0 to 5)
@@ -228,7 +254,3 @@ class ViewTemplateSite {
 }
 
 ?>
-
-
-
-

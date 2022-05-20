@@ -22,12 +22,12 @@ $config = [
     'customers'  => 'customers/'
   ],
   'site' => [
-    'homepage' => [
-      'modules' => [
-        'nbDisplay' => 4,
-        'nbByRow'   => 4,
-        'nbQuery'   => 8
-      ]
+    'modules' => [
+      'tpl'        => 'mosaic',
+      'nbDisplay'  => 4,
+      'nbByRow'    => 4,
+      'nbMaxByRow' => 6,
+      'nbQuery'    => 8
     ]
   ],
   'admin' => [
