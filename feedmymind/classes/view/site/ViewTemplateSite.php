@@ -177,6 +177,37 @@ class ViewTemplateSite {
    */
   public static function genFooter( $config, $scripts = [] ) {
 ?>
+    <footer class="container-fluid py-5 bg-light">
+      <div class="container">
+        <div class="row">
+
+          <div class="col">
+            <a class="d-flex align-items-center text-dark text-decoration-none" href="<?php echo $config['siteUrl']; ?>">
+              <img src="../../../../images/logos/brainfood.svg" height="40" alt="<?php echo $config['siteName']; ?>">
+              <h4 class="ms-2 me-auto fs-2 fw-bold text-uppercase"><?php echo $config['companyName']; ?></h4>
+            </a>
+            <p><?php echo $config['siteIntro']; ?></p>
+            <div class="d-flex justify-content-start align-items-center mt-4 social">
+              Suivez-nous sur 
+              <a class="btn btn-secondary fs-4 p-0 ms-2" href="#" style="width: 32px; height:32px;"><i class="fa-brands fa-facebook-f"></i></a>
+              <a class="btn btn-secondary fs-4 p-0 ms-2" href="#" style="width: 32px; height:32px;"><i class="fa-brands fa-twitter"></i></a>
+              <a class="btn btn-secondary fs-4 p-0 ms-2" href="#" style="width: 32px; height:32px;"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a class="btn btn-secondary fs-4 p-0 ms-2" href="#" style="width: 32px; height:32px;"><i class="fa-brands fa-squarespace"></i></a>
+              <a class="btn btn-secondary fs-4 p-0 ms-2" href="#" style="width: 32px; height:32px;"><i class="fa-brands fa-tiktok"></i></a>
+              <a class="btn btn-secondary fs-4 p-0 ms-2" href="#" style="width: 32px; height:32px;"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+          </div>
+
+          <div class="col"></div>
+
+          <div class="col"></div>
+
+          <div class="col"></div>
+
+        </div>
+      </div>
+    </footer>
+
     <footer class="container-fluid px-3">
       <!-- Copyright -->
       <div class="ml-md-4 mr-md-5 my-5 text-center copyright">

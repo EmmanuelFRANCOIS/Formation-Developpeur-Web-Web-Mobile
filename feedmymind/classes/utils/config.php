@@ -6,7 +6,7 @@ $config = [
   'siteUrl'     => 'http://localhost/feedmymind/',
   'siteIntro'   =>  '<p style="text-align: justify;">FeedMyMind prend soin de votre Esprit et '
                   . 'propose le plus large choix de produits culturels, '
-                  . 'répartis dans les quatre univers "Livre", "Musique", "Cinéma" & "Jeu".</p>'
+                  . 'répartis dans les quatre univers "Livre", "Musique", "Cinéma" & "Documentaires".</p>'
                   . '<p style="text-align: justify;">Des milliers de références, les meilleurs contenus, à votre disposition, '
                   . 'au meilleur prix...</p>',
   'imagePath' => [
@@ -46,7 +46,6 @@ $config = [
     ]
   ]
 ];
-
 
 
 ?>
