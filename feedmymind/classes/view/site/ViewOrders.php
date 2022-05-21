@@ -10,10 +10,16 @@ class ViewOrders {
    * @summary  Function to generate customer orders page
    */
   public static function genOrderValidationForm( $config, $order, $products ) {
-    $date = new DateTime( $order['date_order'] );
-    $date_order = $date->format('D d F Y') . ' à ' . $date->format('H:i:s');
-    $date = new DateTime( $order['date_bill'] );
-    $date_bill = $date->format('D d F Y') . ' à ' . $date->format('H:i:s');
+    $MoneyFrmtr = new \NumberFormatter( $config['locale'], \NumberFormatter::CURRENCY );
+    $DateFrmtr = datefmt_create(
+      str_replace('-', '_', $config['locale']),
+      IntlDateFormatter::LONG,
+      IntlDateFormatter::SHORT,
+      'Europe/Paris',
+      IntlDateFormatter::GREGORIAN
+      );
+    $date_order = new DateTime( $order['date_order'] );
+    $date_bill = new DateTime( $order['date_bill'] );
     $status = $config['statusList'][$order['status']];
 ?>
     <div class="container-fluid py-4">
@@ -23,9 +29,9 @@ class ViewOrders {
           <input type="hidden" name="id" id="id" value="<?php echo $order['id']; ?>">
           <div class="row">
             <div class="col-6">
-              <div class="row"><div class="col-4 text-secondary">Date commande : </div><div class="col fw-bold"><?php echo $date_order; ?></div></div>
+              <div class="row"><div class="col-4 text-secondary">Date commande : </div><div class="col fw-bold"><?php echo datefmt_format($DateFrmtr, $date_order); ?></div></div>
               <div class="row"><div class="col-4 text-secondary">Commande n° </div><div class="col fw-bold"><?php echo $order['order_no']; ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Date facturation : </div><div class="col fw-bold"><?php echo $date_bill; ?></div></div>
+              <div class="row"><div class="col-4 text-secondary">Date facturation : </div><div class="col fw-bold"><?php echo datefmt_format($DateFrmtr, $date_bill); ?></div></div>
               <div class="row"><div class="col-4 text-secondary">Facture n° </div><div class="col fw-bold"><?php echo $order['bill_no']; ?></div></div>
               <div class="row"><div class="col-4 text-secondary">Status </div><div class="col fw-bold text-primary"><?php echo $status; ?></div></div>
             </div>
@@ -53,19 +59,19 @@ class ViewOrders {
               </thead>
               <tbody>
                 <?php 
-                  $totalQty  = 0;
                   $totalPtht = 0;
                   $totalTva  = 0;
                   $totalPttc = 0;
+                  $totalDeliveryCost = 0;
                   foreach ( $products as $product ) { 
-                    $totalQty += $product['quantity'];
-                    $puht = number_format( $product['price'] / (1 + $product['tva']), 2, ',', ' ' ) . " €";
-                    $ptht = number_format( $product['quantity'] * $product['price'] / (1 + $product['tva']), 2, ',', ' ' ) . " €";
+                    $puht       = $product['price'] / (1 + $product['tva']);
+                    $ptht       = $product['quantity'] * $product['price'] / (1 + $product['tva']);
                     $totalPtht += $ptht;
-                    $tva = number_format( $product['quantity'] * $puht * $product['tva'], 2, ',', ' ' ) . " €";
-                    $totalTva += $tva;
-                    $pttc = number_format( $product['quantity'] * $product['price'], 2, ',', ' ' ) . " €";
+                    $tva        = $product['quantity'] * $puht * $product['tva'];
+                    $totalTva  += $tva;
+                    $pttc       = $product['quantity'] * $product['price'];
                     $totalPttc += $pttc;
+                    $totalDeliveryCost += $product['delivery_cost']
                 ?>
                   <tr>
                     <td><?php echo $product['universe']; ?></td>
@@ -73,23 +79,34 @@ class ViewOrders {
                     <td><?php echo $product['maker']; ?></td>
                     <td><?php echo $product['reference']; ?></td>
                     <td class="text-end"><?php echo $product['quantity']; ?></td>
-                    <td class="text-end"><?php echo $puht; ?></td>
-                    <td class="text-end"><?php echo $ptht; ?></td>
-                    <td class="text-end"><?php echo $tva; ?></td>
-                    <td class="text-end"><?php echo $pttc; ?></td>
+                    <td class="text-end"><?php echo $MoneyFrmtr->format($puht); ?></td>
+                    <td class="text-end px-2"><?php echo $MoneyFrmtr->format($ptht); ?></td>
+                    <td class="text-end px-2"><?php echo $MoneyFrmtr->format($tva); ?></td>
+                    <td class="text-end px-2"><?php echo $MoneyFrmtr->format($pttc); ?></td>
                   </tr>
                 <?php } ?>
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="4"></td>
-                  <td class="fw-bold text-end"><?php echo $totalQty; ?></td>
-                  <td></td>
-                  <td class="fw-bold text-end"><?php echo number_format( $totalPtht, 2, ',', ' ' ) . " €"; ?></td>
-                  <td class="fw-bold text-end"><?php echo number_format( $totalTva, 2, ',', ' ' ) . " €"; ?></td>
-                  <td class="fw-bold text-end"><?php echo number_format( $totalPttc, 2, ',', ' ' ) . " €"; ?></td>
+                  <td colspan="6"></td>
+                  <td class="fw-bold text-end px-2"><?php echo $MoneyFrmtr->format( $totalPtht ); ?></td>
+                  <td class="fw-bold text-end px-2"><?php echo $MoneyFrmtr->format( $totalTva ); ?></td>
+                  <td class="fw-bold text-end px-2"><?php echo $MoneyFrmtr->format( $totalPttc ); ?></td>
                 </tr>
               </tfoot>
+            </table>
+          </div>
+
+          <!-- Totals -->
+          <div class="d-flex justify-content-end mt-4">
+            <table class="w-auto table border border-secondary totals">
+              <tbody>
+                <tr><td class="bg-light pe-4">Total HT</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalPtht); ?></td></tr>
+                <tr><td class="bg-light pe-4">TVA</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalTva); ?></td></tr>
+                <tr><td class="bg-light pe-4">Total TTC</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalPttc); ?></td></tr>
+                <tr><td class="bg-light pe-4">Frais de livraison</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalDeliveryCost); ?></td></tr>
+                <tr><td class="bg-light pe-4">Total à payer</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalDeliveryCost + $totalPttc); ?></td></tr>
+              </tbody>
             </table>
           </div>
         </form>
@@ -202,13 +219,13 @@ class ViewOrders {
                   $totalTva  = 0;
                   $totalPttc = 0;
                   foreach ( $products as $product ) { 
-                    $totalQty += $product['quantity'];
-                    $puht = number_format( $product['price'] / (1 + $product['tva']), 2, ',', ' ' ) . " €";
-                    $ptht = number_format( $product['quantity'] * $product['price'] / (1 + $product['tva']), 2, ',', ' ' ) . " €";
+                    $totalQty  += $product['quantity'];
+                    $puht       = $product['price'] / (1 + $product['tva']);
+                    $ptht       = $product['quantity'] * $product['price'] / (1 + $product['tva']);
                     $totalPtht += $ptht;
-                    $tva = number_format( $product['quantity'] * $puht * $product['tva'], 2, ',', ' ' ) . " €";
-                    $totalTva += $tva;
-                    $pttc = number_format( $product['quantity'] * $product['price'], 2, ',', ' ' ) . " €";
+                    $tva        = $product['quantity'] * $puht * $product['tva'];
+                    $totalTva  += $tva;
+                    $pttc       = $product['quantity'] * $product['price'];
                     $totalPttc += $pttc;
                 ?>
                   <tr>
@@ -226,9 +243,7 @@ class ViewOrders {
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="4"></td>
-                  <td class="fw-bold text-end"><?php echo $totalQty; ?></td>
-                  <td></td>
+                  <td colspan="6"></td>
                   <td class="fw-bold text-end"><?php echo number_format( $totalPtht, 2, ',', ' ' ) . " €"; ?></td>
                   <td class="fw-bold text-end"><?php echo number_format( $totalTva, 2, ',', ' ' ) . " €"; ?></td>
                   <td class="fw-bold text-end"><?php echo number_format( $totalPttc, 2, ',', ' ' ) . " €"; ?></td>

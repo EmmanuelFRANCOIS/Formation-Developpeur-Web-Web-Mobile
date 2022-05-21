@@ -11,13 +11,15 @@ require_once "../../../model/ModelOrders.php";
  */
 function createCart () {
   if ( !isset($_SESSION['cart']) ) {
-    $_SESSION['cart']          = array();
-    $_SESSION['cart']['id']    = array();
-    $_SESSION['cart']['title'] = array();
-    $_SESSION['cart']['maker'] = array();
-    $_SESSION['cart']['qty']   = array();
-    $_SESSION['cart']['price'] = array();
-    $_SESSION['cart']['lock']  = false;
+    $_SESSION['cart']            = array();
+    $_SESSION['cart']['id']      = array();
+    $_SESSION['cart']['title']   = array();
+    $_SESSION['cart']['maker']   = array();
+    $_SESSION['cart']['ref']     = array();
+    $_SESSION['cart']['qty']     = array();
+    $_SESSION['cart']['price']   = array();
+    $_SESSION['cart']['deliver'] = array();
+    $_SESSION['cart']['lock']    = false;
   }
   return true;
 }
@@ -33,28 +35,43 @@ function createCart () {
  * @param float  $price
  * @return void
  */
-function addProduct( $id, $title, $maker, $qty, $price ) {
+function addProduct( $id, $title, $maker, $ref, $qty, $price ) {
+
+  // Get Global configuration
+  require_once "../../../utils/config.php";
+
   // If cart exists and is not locked
   if ( createCart() && !isCartLocked() ) {
+
+    $deliver = $config['orders']['delivery_cost_per_product'];
+
     // We get the position of the Product in cart array
     if ( count($_SESSION['cart']['title']) > 0 ) {
       $position = array_search( $title,  $_SESSION['cart']['title'] );
+      $position = $position ? $position : 'not found';
     } else {
-      $position = false;
+      $position = 'not found';
     }
+
     // If the product is already in cart, we only increment its quantity
-    if ( !$position ) {
-      array_push( $_SESSION['cart']['id'],    $id    );
-      array_push( $_SESSION['cart']['title'], $title );
-      array_push( $_SESSION['cart']['maker'], $maker );
-      array_push( $_SESSION['cart']['qty'],   $qty   );
-      array_push( $_SESSION['cart']['price'], $price );
+    if ( $position === 'not found' ) {
+
+      array_push( $_SESSION['cart']['id'],      $id      );
+      array_push( $_SESSION['cart']['title'],   $title   );
+      array_push( $_SESSION['cart']['maker'],   $maker   );
+      array_push( $_SESSION['cart']['ref'],     $ref     );
+      array_push( $_SESSION['cart']['qty'],     $qty     );
+      array_push( $_SESSION['cart']['price'],   $price   );
+      array_push( $_SESSION['cart']['deliver'], $deliver );
+
     } else { // If not, we add the product to cart
       $_SESSION['cart']['qty'][$position] += $qty ;
     }
+
   } else {
     echo "Un problème est survenu veuillez contacter l'administrateur du site.";
   }
+
 }
 
 
@@ -184,7 +201,7 @@ function countUniqueProductsInCart() {
  * @summary  Place an order based on the Cart content
  * @return int
  */
-function placeOrder() {
+function placeOrder( $config ) {
 
   if ( isset( $_SESSION['cart'] ) && isset( $_SESSION['site']['id'] ) ) {
 
@@ -195,9 +212,9 @@ function placeOrder() {
     $order = [
       'customer_id'      => $customer_id, 
       'date_order'       => $dateOrder, 
-      'order_no'         => "ORDER-" . $customer_id . "-" . $timestamp, 
+      'order_no'         => "CDE-" . $customer_id . "-" . $timestamp, 
       'date_bill'        => $dateOrder, 
-      'bill_no'          => "BILL-" . $customer_id . "-" . ($timestamp + 60), 
+      'bill_no'          => "FACT-" . $customer_id . "-" . $timestamp, 
       'date_paid'        => null, 
       'date_sent'        => null, 
       'delivery_no'      => null, 
@@ -210,19 +227,19 @@ function placeOrder() {
       'carrier_id'       => null
     ];
     $modelOrders = new ModelOrders();
-    $order_id = $modelOrders->createOrderFromCart( $order );
-    $result = $modelOrders->createOrderProductsFromCart( $order_id, $_SESSION['cart'] );
+    $order_id = $modelOrders->createOrderFromCart( $config, $order );
+    $result = $modelOrders->createOrderProductsFromCart( $config, $order_id, $_SESSION['cart'] );
 
-    $backToPage = $_SESSION['cart']['backToPage'];
-    if ( $result > 0 ) {
+    //$backToPage = $_SESSION['cart']['backToPage'];
+    //if ( $result > 0 ) {
       deleteCart ();
-    }
-    if ( isset($backToPage) ) {
+    //}
+    //if ( isset($backToPage) ) {
       header( "Location: ../orders/validate.php?id=" . $order_id );
-    }
+    //}
 
   } else {
-    return false;
+    //return false;
   }
 
 }
@@ -239,8 +256,8 @@ function genCart() {
     $connected = true;
   }
 ?>
-  <div class="container-fluid">
-    <div class="container">
+  <div class="container-fluid pb-5">
+    <div class="container py-5">
       <?php
       if ( createCart() ) {
         $nbArticles=count($_SESSION['cart']['title']);
@@ -266,6 +283,7 @@ function genCart() {
                   <th class="text-center p-3" scope="col">Id</th>
                   <th class="text-center p-3" scope="col">Titre</th>
                   <th class="text-center p-3" scope="col">Auteur</th>
+                  <th class="text-center p-3" scope="col">Référence</th>
                   <th class="text-center p-3" scope="col">Quantité</th>
                   <th class="text-end p-3" scope="col">Prix Unitaire</th>
                   <th class="text-end p-3" scope="col">Action</th>
@@ -277,6 +295,7 @@ function genCart() {
                     <td class="text-center p-3"><?php echo htmlspecialchars($_SESSION['cart']['id'][$i]); ?></td>
                     <td class="fw-bold text-success p-3"><?php echo htmlspecialchars($_SESSION['cart']['title'][$i]); ?></td>
                     <td class="p-3"><?php echo htmlspecialchars($_SESSION['cart']['maker'][$i]); ?></td>
+                    <td class="text-center p-3"><?php echo htmlspecialchars($_SESSION['cart']['ref'][$i]); ?></td>
                     <td class="text-center p-3"><input type="number" size="4" name="q[]" value="<?php echo htmlspecialchars($_SESSION['cart']['qty'][$i]); ?>"></td>
                     <td class="text-end p-3"><?php echo htmlspecialchars($_SESSION['cart']['price'][$i]); ?> €</td>
                     <td class="text-end p-3">
@@ -289,7 +308,7 @@ function genCart() {
               </tbody>
               <tfoot class="table-group-divider bg-light">
                 <tr>
-                  <td colspan="3" class="p-3">
+                  <td colspan="4" class="p-3">
                     <a class="btn btn-dark fw-bold text-uppercase" href="javascript:history.back()">Continuer mes achats</a>
                   </td>
                   <td class="text-center p-3">

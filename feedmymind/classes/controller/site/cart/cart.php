@@ -18,6 +18,7 @@ if ( $action !== null ) {
   $id = ( isset($_POST['id']) ? $_POST['id'] : ( isset($_GET['id']) ? $_GET['id'] : null )) ;
   $l  = ( isset($_POST['l'])  ? $_POST['l']  : ( isset($_GET['l'])  ? $_GET['l']  : null )) ;
   $a  = ( isset($_POST['a'])  ? $_POST['a']  : ( isset($_GET['a'])  ? $_GET['a']  : null )) ;
+  $r  = ( isset($_POST['r'])  ? $_POST['r']  : ( isset($_GET['r'])  ? $_GET['r']  : null )) ;
   $p  = ( isset($_POST['p'])  ? $_POST['p']  : ( isset($_GET['p'])  ? $_GET['p']  : null )) ;
   $q  = ( isset($_POST['q'])  ? $_POST['q']  : ( isset($_GET['q'])  ? $_GET['q']  : null )) ;
 
@@ -26,6 +27,7 @@ if ( $action !== null ) {
   //Suppression des espaces verticaux
   $l = preg_replace('#\v#', '',$l);
   $a = preg_replace('#\v#', '',$a);
+  $r = preg_replace('#\v#', '',$r);
   //On vérifie que $p est un float
   $p = floatval($p);
 
@@ -49,7 +51,7 @@ if ( !$erreur ) {
       // if ( isset($_SERVER["HTTP_REFERER"]) ) {
       //   $_SESSION['panier']['backToPage'] = $_SERVER["HTTP_REFERER"];
       // }  
-      addProduct( $id, $l, $a, $q, $p );
+      addProduct( $id, $l, $a, $r, $q, $p );
       break;
 
     case "delete":
@@ -63,7 +65,7 @@ if ( !$erreur ) {
       break;
 
     case "order" :
-      placeOrder();
+      placeOrder( $config );
       break;
       
     case "empty" :
@@ -77,7 +79,7 @@ if ( !$erreur ) {
 
 ViewTemplateSite::genHead( $config, 'Mon panier' );
 ViewTemplateSite::genHeader( $config, '' );
-ViewTemplateSite::genNavBar( $config );
+ViewTemplateSite::genNavBar( $config, null );
 genCart();
 ViewTemplateSite::genFooter( $config );
 

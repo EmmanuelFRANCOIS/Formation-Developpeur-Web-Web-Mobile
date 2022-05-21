@@ -32,9 +32,10 @@ $config = [
   ],
   'admin' => [
   ],
+  'locale' => 'fr-FR',
   'orders' => [
     'tva'         => 0.20,
-    'delivery_cost_per_product' => 0.25,
+    'delivery_cost_per_product' => 0.87,
     'statusList'  => [
       'saved'     => "Enregistrée / En attente de paiment.",
       'paid'      => "Payée et en attente de validation.",

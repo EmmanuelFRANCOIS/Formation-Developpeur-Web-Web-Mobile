@@ -188,7 +188,7 @@ class ModProducts {
                         <div class="text-secondary rating">Pas noté</div>
                       <?php } ?>
                       <div class="price fw-bold fs-5" style="z-index: 10;"><?php echo $product['price']; ?> €
-                      <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
+                      <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;r=<?php echo $product['reference']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
                         class="btn btn-success px-1 pt-1 pb-0 ms-2" 
                         title="Ajouter au panier" >
                         <i class="fa-solid fa-cart-plus fs-5"></i>
@@ -280,7 +280,7 @@ class ModProducts {
                   </td>
 
                   <td class="text-end ps-2 pe-0" style="width: 40px;">
-                    <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
+                    <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;r=<?php echo $product['reference']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
                       class="btn btn-success px-1 pt-1 pb-0 ms-2" 
                       title="Ajouter au panier" >
                       <i class="fa-solid fa-cart-plus fs-5"></i>

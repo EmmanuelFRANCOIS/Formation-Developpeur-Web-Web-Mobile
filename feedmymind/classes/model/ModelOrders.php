@@ -69,7 +69,7 @@ class ModelOrders {
   }
 
 
-  public function createOrderFromCart( $order ) {
+  public function createOrderFromCart( $config, $order ) {
 
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
@@ -101,18 +101,15 @@ class ModelOrders {
   }
 
 
-  public function createOrderProductsFromCart( $order_id, $products ) {
+  public function createOrderProductsFromCart( $config, $order_id, $products ) {
 
-    // Get Global configuration
-    require_once "../../../utils/config.php";
-
-    $nbProducts = count( $_SESSION['panier']['libelleProduit'] );
+    $nbProducts = count( $_SESSION['cart']['title'] );
     
     // Prepare database query
     $dbconn = DBUtils::getDBConnection();
     $requete = $dbconn->prepare("
       INSERT INTO orders_products (order_id, product_id, quantity, price, tva, delivery_cost) 
-      VALUES (:order_id, :id, :qty, :price, :tva, :delivery_cost)
+      VALUES (:order_id, :product_id, :qty, :price, :tva, :delivery_cost)
     ");
 
     // Execute queries
@@ -120,11 +117,11 @@ class ModelOrders {
     for ( $i=0; $i < $nbProducts; $i++ ) {
       $requete->execute([
         ':order_id'      => $order_id, 
-        ':id'            => $products['id'][$i], 
+        ':product_id'    => $products['id'][$i], 
         ':qty'           => $products['qty'][$i], 
         ':price'         => $products['price'][$i], 
-        ':tva'           => $config['tva'], 
-        ':delivery_cost' => $config['delivery_cost_per_product']
+        ':tva'           => $config['orders']['tva'], 
+        ':delivery_cost' => $config['orders']['delivery_cost_per_product']
       ]);
       $nbProductsRows += 1;
     }

@@ -27,15 +27,15 @@ class ACL {
 
     return $acl = [
       "admin" => [		
-        "index.php" => [ "adm", "com", "sup", "stk" ],
+        "index.php" => [ "adm", "com", "sup", "mag" ],
         "home" => [	
-          "index.php" => [ "adm", "com", "sup", "stk" ],
+          "index.php" => [ "adm", "com", "sup", "mag" ],
         ],
         "dashboard" => [
           "admin.php" => [ "adm" ],
           "sales.php" => [ "adm", "com" ],
           "support.php" => [ "adm", "com", "sup" ],
-          "stocks.php" => [ "adm", "stk" ],
+          "stocks.php" => [ "adm", "mag" ],
         ],
         "customer" => [	
           "list.php" => [ "adm", "com", "sup" ],
@@ -45,18 +45,18 @@ class ACL {
           "delete.php" => [ "adm", "com" ],
         ],
         "orders" => [	
-          "list.php" => [ "adm", "com", "sup", "stk" ],
+          "list.php" => [ "adm", "com", "sup", "mag" ],
           "add.php" => [ "adm", "com" ],
-          "show.php" => [ "adm", "com", "sup", "stk" ],
+          "show.php" => [ "adm", "com", "sup", "mag" ],
           "edit.php" => [ "adm", "com" ],
           "delete.php" => [ "adm", "com" ],
         ],
         "product" => [	
-          "list.php" => [ "adm", "com", "sup", "stk" ],
+          "list.php" => [ "adm", "com", "sup", "mag" ],
           "add.php" => [ "adm", "com" ],
-          "show.php" => [ "adm", "com", "sup", "stk" ],
+          "show.php" => [ "adm", "com", "sup", "mag" ],
           "edit.php" => [ "adm", "com" ],
-          "editStock.php" => [ "adm", "stk" ],
+          "editStock.php" => [ "adm", "mag" ],
           "delete.php" => [ "adm", "com" ],
         ],
         "comment" => [	
@@ -106,11 +106,11 @@ class ACL {
           "delete.php" => [ "adm", "com" ],
         ],
         "carrier" => [	
-          "list.php" => [ "adm", "stk" ],
-          "add.php" => [ "adm", "stk" ],
-          "show.php" => [ "adm", "stk" ],
-          "edit.php" => [ "adm", "stk" ],
-          "delete.php" => [ "adm", "stk" ],
+          "list.php" => [ "adm", "mag" ],
+          "add.php" => [ "adm", "mag" ],
+          "show.php" => [ "adm", "mag" ],
+          "edit.php" => [ "adm", "mag" ],
+          "delete.php" => [ "adm", "mag" ],
         ],
         "role" => [	
           "list.php" => [ "adm" ],

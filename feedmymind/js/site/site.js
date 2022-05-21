@@ -7,6 +7,8 @@ $(document).ready ( function() {
     searching: false,
     info: false
   });
+
+  // Cart recalculation
   function cartRecalc() {
     
   }

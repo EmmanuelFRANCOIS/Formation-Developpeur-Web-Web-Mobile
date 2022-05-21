@@ -29,7 +29,7 @@ if ( isset($_POST['pay']) ) {
 
 ViewTemplateSite::genHead( $config, 'Mes Commandes' );
 ViewTemplateSite::genHeader( $config, 'Mes Commandes' );
-ViewTemplateSite::genNavBar( $config );
+ViewTemplateSite::genNavBar( $config, null );
 ViewOrders::genOrderValidationForm( $config, $order, $products );
 ViewTemplateSite::genFooter( $config, [] );
 

@@ -86,7 +86,7 @@ class ViewTemplateSite {
         <?php } ?>
           <!-- Cart button -->
           <div class="me-0 text-center">
-            <a href="../../../controller/site/cart/panier.php" type="button" class="btn py-1 text-center text-dark" title="Mon panier">
+            <a href="../../../controller/site/cart/cart.php" type="button" class="btn py-1 text-center text-dark" title="Mon panier">
               <i class="d-block mx-auto fa-solid fa-cart-shopping fs-2"></i>
               <div class="mt-1 lh-1 text-center small">
                 <div>Panier</div>
@@ -177,7 +177,7 @@ class ViewTemplateSite {
    */
   public static function genFooter( $config, $scripts = [] ) {
 ?>
-    <footer class="container-fluid py-5 bg-light">
+    <footer class="container-fluid mt-5 py-5 bg-light">
       <div class="container">
         <div class="row">
 
@@ -206,11 +206,8 @@ class ViewTemplateSite {
 
         </div>
       </div>
-    </footer>
-
-    <footer class="container-fluid px-3">
       <!-- Copyright -->
-      <div class="ml-md-4 mr-md-5 my-5 text-center copyright">
+      <div class="ms-md-4 me-md-5 mt-5 pt-5 mb-3 text-center copyright">
         Copyright © 2022 <a href="<?php echo $config['siteUrl']; ?>"><?php echo $config['siteName']; ?></a>. Tous droits réservés.
       </div>
     </footer>
