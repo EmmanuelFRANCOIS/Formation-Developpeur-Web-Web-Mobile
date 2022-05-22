@@ -2,6 +2,7 @@
 session_start();
 
 require_once "../../../model/ModelOrders.php";
+require_once "../../../utils/config.php";
 
 
 /**
@@ -11,15 +12,19 @@ require_once "../../../model/ModelOrders.php";
  */
 function createCart () {
   if ( !isset($_SESSION['cart']) ) {
-    $_SESSION['cart']            = array();
-    $_SESSION['cart']['id']      = array();
-    $_SESSION['cart']['title']   = array();
-    $_SESSION['cart']['maker']   = array();
-    $_SESSION['cart']['ref']     = array();
-    $_SESSION['cart']['qty']     = array();
-    $_SESSION['cart']['price']   = array();
-    $_SESSION['cart']['deliver'] = array();
-    $_SESSION['cart']['lock']    = false;
+    $_SESSION['cart']                = array();
+    $_SESSION['cart']['id']          = array();
+    $_SESSION['cart']['universe_id'] = array();
+    $_SESSION['cart']['category_id'] = array();
+    $_SESSION['cart']['brand_id']    = array();
+    $_SESSION['cart']['image']       = array();
+    $_SESSION['cart']['title']       = array();
+    $_SESSION['cart']['maker']       = array();
+    $_SESSION['cart']['ref']         = array();
+    $_SESSION['cart']['qty']         = array();
+    $_SESSION['cart']['price']       = array();
+    $_SESSION['cart']['deliver']     = array();
+    $_SESSION['cart']['lock']        = false;
   }
   return true;
 }
@@ -35,7 +40,7 @@ function createCart () {
  * @param float  $price
  * @return void
  */
-function addProduct( $id, $title, $maker, $ref, $qty, $price ) {
+function addProduct( $id, $universe_id, $category_id, $brand_id, $image, $title, $maker, $ref, $qty, $price ) {
 
   // Get Global configuration
   require_once "../../../utils/config.php";
@@ -43,12 +48,10 @@ function addProduct( $id, $title, $maker, $ref, $qty, $price ) {
   // If cart exists and is not locked
   if ( createCart() && !isCartLocked() ) {
 
-    $deliver = $config['orders']['delivery_cost_per_product'];
-
     // We get the position of the Product in cart array
     if ( count($_SESSION['cart']['title']) > 0 ) {
       $position = array_search( $title,  $_SESSION['cart']['title'] );
-      $position = $position ? $position : 'not found';
+      $position = is_int($position)  ? $position : 'not found';
     } else {
       $position = 'not found';
     }
@@ -56,13 +59,19 @@ function addProduct( $id, $title, $maker, $ref, $qty, $price ) {
     // If the product is already in cart, we only increment its quantity
     if ( $position === 'not found' ) {
 
-      array_push( $_SESSION['cart']['id'],      $id      );
-      array_push( $_SESSION['cart']['title'],   $title   );
-      array_push( $_SESSION['cart']['maker'],   $maker   );
-      array_push( $_SESSION['cart']['ref'],     $ref     );
-      array_push( $_SESSION['cart']['qty'],     $qty     );
-      array_push( $_SESSION['cart']['price'],   $price   );
-      array_push( $_SESSION['cart']['deliver'], $deliver );
+      $deliveryCost = $config['orders']['delivery_cost_per_product'];
+
+      array_push( $_SESSION['cart']['id'],          $id           );
+      array_push( $_SESSION['cart']['universe_id'], $universe_id  );
+      array_push( $_SESSION['cart']['category_id'], $category_id  );
+      array_push( $_SESSION['cart']['brand_id'],    $brand_id     );
+      array_push( $_SESSION['cart']['image'],       $image        );
+      array_push( $_SESSION['cart']['title'],       $title        );
+      array_push( $_SESSION['cart']['maker'],       $maker        );
+      array_push( $_SESSION['cart']['ref'],         $ref          );
+      array_push( $_SESSION['cart']['qty'],         $qty          );
+      array_push( $_SESSION['cart']['price'],       $price        );
+      array_push( $_SESSION['cart']['deliver'],     $deliveryCost );
 
     } else { // If not, we add the product to cart
       $_SESSION['cart']['qty'][$position] += $qty ;
@@ -111,20 +120,28 @@ function removeProduct( $title ) {
   // If cart exists and is not locked
   if ( isset($_SESSION['cart']) && !isCartLocked() ) {
     // We use a temporary array
-    $tmp          = array();
-    $tmp['id']    = array();
-    $tmp['title'] = array();
-    $tmp['maker'] = array();
-    $tmp['qty']   = array();
-    $tmp['price'] = array();
-    $tmp['lock']  = $_SESSION['cart']['lock'];
+    $tmp                = array();
+    $tmp['id']          = array();
+    $tmp['universe_id'] = array();
+    $tmp['category_id'] = array();
+    $tmp['brand_id']    = array();
+    $tmp['image']       = array();
+    $tmp['title']       = array();
+    $tmp['maker']       = array();
+    $tmp['qty']         = array();
+    $tmp['price']       = array();
+    $tmp['lock']        = $_SESSION['cart']['lock'];
     for ( $i = 0; $i < count($_SESSION['cart']['title']); $i++ ) {
         if ( $_SESSION['cart']['title'][$i] !== $title ) {
-          array_push( $tmp['id'],    $_SESSION['cart']['id'][$i]);
-          array_push( $tmp['title'], $_SESSION['cart']['title'][$i]);
-          array_push( $tmp['maker'], $_SESSION['cart']['maker'][$i]);
-          array_push( $tmp['qty'],   $_SESSION['cart']['qty'][$i]);
-          array_push( $tmp['price'], $_SESSION['cart']['price'][$i]);
+          array_push( $tmp['id'],          $_SESSION['cart']['id'][$i]);
+          array_push( $tmp['universe_id'], $_SESSION['cart']['universe_id'][$i]);
+          array_push( $tmp['category_id'], $_SESSION['cart']['category_id'][$i]);
+          array_push( $tmp['brand_id'],    $_SESSION['cart']['brand_id'][$i]);
+          array_push( $tmp['image'],       $_SESSION['cart']['image'][$i]);
+          array_push( $tmp['title'],       $_SESSION['cart']['title'][$i]);
+          array_push( $tmp['maker'],       $_SESSION['cart']['maker'][$i]);
+          array_push( $tmp['qty'],         $_SESSION['cart']['qty'][$i]);
+          array_push( $tmp['price'],       $_SESSION['cart']['price'][$i]);
         }
     }
     // We update the Cart array with the temporary array if not empty
@@ -235,7 +252,7 @@ function placeOrder( $config ) {
       deleteCart ();
     //}
     //if ( isset($backToPage) ) {
-      header( "Location: ../orders/validate.php?id=" . $order_id );
+      header( "Location: ../orders/show.php?id=" . $order_id );
     //}
 
   } else {
@@ -250,7 +267,8 @@ function placeOrder( $config ) {
  * @summary  Generate the Cart html code
  * @return html
  */
-function genCart() {
+function genCart( $config ) {
+  include "../../../utils/localization.php";
   $connected = false;
   if ( isset( $_SESSION['site']['id'] ) ) {
     $connected = true;
@@ -272,7 +290,7 @@ function genCart() {
               <?php if ( $nbArticles > 0 ) { ?>
                 <a href="<?php echo htmlspecialchars('cart.php?action=order'); ?>" 
                         class="btn <?php echo !$connected ? 'btn-secondary' : 'btn-warning'; ?> fs-5 fw-bold text-uppercase<?php if ( !$connected ) echo ' disabled'; ?>" 
-                        <?php if ( !$connected ) echo ' disabled'; ?>>Passer ma Commande</a>
+                        <?php if ( !$connected ) echo ' disabled'; ?>>Passer ma Commande &nbsp; ▶</a>
                 <?php if ( !$connected ) { ?><div class="text-danger small">(connexion requise)</div><?php } ?>
               <?php } ?>
               </div>
@@ -280,7 +298,7 @@ function genCart() {
             <table id="tableCart" class="w-100 display responsive">
               <thead class="bg-light ">
                 <tr class="text-center">
-                  <th class="text-center p-3" scope="col">Id</th>
+                  <th class="text-center p-3" scope="col"></th>
                   <th class="text-center p-3" scope="col">Titre</th>
                   <th class="text-center p-3" scope="col">Auteur</th>
                   <th class="text-center p-3" scope="col">Référence</th>
@@ -290,15 +308,26 @@ function genCart() {
                 </tr>
               </thead>
               <tbody class="table-group-divider">
-                <?php for ( $i=0; $i < $nbArticles; $i++ ) { ?>
+                <?php for ( $i=0; $i < $nbArticles; $i++ ) { 
+                  switch ( $_SESSION['cart']['universe_id'][$i] ) {
+                    case 1: $unvImg = "BOOK"; break;
+                    case 2: $unvImg = "CD"; break;
+                    case 3: $unvImg = "DVD"; break;
+                    case 4: $unvImg = "DOCS"; break;
+                  } 
+                  $imgsrc = '../../../../images/' . $config['imagePath']['products'] . '/' 
+                          . ( $_SESSION['cart']['image'][$i] ? $_SESSION['cart']['image'][$i] : 'image_' . $unvImg . '_empty.svg' );
+                ?>
                   <tr>
-                    <td class="text-center p-3"><?php echo htmlspecialchars($_SESSION['cart']['id'][$i]); ?></td>
-                    <td class="fw-bold text-success p-3"><?php echo htmlspecialchars($_SESSION['cart']['title'][$i]); ?></td>
-                    <td class="p-3"><?php echo htmlspecialchars($_SESSION['cart']['maker'][$i]); ?></td>
-                    <td class="text-center p-3"><?php echo htmlspecialchars($_SESSION['cart']['ref'][$i]); ?></td>
-                    <td class="text-center p-3"><input type="number" size="4" name="q[]" value="<?php echo htmlspecialchars($_SESSION['cart']['qty'][$i]); ?>"></td>
-                    <td class="text-end p-3"><?php echo htmlspecialchars($_SESSION['cart']['price'][$i]); ?> €</td>
-                    <td class="text-end p-3">
+                    <td class="text-center p-2">
+                      <img src="<?php echo $imgsrc; ?>" class="py-0 my-3 mx-auto" style="height:36px;">
+                    </td>
+                    <td class="fw-bold text-success p-2"><?php echo htmlspecialchars($_SESSION['cart']['title'][$i]); ?></td>
+                    <td class="p-2"><?php echo htmlspecialchars($_SESSION['cart']['maker'][$i]); ?></td>
+                    <td class="text-center p-2"><?php echo htmlspecialchars($_SESSION['cart']['ref'][$i]); ?></td>
+                    <td class="text-center p-2"><input type="number" size="4" name="q[]" value="<?php echo htmlspecialchars($_SESSION['cart']['qty'][$i]); ?>"></td>
+                    <td class="text-end p-2"><?php echo Lclz::fmtMoney( $_SESSION['cart']['price'][$i] ); ?></td>
+                    <td class="text-end p-2">
                       <a href="<?php echo htmlspecialchars('cart.php?action=delete&l='.rawurlencode($_SESSION['cart']['title'][$i])); ?>">
                         <i class="fa-solid fa-trash-can fs-5 text-danger"></i>
                       </a>
@@ -308,16 +337,16 @@ function genCart() {
               </tbody>
               <tfoot class="table-group-divider bg-light">
                 <tr>
-                  <td colspan="4" class="p-3">
-                    <a class="btn btn-dark fw-bold text-uppercase" href="javascript:history.back()">Continuer mes achats</a>
+                  <td colspan="4" class="px-2 py-3">
+                    <a class="btn btn-dark fw-bold text-uppercase" href="javascript:history.back()">◀ &nbsp; Continuer mes achats</a>
                   </td>
-                  <td class="text-center p-3">
+                  <td class="text-center px-2 py-3">
                     <?php if ( $nbArticles > 0 ) { ?>
                       <input type="submit" class="btn btn-secondary fw-bold text-uppercase" value="Recalculer">
                     <?php } ?>
                   </td>
-                  <td class="fw-bold text-dark text-uppercase text-end p-3">Total : <?php echo calcCartTotalValue(); ?> €</td>
-                  <td class="text-end p-3">
+                  <td class="fw-bold text-dark text-uppercase text-end px-2 py-3">Total : &nbsp; <?php echo Lclz::fmtMoney( calcCartTotalValue() ); ?></td>
+                  <td class="text-end px-2 py-3">
                     <?php if ( $nbArticles > 0 ) { ?>
                       <a class="btn btn-danger fw-bold text-uppercase" href="<?php echo htmlspecialchars('cart.php?action=empty'); ?>">Vider mon panier</a>
                     <?php } ?>

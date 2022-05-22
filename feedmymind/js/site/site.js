@@ -5,7 +5,8 @@ $(document).ready ( function() {
     language: { url: '../../../../3rdparty/jquery/datatables/fr-FR.json' },
     paging: false,
     searching: false,
-    info: false
+    info: false,
+    order: null
   });
 
   // Cart recalculation
@@ -13,20 +14,22 @@ $(document).ready ( function() {
     
   }
 
-  // Order Products Table
-  $('#tableOrderProducts').dataTable({ 
-    language: { url: '../../../../3rdparty/jquery/datatables/fr-FR.json' },
-    paging: false,
-    searching: false,
-    info: false
-  });
-
   // Orders Table
   $('#tableOrders').dataTable({ 
     language: { url: '../../../../3rdparty/jquery/datatables/fr-FR.json' },
     paging: false,
     searching: false,
-    info: false
+    info: false,
+    order: null
+  });
+
+  // Order Products Table
+  $('#tableOrderProducts').dataTable({ 
+    language: { url: '../../../../3rdparty/jquery/datatables/fr-FR.json' },
+    paging: false,
+    searching: false,
+    info: false,
+    order: null
   });
 
 });

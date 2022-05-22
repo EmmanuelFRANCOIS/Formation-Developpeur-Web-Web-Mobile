@@ -142,7 +142,7 @@ class ModProducts {
                 case 3: $unvImg = "DVD"; break;
                 case 4: $unvImg = "DOCS"; break;
               } 
-              $imgsrc    = '../../../../images/products/' . ( $product['image'] ? $product['image'] : 'image_' . $unvImg . '_empty.svg' );
+              $imgsrc    = '../../../../images/' . $config['imagePath']['products'] . '/' . ( $product['image'] ? $product['image'] : 'image_' . $unvImg . '_empty.svg' );
               $imgcatsrc = $product['category_image'] ? '../../../../images/categories/' . $product['category_image'] : '';
               $created   = new DateTime($product['created_on']);
               $modified  = new DateTime($product['created_on']);
@@ -182,17 +182,15 @@ class ModProducts {
                     </div>
 
                     <div class="card-footer d-flex justify-content-between align-items-center p-2 text-end">
-                      <?php if ( $product['rating'] ) { ?>
-                        <div class="text-success rating"><?php echo ViewTemplateSite::genRatingStars( $product['rating'] ) . '<span class="fw-bold"> &nbsp; (' . $product['rating_num'] . ')</span>'; ?></div>
-                      <?php } else { ?>
-                        <div class="text-secondary rating">Pas noté</div>
-                      <?php } ?>
-                      <div class="price fw-bold fs-5" style="z-index: 10;"><?php echo $product['price']; ?> €
-                      <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;r=<?php echo $product['reference']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
-                        class="btn btn-success px-1 pt-1 pb-0 ms-2" 
-                        title="Ajouter au panier" >
-                        <i class="fa-solid fa-cart-plus fs-5"></i>
-                      </a></div>
+                      <div class="text-success rating"><?php echo ViewTemplateSite::genRatingStars( $product['rating'], $product['rating_num'] ); ?></div>
+                      <div class="d-flex justify-content-end align-items-center fw-bold fs-5" style="z-index: 10;">
+                        <div><?php echo $product['price']; ?> €</div>
+                        <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;u=<?php echo $product['universe_id']; ?>&amp;c=<?php echo $product['category_id']; ?>&amp;b=<?php echo $product['brand_id']; ?>&amp;m=<?php echo $product['image']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;r=<?php echo $product['reference']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
+                          class="btn btn-success p-2 pb-1 ms-2" 
+                          title="Ajouter au panier" >
+                          <i class="fa-solid fa-cart-plus fs-5"></i>
+                        </a>
+                      </div>
                     </div>
 
                   </div>
@@ -268,11 +266,7 @@ class ModProducts {
 
                   <td class="text-start px-2">
                     <div class=""><?php echo $displayOrderValue; ?></div>
-                    <?php if ( $product['rating'] ) { ?>
-                      <div class="text-success rating"><?php echo ViewTemplateSite::genRatingStars( $product['rating'] ) . '<span class="fw-bold"> &nbsp; (' . $product['rating_num'] . ')</span>'; ?></div>
-                    <?php } else { ?>
-                      <div class="text-secondary rating">Pas noté</div>
-                    <?php } ?>
+                    <div class="text-success rating"><?php echo ViewTemplateSite::genRatingStars( $product['rating'], $product['rating_num'] ); ?></div>
                   </td>
 
                   <td class="text-start px-2" style="width: 70px;">
@@ -280,8 +274,8 @@ class ModProducts {
                   </td>
 
                   <td class="text-end ps-2 pe-0" style="width: 40px;">
-                    <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;r=<?php echo $product['reference']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
-                      class="btn btn-success px-1 pt-1 pb-0 ms-2" 
+                    <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;u=<?php echo $product['universe_id']; ?>&amp;c=<?php echo $product['category_id']; ?>&amp;b=<?php echo $product['brand_id']; ?>&amp;m=<?php echo $product['image']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;r=<?php echo $product['reference']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
+                      class="btn btn-success p-2 pb-1 ms-2" 
                       title="Ajouter au panier" >
                       <i class="fa-solid fa-cart-plus fs-5"></i>
                     </a>

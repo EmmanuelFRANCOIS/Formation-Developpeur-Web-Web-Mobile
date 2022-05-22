@@ -1,113 +1,130 @@
 <?php
+$jhshddk='';
 
-
-
+/**
+ * @class   ViewOrders
+ * @summary Class to prepare Orders Views elements
+ */
 class ViewOrders {
 
 
   /**
-   * @function genCustomerOrders()
-   * @summary  Function to generate customer orders page
+   * @function genOrderSheet()
+   * @summary  Function to generate order page
    */
-  public static function genOrderValidationForm( $config, $order, $products ) {
-    $MoneyFrmtr = new \NumberFormatter( $config['locale'], \NumberFormatter::CURRENCY );
-    $DateFrmtr = datefmt_create(
-      str_replace('-', '_', $config['locale']),
-      IntlDateFormatter::LONG,
-      IntlDateFormatter::SHORT,
-      'Europe/Paris',
-      IntlDateFormatter::GREGORIAN
-      );
+  public static function genOrderSheet( $config, $order, $products ) {
+    include "../../../utils/localization.php";
     $date_order = new DateTime( $order['date_order'] );
     $date_bill = new DateTime( $order['date_bill'] );
-    $status = $config['statusList'][$order['status']];
+    $status = $config['orders']['statusList'][$order['status']];
+    $date_delivery = new DateTime( $order['date_bill'] );
+    $date_delivery->add(new DateInterval('P5D'));
+    $title = $order['status'] === 'saved' ? 'Paiement de ma Commande' : ( $order['status'] === 'paid' ? 'Commande en attente de validation' : '' );
 ?>
     <div class="container-fluid py-4">
       <div class="container">
-        <h3 class="text-uppercase">Payer ma commande</h3>
-        <form class="mt-4 mb-4 p-4 border border-success rounded" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" enctype="multipart/form-data">
-          <input type="hidden" name="id" id="id" value="<?php echo $order['id']; ?>">
-          <div class="row">
-            <div class="col-6">
-              <div class="row"><div class="col-4 text-secondary">Date commande : </div><div class="col fw-bold"><?php echo datefmt_format($DateFrmtr, $date_order); ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Commande n° </div><div class="col fw-bold"><?php echo $order['order_no']; ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Date facturation : </div><div class="col fw-bold"><?php echo datefmt_format($DateFrmtr, $date_bill); ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Facture n° </div><div class="col fw-bold"><?php echo $order['bill_no']; ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Status </div><div class="col fw-bold text-primary"><?php echo $status; ?></div></div>
-            </div>
-            <div class="col-6">
-              <div class="text-end text-nowrap">
-                <button type="submit" name="pay" class="btn btn-warning me-1 fw-bold text-uppercase">Payer ma commande</button>
-              </div>
+        <form class="mt-4 mb-4" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" enctype="multipart/form-data">
+          <div class="d-flex justify-content-between align-items-top header">
+            <h3 class="col text-uppercase"><?php echo $title; ?></h3>
+            <div class="col text-end text-nowrap">
+              <?php if ( $order['status'] === 'saved' ) { ?>
+              <button type="submit" name="pay" class="btn btn-warning me-1 fs-5 fw-bold text-uppercase">Payer ma commande</button>
+              <?php } ?>
             </div>
           </div>
-          <div class="row mt-4">
-            <h4 class="my-3 text-uppercase fs-5">Contenu de ma commande</h4>
-            <table class="w-100 display responsive" id="tableOrderProducts">
-              <thead>
-                <tr>
-                  <th>Univers</th>
-                  <th>Titre</th>
-                  <th>Auteur</th>
-                  <th>Référence</th>
-                  <th class="text-end">Qté</th>
-                  <th class="text-end">PUHT</th>
-                  <th class="text-end">PTHT</th>
-                  <th class="text-end">TVA</th>
-                  <th class="text-end">PTTC</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                  $totalPtht = 0;
-                  $totalTva  = 0;
-                  $totalPttc = 0;
-                  $totalDeliveryCost = 0;
-                  foreach ( $products as $product ) { 
-                    $puht       = $product['price'] / (1 + $product['tva']);
-                    $ptht       = $product['quantity'] * $product['price'] / (1 + $product['tva']);
-                    $totalPtht += $ptht;
-                    $tva        = $product['quantity'] * $puht * $product['tva'];
-                    $totalTva  += $tva;
-                    $pttc       = $product['quantity'] * $product['price'];
-                    $totalPttc += $pttc;
-                    $totalDeliveryCost += $product['delivery_cost']
-                ?>
+          <div class="body bg-white border border-success rounded mt-4 p-4">
+            <input type="hidden" name="id" id="id" value="<?php echo $order['id']; ?>">
+            <div class="d-flex justify-content-between">
+              <table class="border border-secondary rounded">
+                <tbody>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">N° Client</td><td class="fw-bold px-4 py-1"><?php echo Lclz::fmtCustomerId($_SESSION['site']['id']); ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Nom</td><td class="fw-bold px-4 py-1 text-primary"><?php echo $_SESSION['site']['firstname'] . ' '.  $_SESSION['site']['lastname']; ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Adresse</td><td class="px-4 py-1"><?php echo $_SESSION['site']['address']; ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Ville</td><td class="px-4 py-1"><?php echo $_SESSION['site']['zipcode'] . ' &nbsp;' . $_SESSION['site']['city']; ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Mobile</td><td class="px-4 py-1"><?php echo $_SESSION['site']['mobilePhone']; ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Email</td><td class="px-4 py-1"><?php echo $_SESSION['site']['email']; ?></td></tr>
+                </tbody>
+              </table>
+              <table class="border border-secondary rounded">
+                <tbody>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Date commande</td><td class="fw-bold px-4 py-1"><?php echo Lclz::fmtDateTime($date_order, 'LONG', 'SHORT'); ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Commande n°</td><td class="fw-bold px-4 py-1"><?php echo $order['order_no']; ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Date facturation</td><td class="fw-bold px-4 py-1"><?php echo Lclz::fmtDateTime($date_bill, 'LONG', 'SHORT'); ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Facture n°</td><td class="fw-bold px-4 py-1"><?php echo $order['bill_no']; ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Status</td><td class="fw-bold px-4 py-1 text-success"><?php echo $status; ?></td></tr>
+                  <tr><td class="bg-light text-secondary ps-2 pe-4 py-1">Livraison prévue le</td><td class="fw-bold px-4 py-1 text-primary"><?php echo Lclz::fmtDateTime($date_delivery, 'LONG', 'NONE'); ?></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row mt-4">
+              <h4 class="my-3 text-uppercase fs-5">Contenu de ma commande</h4>
+              <table class="w-100 display responsive" id="tableOrderProducts">
+                <thead>
                   <tr>
-                    <td><?php echo $product['universe']; ?></td>
-                    <td class="fw-bold"><?php echo $product['title']; ?></td>
-                    <td><?php echo $product['maker']; ?></td>
-                    <td><?php echo $product['reference']; ?></td>
-                    <td class="text-end"><?php echo $product['quantity']; ?></td>
-                    <td class="text-end"><?php echo $MoneyFrmtr->format($puht); ?></td>
-                    <td class="text-end px-2"><?php echo $MoneyFrmtr->format($ptht); ?></td>
-                    <td class="text-end px-2"><?php echo $MoneyFrmtr->format($tva); ?></td>
-                    <td class="text-end px-2"><?php echo $MoneyFrmtr->format($pttc); ?></td>
+                    <th>Univers</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Référence</th>
+                    <th class="text-end">Qté</th>
+                    <th class="text-end">PUHT</th>
+                    <th class="text-end">PTHT</th>
+                    <th class="text-end">TVA</th>
+                    <th class="text-end">PTTC</th>
                   </tr>
-                <?php } ?>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="6"></td>
-                  <td class="fw-bold text-end px-2"><?php echo $MoneyFrmtr->format( $totalPtht ); ?></td>
-                  <td class="fw-bold text-end px-2"><?php echo $MoneyFrmtr->format( $totalTva ); ?></td>
-                  <td class="fw-bold text-end px-2"><?php echo $MoneyFrmtr->format( $totalPttc ); ?></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  <?php 
+                    $totalPtht = 0;
+                    $totalTva  = 0;
+                    $totalPttc = 0;
+                    $totalDeliveryCost = 0;
+                    foreach ( $products as $product ) { 
+                      $puht       = $product['price'] / (1 + $product['tva']);
+                      $ptht       = $product['quantity'] * $product['price'] / (1 + $product['tva']);
+                      $totalPtht += $ptht;
+                      $tva        = $product['quantity'] * $puht * $product['tva'];
+                      $totalTva  += $tva;
+                      $pttc       = $product['quantity'] * $product['price'];
+                      $totalPttc += $pttc;
+                      $totalDeliveryCost += $product['delivery_cost']
+                  ?>
+                    <tr>
+                      <td><?php echo $product['universe']; ?></td>
+                      <td><a class="fw-bold" href="../product/show.php?id=<?php echo $product['product_id']; ?>"><?php echo $product['title']; ?></a></td>
+                      <td><?php echo $product['maker']; ?></td>
+                      <td><?php echo $product['reference']; ?></td>
+                      <td class="text-end"><?php echo $product['quantity']; ?></td>
+                      <td class="text-end"><?php echo Lclz::fmtMoney($puht); ?></td>
+                      <td class="text-end px-2"><?php echo Lclz::fmtMoney($ptht); ?></td>
+                      <td class="text-end px-2"><?php echo Lclz::fmtMoney($tva); ?></td>
+                      <td class="text-end px-2"><?php echo Lclz::fmtMoney($pttc); ?></td>
+                    </tr>
+                  <?php } ?>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="6"></td>
+                    <td class="fw-bold text-end px-2"><?php echo Lclz::fmtMoney( $totalPtht ); ?></td>
+                    <td class="fw-bold text-end px-2"><?php echo Lclz::fmtMoney( $totalTva ); ?></td>
+                    <td class="fw-bold text-end px-2"><?php echo Lclz::fmtMoney( $totalPttc ); ?></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
 
-          <!-- Totals -->
-          <div class="d-flex justify-content-end mt-4">
-            <table class="w-auto table border border-secondary totals">
-              <tbody>
-                <tr><td class="bg-light pe-4">Total HT</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalPtht); ?></td></tr>
-                <tr><td class="bg-light pe-4">TVA</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalTva); ?></td></tr>
-                <tr><td class="bg-light pe-4">Total TTC</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalPttc); ?></td></tr>
-                <tr><td class="bg-light pe-4">Frais de livraison</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalDeliveryCost); ?></td></tr>
-                <tr><td class="bg-light pe-4">Total à payer</td><td class="text-end ps-5"><?php echo $MoneyFrmtr->format($totalDeliveryCost + $totalPttc); ?></td></tr>
-              </tbody>
-            </table>
+            <!-- Totals -->
+            <div class="d-flex justify-content-end mt-4">
+              <table class="w-auto table border border-secondary totals">
+                <tbody>
+                  <tr><td class="fw-bold bg-light pe-4">Total HT</td><td class="fw-bold text-end ps-5"><?php echo Lclz::fmtMoney($totalPtht); ?></td></tr>
+                  <tr><td class="bg-light pe-4">TVA</td><td class="text-end ps-5"><?php echo Lclz::fmtMoney($totalTva); ?></td></tr>
+                  <tr><td class="fw-bold bg-light pe-4">Total TTC</td><td class="fw-bold text-end ps-5"><?php echo Lclz::fmtMoney($totalPttc); ?></td></tr>
+                  <tr><td class="bg-light pe-4">Frais de livraison</td><td class="text-end ps-5"><?php echo Lclz::fmtMoney($totalDeliveryCost); ?></td></tr>
+                  <tr><td class="fw-bold bg-light pe-4">Total à payer</td><td class="fw-bold text-end ps-5"><?php echo Lclz::fmtMoney($totalDeliveryCost + $totalPttc); ?></td></tr>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </form>
       </div>
@@ -121,6 +138,7 @@ class ViewOrders {
    * @summary  Function to generate customer orders page
    */
   public static function genOrders( $config, $orders ) {
+    include "../../../utils/localization.php";
 ?>
     <div class="container-fluid py-4">
       <div class="container">
@@ -129,13 +147,10 @@ class ViewOrders {
           <table class="w-100 display responsive" id="tableOrders">
             <thead>
               <tr>
-                <th>Date Commande</th>
-                <th>N° Commande</th>
-                <th>Date Facture</th>
-                <th>N° Facture</th>
-                <th>Date Paiement</th>
-                <th>Status</th>
-                <th class="text-end">Nb Produits</th>
+                <th>Commande</th>
+                <th>Facture</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Nb Produits</th>
                 <th class="text-end">Montant HT</th>
                 <th class="text-end">TVA</th>
                 <th class="text-end">Montant TTC</th>
@@ -145,17 +160,22 @@ class ViewOrders {
               <?php 
                 foreach ( $orders as $order ) { 
               ?>
-                <tr>
-                  <td><?php echo $order['date_order']; ?></td>
-                  <td class="fw-bold"><a href="show.php?id=<?php echo $order['id']; ?>"><?php echo $order['order_no']; ?></a</td>
-                  <td><?php echo $order['date_bill']; ?></td>
-                  <td><?php echo $order['bill_no']; ?></td>
-                  <td class="text-end"><?php echo $order['date_paid']; ?></td>
-                  <td class="text-end"><?php echo $order['status']; ?></td>
-                  <td class="text-end"><?php echo $order['qty']; ?></td>
-                  <td class="text-end"><?php echo number_format( $order['totalHT'], 2, ',', ' ' ) . " €"; ?></td>
-                  <td class="text-end"><?php echo number_format( $order['totalTTC'] - $order['totalHT'], 2, ',', ' ' ) . " €"; ?></td>
-                  <td class="text-end"><?php echo number_format( $order['totalTTC'], 2, ',', ' ' ) . " €"; ?></td>
+                <tr class="position-relative">
+                  <td class="px-3 py-3">
+                    <div>Le <?php echo $order['date_order']; ?></div>
+                    <a class="fw-bold stretched-link" href="show.php?id=<?php echo $order['id']; ?>"><?php echo $order['order_no']; ?></a>
+                  </td>
+                  <td class="px-3 py-3">
+                    <div>Le <?php echo $order['date_bill']; ?></div>
+                    <div><?php echo $order['bill_no']; ?></div>
+                  </td>
+                  <td class="px-3 py-3">
+                    <div class="text-center text-uppercase"><?php echo $order['status']; ?></div>
+                  </td>
+                  <td class="px-3 py-3 text-center"><?php echo $order['totalQty']; ?></td>
+                  <td class="px-3 py-3 text-end"><?php echo Lclz::fmtMoney( $order['totalHT'] ); ?></td>
+                  <td class="px-3 py-3 text-end"><?php echo Lclz::fmtMoney( $order['totalTTC'] - $order['totalHT'] ); ?></td>
+                  <td class="px-3 py-3 text-end"><?php echo Lclz::fmtMoney( $order['totalTTC'] ); ?></td>
                 </tr>
               <?php } ?>
             </tbody>
@@ -167,94 +187,5 @@ class ViewOrders {
   }
    
   
-  /**
-   * @function genOrderSheet()
-   * @summary  Function to generate an order page
-   */
-  public static function genOrderSheet( $config, $order, $products ) {
-    $date = new DateTime( $order['date_order'] );
-    $date_order = $date->format('D d F Y') . ' à ' . $date->format('H:i:s');
-    $date = new DateTime( $order['date_bill'] );
-    $date_bill = $date->format('D d F Y') . ' à ' . $date->format('H:i:s');
-    $status = $config['statusList'][$order['status']];
-?>
-    <div class="container-fluid py-4">
-      <div class="container">
-        <h3 class="text-uppercase">Ma commande</h3>
-        <div class="mt-4 mb-4 p-4 border border-success rounded">
-          <div class="row">
-            <div class="col-6">
-              <div class="row"><div class="col-4 text-secondary">Date commande : </div><div class="col fw-bold"><?php echo $date_order; ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Commande n° </div><div class="col fw-bold"><?php echo $order['order_no']; ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Date facturation : </div><div class="col fw-bold"><?php echo $date_bill; ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Facture n° </div><div class="col fw-bold"><?php echo $order['bill_no']; ?></div></div>
-              <div class="row"><div class="col-4 text-secondary">Status </div><div class="col fw-bold text-primary"><?php echo $status; ?></div></div>
-            </div>
-            <div class="col-6">
-              <div class="text-end text-nowrap">
-                <a href="bill.php?id=<?php echo $order['id']; ?>" class="btn btn-warning me-1 fw-bold text-uppercase">Editer ma Facture</a>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-4">
-            <h4 class="my-3 text-uppercase fs-5">Contenu de ma commande</h4>
-            <table class="w-100 display responsive" id="tableOrderProducts">
-              <thead>
-                <tr>
-                  <th>Univers</th>
-                  <th>Titre</th>
-                  <th>Auteur</th>
-                  <th>Référence</th>
-                  <th class="text-end">Qté</th>
-                  <th class="text-end">PUHT</th>
-                  <th class="text-end">PTHT</th>
-                  <th class="text-end">TVA</th>
-                  <th class="text-end">PTTC</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                  $totalQty  = 0;
-                  $totalPtht = 0;
-                  $totalTva  = 0;
-                  $totalPttc = 0;
-                  foreach ( $products as $product ) { 
-                    $totalQty  += $product['quantity'];
-                    $puht       = $product['price'] / (1 + $product['tva']);
-                    $ptht       = $product['quantity'] * $product['price'] / (1 + $product['tva']);
-                    $totalPtht += $ptht;
-                    $tva        = $product['quantity'] * $puht * $product['tva'];
-                    $totalTva  += $tva;
-                    $pttc       = $product['quantity'] * $product['price'];
-                    $totalPttc += $pttc;
-                ?>
-                  <tr>
-                    <td><?php echo $product['universe']; ?></td>
-                    <td class="fw-bold"><?php echo $product['title']; ?></td>
-                    <td><?php echo $product['maker']; ?></td>
-                    <td><?php echo $product['reference']; ?></td>
-                    <td class="text-end"><?php echo $product['quantity']; ?></td>
-                    <td class="text-end"><?php echo $puht; ?></td>
-                    <td class="text-end"><?php echo $ptht; ?></td>
-                    <td class="text-end"><?php echo $tva; ?></td>
-                    <td class="text-end"><?php echo $pttc; ?></td>
-                  </tr>
-                <?php } ?>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="6"></td>
-                  <td class="fw-bold text-end"><?php echo number_format( $totalPtht, 2, ',', ' ' ) . " €"; ?></td>
-                  <td class="fw-bold text-end"><?php echo number_format( $totalTva, 2, ',', ' ' ) . " €"; ?></td>
-                  <td class="fw-bold text-end"><?php echo number_format( $totalPttc, 2, ',', ' ' ) . " €"; ?></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-<?php
-  }
 
 }

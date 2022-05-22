@@ -13,7 +13,7 @@ class ModelOrders {
   /**
    *  Function to get the list of all Orders
    */
-  public static function getOrders() {
+  public static function getAllOrders() {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
       SELECT * FROM orders
@@ -26,21 +26,66 @@ class ModelOrders {
 
 
   /**
-   *  Function to get the list of Orders from DB table
+   *  Function to get the list of all Orders
    */
-  public static function getOrdersComplete( $customer_id ) {
+  public static function getCustomerOrders( $customer_id ) {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT ord.*, 
-             sum(op.quantity) AS qty, 
+      SELECT * FROM orders
+      WHERE customer_id = :customer_id 
+      ORDER BY date_order ASC 
+    ");
+    $req->execute([
+      ':customer_id' => $customer_id
+    ]);
+    // Debug query
+    //$req->debugDumpParams();
+    return $req->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+
+  /**
+   *  Function to get the list of Orders from DB table
+   */
+  public static function getAllOrdersComplete() {
+    $dbconn = DBUtils::getDBConnection();
+    $req = $dbconn->prepare("
+      SELECT ord.*, cst.*,  
+             sum(op.quantity) AS totalQty, 
              sum(op.quantity * op.price / (1 + op.tva)) AS totalHT, 
              sum(op.quantity * op.price) AS totalTTC
       FROM orders AS ord
       INNER JOIN orders_products AS op ON op.order_id = ord.id 
-      WHERE ord.customer_id = " . $customer_id . " 
+      INNER JOIN customers AS cst ON cst.id = ord.customer_id 
       GROUP BY ord.id 
+      ORDER BY ord.date_order DESC 
     ");
     $req->execute();
+    // Debug query
+    //$req->debugDumpParams();
+    return $req->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  
+  /**
+   *  Function to get the list of Orders from DB table
+   */
+  public static function getCustomerOrdersComplete( $customer_id ) {
+    $dbconn = DBUtils::getDBConnection();
+    $req = $dbconn->prepare("
+      SELECT ord.*, 
+             sum(op.quantity) AS totalQty, 
+             sum(op.quantity * op.price / (1 + op.tva)) AS totalHT, 
+             sum(op.quantity * op.price) AS totalTTC
+      FROM orders AS ord
+      INNER JOIN orders_products AS op ON op.order_id = ord.id 
+      WHERE ord.customer_id = :customer_id 
+      GROUP BY op.order_id 
+      ORDER BY ord.date_order DESC 
+    ");
+    $req->execute([
+      ':customer_id' => $customer_id
+    ]);
     // Debug query
     //$req->debugDumpParams();
     return $req->fetchAll(PDO::FETCH_ASSOC);
@@ -137,26 +182,31 @@ class ModelOrders {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
       SELECT * FROM orders
-      WHERE id = " . $id
-    );
-    $req->execute();
+      WHERE id = :id 
+    ");
+    $req->execute([
+      ':id' => $id
+    ]);
     // Debug query
     //$req->debugDumpParams();
     return $req->fetch(PDO::FETCH_ASSOC);
   }
 
 
-  public function getOrderProducts( $id) {
+  public function getOrderProducts( $id ) {
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT op.*, unv.title AS universe, prd.title AS title, prd.maker AS maker
+      SELECT op.*, unv.title AS universe, prd.title AS title, prd.maker AS maker, prd.reference AS reference
       FROM orders_products AS op 
       INNER JOIN product AS prd ON prd.id = op.product_id 
       INNER JOIN universe AS unv ON unv.id = prd.universe_id 
-      WHERE op.order_id = " . $id . "
-      GROUP BY op.product_id
+      WHERE op.order_id = :id 
+      GROUP BY op.product_id 
+      ORDER BY prd.title ASC 
     ");
-    $req->execute();
+    $req->execute([
+      ':id' => $id
+    ]);
     // Debug query
     //$req->debugDumpParams();
     return $req->fetchAll(PDO::FETCH_ASSOC);

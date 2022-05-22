@@ -15,9 +15,9 @@ if ( !isset($_SESSION['site']['id']) ) {
 if ( isset($_POST['pay']) ) {
 
   $modelOrders = new ModelOrders();
-  $order = $modelOrders->payOrder( $_POST['id'] );
+  $modelOrders->payOrder( $_POST['id'] );
 
-  header( 'Location: show.php?id=' . $_POST['id'] );
+  header( 'Location: validate.php?id=' . $_POST['id'] );
 
 } else if ( isset($_GET['id']) ) {
 
@@ -30,7 +30,7 @@ if ( isset($_POST['pay']) ) {
 ViewTemplateSite::genHead( $config, 'Mes Commandes' );
 ViewTemplateSite::genHeader( $config, 'Mes Commandes' );
 ViewTemplateSite::genNavBar( $config, null );
-ViewOrders::genOrderValidationForm( $config, $order, $products );
+ViewOrders::genOrderSheet( $config, $order, $products );
 ViewTemplateSite::genFooter( $config, [] );
 
 ?>

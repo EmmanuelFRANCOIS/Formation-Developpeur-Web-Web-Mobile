@@ -3,7 +3,7 @@
 class ACL {
 
   /**
-   * @function getAclRights()
+   * @function getRights()
    * @summary Function to get all the User permissions by role
    */
   public static function getRight( $path, $role ) {

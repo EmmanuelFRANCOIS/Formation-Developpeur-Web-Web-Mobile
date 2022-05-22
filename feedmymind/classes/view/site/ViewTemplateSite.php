@@ -263,7 +263,9 @@ class ViewTemplateSite {
    * @param    ratingNum   => Number of rates
    * @return   html code
    */
-  public static function genRatingStars( $ratingValue ) {
+  public static function genRatingStars( $ratingValue, $ratingNum ) {
+    $ratingValue = $ratingValue >= 1 ? $ratingValue : 0;
+    $ratingNum   = $ratingNum   >  0 ? $ratingNum   : 0;
     $html = "<span class='stars'>";
     for ( $i = 1; $i <= 5; $i++ ) {
         if ( round( $ratingValue - .25 ) >= $i ) {
@@ -275,6 +277,7 @@ class ViewTemplateSite {
         }
     }
     $html .= "</span>";
+    $html .= '<span class="' . ( $ratingNum > 0 ? 'fw-bold' : '' ) . '"> &nbsp; (' . $ratingNum . ' votes)</span>';
     return $html;
   }
 

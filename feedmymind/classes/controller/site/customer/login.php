@@ -23,11 +23,16 @@ if ( isset($_POST['login']) ) {
   
   if ( $customerData && password_verify( $_POST['password'], $customerData['password'] ) ) {
 
-    $_SESSION['site']['id']        = $customerData['id'];
-    $_SESSION['site']['lastname']  = $customerData['lastname'];
-    $_SESSION['site']['firstname'] = $customerData['firstname'];
-    $_SESSION['site']['email']     = $customerData['email'];
-    $_SESSION['site']['role']      = 0;
+    $_SESSION['site']['id']          = $customerData['id'];
+    $_SESSION['site']['lastname']    = $customerData['lastname'];
+    $_SESSION['site']['firstname']   = $customerData['firstname'];
+    $_SESSION['site']['address']     = $customerData['address'];
+    $_SESSION['site']['zipcode']     = $customerData['zipcode'];
+    $_SESSION['site']['city']        = $customerData['city'];
+    $_SESSION['site']['fixedPhone']  = $customerData['fixedPhone'];
+    $_SESSION['site']['mobilePhone'] = $customerData['mobilePhone'];
+    $_SESSION['site']['email']       = $customerData['email'];
+    $_SESSION['site']['role']        = 0;
 
     header('Location: ../home/index.php');
 
