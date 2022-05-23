@@ -342,7 +342,7 @@ class ViewProduct {
    
     
   /**
-   * @function genProductForm()
+   * @function genProductSheet()
    * @summary  Function to prepare the Product Form (add & edit)
    */
   public static function genProductSheet( $config, $product ) {

@@ -28,6 +28,11 @@ $config = [
       'nbByRow'    => 4,
       'nbMaxByRow' => 6,
       'nbQuery'    => 8
+    ],
+    'productsList' => [
+      'tpl'        => 'mosaic',
+      'orderBy'    => 'created',
+      'nbPerPage'  => 24
     ]
   ],
   'admin' => [

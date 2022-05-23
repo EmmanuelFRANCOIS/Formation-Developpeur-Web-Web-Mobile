@@ -14,6 +14,7 @@ class ViewOrders {
    */
   public static function genOrderSheet( $config, $order, $products ) {
     include "../../../utils/localization.php";
+    
     $date_order = new DateTime( $order['date_order'] );
     $date_bill = new DateTime( $order['date_bill'] );
     $status = $config['orders']['statusList'][$order['status']];
@@ -185,7 +186,7 @@ class ViewOrders {
     </div>
 <?php
   }
-   
-  
+
+
 
 }

@@ -35,7 +35,7 @@ class ModProducts {
     $whereBrd = $options['brand_id']    ? 'prd.brand_id = '    . $options['brand_id']    : null;
     $where    = $whereUnv     ? $whereUnv                                  : '';
     $where   .= $whereCat     ? ($where !== '' ? ' AND ' : '') . $whereCat : '';
-    $where   .= $whereBrd     ? ($where !== '' ? ' AND ' : '') . $whereCat : '';
+    $where   .= $whereBrd     ? ($where !== '' ? ' AND ' : '') . $whereBrd : '';
     $where    = $where !== '' ? 'WHERE ' . $where . ' ' : '';
 
     switch ( $options['orderBy'] ) {
@@ -103,6 +103,7 @@ class ModProducts {
    * @return  Html code of the generated module
    */
   public static function genProducts( $config, $options = null ) {
+    include_once "../../../utils/localization.php";
 
     // Check $nb value
     $nbDisplay = $options['nbDisplay'] > 0 ? $options['nbDisplay'] : $config['site']['modules']['nbDisplay'];
@@ -163,7 +164,7 @@ class ModProducts {
 
                   <div class="card h-100 bg-light text-center">
                     
-                    <img src="<?php echo $imgsrc; ?>" class="card-img-top py-0 my-3 mx-auto" style="max-width: 80%; height:128px;" alt="<?php echo $product['title']; ?>">
+                    <img src="<?php echo $imgsrc; ?>" class="card-img-top py-0 my-3 mx-auto" style="width: auto !important; max-width: 128px; height:128px;" alt="<?php echo $product['title']; ?>">
                     
                     <div class="card-body text-start p-2">
                       <a class="text-decoration-none text-dark stretched-link" 
@@ -184,7 +185,7 @@ class ModProducts {
                     <div class="card-footer d-flex justify-content-between align-items-center p-2 text-end">
                       <div class="text-success rating"><?php echo ViewTemplateSite::genRatingStars( $product['rating'], $product['rating_num'] ); ?></div>
                       <div class="d-flex justify-content-end align-items-center fw-bold fs-5" style="z-index: 10;">
-                        <div><?php echo $product['price']; ?> €</div>
+                        <div><?php echo Lclz::fmtMoney($product['price']); ?></div>
                         <a href="../cart/cart.php?action=add&amp;id=<?php echo $product['id']; ?>&amp;u=<?php echo $product['universe_id']; ?>&amp;c=<?php echo $product['category_id']; ?>&amp;b=<?php echo $product['brand_id']; ?>&amp;m=<?php echo $product['image']; ?>&amp;l=<?php echo $product['title']; ?>&amp;a=<?php echo $product['maker']; ?>&amp;r=<?php echo $product['reference']; ?>&amp;q=1&amp;p=<?php echo $product['price']; ?>" 
                           class="btn btn-success p-2 pb-1 ms-2" 
                           title="Ajouter au panier" >
@@ -201,7 +202,11 @@ class ModProducts {
             ?>
 
           </div>
-          <div class="mt-4 fs-5 text-end"><span class="py-1 me-2">Plus de </span><a class="btn btn-success fs-5 fw-bold py-1 px-3 text-uppercase more" href="#"><?php echo $options['moreBtnText'] ?></a></div>
+          <div class="mt-4 fs-5 text-end">
+            <span class="py-1 me-2">Plus de </span>
+            <a class="btn btn-success fs-5 fw-bold py-1 px-3 text-uppercase more" 
+               href="../../../controller/site/product/list.php" . ($options["tpl"] ? "&tpl=" . $options["tpl"] : "" )><?php echo $options['moreBtnText'] ?></a>
+          </div>
         </div>
       </div>
       <?php
@@ -248,7 +253,7 @@ class ModProducts {
                 <tr class="<?php echo $first ? 'border-top ' : ''; ?>border-bottom border-secondary">
 
                   <td class="text-start pe-2 ps-0" style="width: 70px;">
-                    <img src="<?php echo $imgsrc; ?>" class="col py-0 my-3 mx-auto" style="height:48px;" alt="<?php echo $product['title']; ?>">
+                    <img src="<?php echo $imgsrc; ?>" class="col py-0 my-3 mx-auto" style="height:64px;" alt="<?php echo $product['title']; ?>">
                   </td>
 
                   <td class="text-start px-2 w-50" style="max-width: 40%;">
@@ -270,7 +275,7 @@ class ModProducts {
                   </td>
 
                   <td class="text-start px-2" style="width: 70px;">
-                    <span class="price fw-bold fs-5" style="z-index: 10;"><?php echo $product['price']; ?> €</span>
+                    <span class="price fw-bold fs-5" style="z-index: 10;"><?php echo Lclz::fmtMoney($product['price']); ?></span>
                   </td>
 
                   <td class="text-end ps-2 pe-0" style="width: 40px;">

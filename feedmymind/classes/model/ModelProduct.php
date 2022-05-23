@@ -28,43 +28,82 @@ class ModelProduct {
   /**
    *  Function to get the list of all Products
    */
-  public static function getProductsComplete() {
+  public static function getProductsComplete( $options ) {
+
+    var_dump($options);
+
+    $whereUnv = $options['universe_id'] ? 'prd.universe_id = ' . $options['universe_id'] : null;
+    $whereCat = $options['category_id'] ? 'prd.category_id = ' . $options['category_id'] : null;
+    $whereBrd = $options['brand_id']    ? 'prd.brand_id = '    . $options['brand_id']    : null;
+    $where    = $whereUnv     ? $whereUnv                                  : '';
+    $where   .= $whereCat     ? ($where !== '' ? ' AND ' : '') . $whereCat : '';
+    $where   .= $whereBrd     ? ($where !== '' ? ' AND ' : '') . $whereBrd : '';
+    $where    = $where !== '' ? 'WHERE ' . $where . ' ' : '';
+
+    switch ( $options['orderBy'] ) {
+      case 'year'     : $orderBy = "ORDER BY prd.year DESC, prd.title ASC ";    break;
+      case 'sales'    : $orderBy = "ORDER BY prd.sales DESC, prd.title ASC ";   break;
+      case 'rating'   : $orderBy = "ORDER BY prd.rating DESC, prd.title ASC ";  break;
+      case 'hits'     : $orderBy = "ORDER BY prd.hits DESC, prd.title ASC ";    break;
+      case 'created'  : $orderBy = "ORDER BY created_on DESC, prd.title ASC ";  break;
+      case 'modified' : $orderBy = "ORDER BY modified_on DESC, prd.title ASC "; break;
+      case 'random'   : $orderBy = "ORDER BY rand() ";                          break;
+      default         : $orderBy = "ORDER BY rand() ";                          break;
+    }
+
+    echo '<br />';
+
     $dbconn = DBUtils::getDBConnection();
     $req = $dbconn->prepare("
-      SELECT prd.*, unv.title AS universe, cat.title as category, brd.title AS brand
-      FROM product AS prd
+      SELECT prd.*, 
+             unv.title AS universe, unv.image as universe_image, 
+             cat.title as category, cat.image AS category_image, 
+             brd.title AS brand, brd.image AS brand_image 
+      FROM product AS prd 
       INNER JOIN universe AS unv ON unv.id = prd.universe_id
       INNER JOIN category AS cat ON cat.id = prd.category_id
-      INNER JOIN brand AS brd ON brd.id = prd.brand_id
-      GROUP BY prd.id
+      INNER JOIN brand    AS brd ON brd.id = prd.brand_id 
+      :where 
+      :orderBy
+      LIMIT :limitStart, :limitNum 
     ");
-    $req->execute();
-    // Debug query
-    //$req->debugDumpParams();
-    return $req->fetchAll(PDO::FETCH_ASSOC);
+
+    var_dump($req);
+
+    $req->execute([
+      ':where'      => $where,
+      ':orderBy'    => $orderBy,
+      ':limitStart' => $options['limitStart'],
+      ':limitNum'   => $options['limitNum'],
+      ':sortBy'     => $options['sortBy']
+    ]);
+    return $req->fetchAll( PDO::FETCH_ASSOC );
+
+    // if ( $req->execute([
+    //                      ':where'      => $where,
+    //                      ':orderBy'    => $orderBy,
+    //                      ':limitStart' => $options['limitStart'],
+    //                      ':limitNum'   => $options['limitNum'],
+    //                      ':sortBy'     => $options['sortBy']
+    //                    ]) ) {
+
+    //   return $req->fetchAll( PDO::FETCH_ASSOC );
+
+    // } else {
+
+    //   return "<br/>============================================================================<br/>"
+    //        . "Erreur lors de l'exécution de la requête SQL du module [products_by_date] :<br/>"
+    //        . "Code erreur      : ". $req->errorCode() . "<br/>"
+    //        . "Message d'erreur : ". $req->errorInfo() . "<br/>"
+    //        . "Détail de la commande SQL : <br/>"
+    //        . $req->debugDumpParams()
+    //        . "<br/>============================================================================<br/>";
+
+    // }
+
   }
 
 
-  /**
-   *  Function to get the list of Products from DB table
-   */
-  public static function getProductsTable() {
-    $dbconn = DBUtils::getDBConnection();
-    $req = $dbconn->prepare("
-      SELECT prd.*, unv.title AS universe, cat.title as category, brd.title AS brand
-      FROM product AS prd
-      INNER JOIN universe AS unv ON unv.id = prd.universe_id
-      INNER JOIN category AS cat ON cat.id = prd.category_id
-      INNER JOIN brand AS brd ON brd.id = prd.brand_id
-      GROUP BY prd.id
-    ");
-    $req->execute();
-    // Debug query
-    //$req->debugDumpParams();
-    return $req->fetchAll(PDO::FETCH_ASSOC);
-  }
-
-  
   public function addProduct( $product ) {
 
     $dbconn = DBUtils::getDBConnection();
