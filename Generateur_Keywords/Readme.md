@@ -60,7 +60,7 @@ _______________________________________________________________________________
 
 ### Screenshots :
 
-![Ecran principal](screenshot_01.png?raw=true "Ecran principal - Générateur de Mots-Clés")
+![Ecran principal](screenshot_01.png?raw=true "Ecran principal - Générateur de Mots-Clés" | width=320)
 
 ![Boite de dialogue](screenshot_02.png?raw=true "Boite de dialogue - Générateur de Mots-Clés")
 
