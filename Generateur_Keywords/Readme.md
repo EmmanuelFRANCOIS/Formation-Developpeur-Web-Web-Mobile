@@ -60,8 +60,8 @@ _______________________________________________________________________________
 
 ### Screenshots :
 
-![Ecran principal](screenshot_01.png =320x240)
+![Ecran principal](screenshot_01.png)
 
-![Boite de dialogue](screenshot_02.png | width=320)
+![Boite de dialogue](screenshot_02.png)
 
-![Boite de dialogue](screenshot_03.png | width=320)
+![Boite de dialogue](screenshot_03.png)
