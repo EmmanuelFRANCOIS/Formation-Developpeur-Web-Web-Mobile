@@ -60,7 +60,7 @@ _______________________________________________________________________________
 
 ### Screenshots :
 
-![Ecran principal](screenshot_01.png | width=320)
+![Ecran principal](screenshot_01.png)
 
 ![Boite de dialogue](screenshot_02.png | width=320)
 
