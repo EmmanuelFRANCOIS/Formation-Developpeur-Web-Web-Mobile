@@ -60,7 +60,7 @@ _______________________________________________________________________________
 
 ### Screenshots :
 
-![Ecran principal](screenshot_01.png)
+![Ecran principal](screenshot_01.png =320x240)
 
 ![Boite de dialogue](screenshot_02.png | width=320)
 
