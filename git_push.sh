@@ -15,7 +15,7 @@ git commit -m "$title"
 echo --------------------------------------------------------------------------
 echo "Git commit Terminé !"
 echo --------------------------------------------------------------------------
-git push https://EmmanuelFRANCOIS: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@github.com/EmmanuelFRANCOIS/DWWM-TP_Stage.git --all
+git push https://EmmanuelFRANCOIS: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@github.com/EmmanuelFRANCOIS/DWWM-TP.git --all
 echo --------------------------------------------------------------------------
 echo "Git push Terminé !"
 echo --------------------------------------------------------------------------
